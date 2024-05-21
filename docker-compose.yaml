@@ -9,3 +9,9 @@ services:
       - ./database/sql:/opt/sql
     ports:
       - "3306:3306"
+  redis:
+    image: redis:7.2.4-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --requirepass 123456

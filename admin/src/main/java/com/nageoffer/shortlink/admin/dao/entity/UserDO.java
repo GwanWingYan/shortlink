@@ -3,6 +3,8 @@ package com.nageoffer.shortlink.admin.dao.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -10,7 +12,8 @@ import java.util.Date;
  */
 @Data
 @TableName("t_user")
-public class UserDO {
+public class UserDO implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

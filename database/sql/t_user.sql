@@ -20,8 +20,10 @@ CREATE TABLE `t_user` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
+INSERT INTO `t_user` (`id`, `username`, `password`, `real_name`, `phone`, `mail`, `deletion_time`, `create_time`, `update_time`, `del_flag`) VALUES
+(1, 'tom', '123456', 'guan', '13312345678', 'tom@gmail.com', NULL, '2024-05-21 00:00:00', '2024-05-21 00:00:00', 0);
 
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

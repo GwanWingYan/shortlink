@@ -1,22 +1,15 @@
 package com.nageoffer.shortlink.admin.dao.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.nageoffer.shortlink.admin.common.database.BaseDO;
 import lombok.Data;
-
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 用户持久层实体
  */
 @Data
 @TableName("t_user")
-public class UserDO implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class UserDO extends BaseDO {
 
     /**
      * ID
@@ -53,23 +46,5 @@ public class UserDO implements Serializable {
      * 注销时间戳
      */
     private Long deletionTime;
-
-    /**
-     * 创建时间
-     */
-    @TableField(fill = FieldFill.INSERT)
-    private Date createTime;
-
-    /**
-     * 修改时间
-     */
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
-
-    /**
-     * 删除标识: 0未删除， 1已删除
-     */
-    @TableField(fill = FieldFill.INSERT)
-    private Integer delFlag;
 
 }

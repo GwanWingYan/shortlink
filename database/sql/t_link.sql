@@ -11,7 +11,7 @@ DROP TABLE IF EXISTS `t_link`;
 CREATE TABLE `t_link` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `domain` varchar(128) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '域名',
-  `short_uri` varchar(8) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '短链接',
+  `short_uri` varchar(8) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '短链接',
   `full_short_url` varchar(128) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '完整短链接',
   `origin_url` varchar(1024) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '原始链接',
   `click_num` int(11) DEFAULT NULL COMMENT '点击量',

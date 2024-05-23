@@ -26,7 +26,7 @@ CREATE TABLE `t_link` (
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `t_link` (`id`, `domain`, `short_uri`, `full_short_url`, `origin_url`, `click_num`, `gid`, `enable_status`, `created_type`, `valid_date_type`, `valid_date`, `describe`, `create_time`, `update_time`, `del_flag`) VALUES
 (1, 'http://nrul.ink', 'skxj3u', 'http://nrul.ink/skxj3u', 'https://nageoffer.com/', 0, 'default', 0, 1, 0, NULL, '测试短链接', '2024-05-23 04:51:33', '2024-05-23 04:51:33', 0);

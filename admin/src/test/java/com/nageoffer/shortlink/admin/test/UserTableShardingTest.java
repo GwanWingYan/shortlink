@@ -11,6 +11,7 @@ public class UserTableShardingTest {
               `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',
               `click_num` int(11) DEFAULT NULL COMMENT '点击量',
               `gid` varchar(32) DEFAULT 'default' COMMENT '分组标识',
+              `favicon` varchar(256) DEFAULT NULL COMMENT '网站图标',
               `enable_status` tinyint(1) DEFAULT NULL COMMENT '启用标识: 0启用, 1未启用',
               `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型: 0接口创建, 1控制台创建',
               `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型: 0永久有效, 1自定义',
@@ -21,7 +22,7 @@ public class UserTableShardingTest {
               `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
               UNIQUE KEY `id` (`id`),
               UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-            ) ENGINE=InnoDB AUTO_INCREMENT=1793536276738203651 DEFAULT CHARSET=utf8mb4;""";
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;""";
 
     public static void main(String[] args) {
         for (int i = 0; i < 16; i++) {

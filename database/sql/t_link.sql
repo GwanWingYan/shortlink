@@ -16,6 +16,7 @@ CREATE TABLE `t_link_0` (
   `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',
   `click_num` int(11) DEFAULT NULL COMMENT '点击量',
   `gid` varchar(32) DEFAULT 'default' COMMENT '分组标识',
+  `favicon` varchar(256) DEFAULT NULL COMMENT '网站图标',
   `enable_status` tinyint(1) DEFAULT NULL COMMENT '启用标识: 0启用, 1未启用',
   `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型: 0接口创建, 1控制台创建',
   `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型: 0永久有效, 1自定义',
@@ -26,7 +27,7 @@ CREATE TABLE `t_link_0` (
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1793536276738203651 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_link_1`;
 CREATE TABLE `t_link_1` (
@@ -37,6 +38,7 @@ CREATE TABLE `t_link_1` (
   `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',
   `click_num` int(11) DEFAULT NULL COMMENT '点击量',
   `gid` varchar(32) DEFAULT 'default' COMMENT '分组标识',
+  `favicon` varchar(256) DEFAULT NULL COMMENT '网站图标',
   `enable_status` tinyint(1) DEFAULT NULL COMMENT '启用标识: 0启用, 1未启用',
   `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型: 0接口创建, 1控制台创建',
   `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型: 0永久有效, 1自定义',
@@ -47,7 +49,7 @@ CREATE TABLE `t_link_1` (
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1793536276738203651 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_link_10`;
 CREATE TABLE `t_link_10` (
@@ -58,6 +60,7 @@ CREATE TABLE `t_link_10` (
   `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',
   `click_num` int(11) DEFAULT NULL COMMENT '点击量',
   `gid` varchar(32) DEFAULT 'default' COMMENT '分组标识',
+  `favicon` varchar(256) DEFAULT NULL COMMENT '网站图标',
   `enable_status` tinyint(1) DEFAULT NULL COMMENT '启用标识: 0启用, 1未启用',
   `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型: 0接口创建, 1控制台创建',
   `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型: 0永久有效, 1自定义',
@@ -68,7 +71,7 @@ CREATE TABLE `t_link_10` (
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1793536276738203651 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_link_11`;
 CREATE TABLE `t_link_11` (
@@ -79,6 +82,7 @@ CREATE TABLE `t_link_11` (
   `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',
   `click_num` int(11) DEFAULT NULL COMMENT '点击量',
   `gid` varchar(32) DEFAULT 'default' COMMENT '分组标识',
+  `favicon` varchar(256) DEFAULT NULL COMMENT '网站图标',
   `enable_status` tinyint(1) DEFAULT NULL COMMENT '启用标识: 0启用, 1未启用',
   `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型: 0接口创建, 1控制台创建',
   `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型: 0永久有效, 1自定义',
@@ -89,7 +93,7 @@ CREATE TABLE `t_link_11` (
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1793536276738203651 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_link_12`;
 CREATE TABLE `t_link_12` (
@@ -100,6 +104,7 @@ CREATE TABLE `t_link_12` (
   `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',
   `click_num` int(11) DEFAULT NULL COMMENT '点击量',
   `gid` varchar(32) DEFAULT 'default' COMMENT '分组标识',
+  `favicon` varchar(256) DEFAULT NULL COMMENT '网站图标',
   `enable_status` tinyint(1) DEFAULT NULL COMMENT '启用标识: 0启用, 1未启用',
   `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型: 0接口创建, 1控制台创建',
   `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型: 0永久有效, 1自定义',
@@ -110,7 +115,7 @@ CREATE TABLE `t_link_12` (
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1793536276738203651 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_link_13`;
 CREATE TABLE `t_link_13` (
@@ -121,6 +126,7 @@ CREATE TABLE `t_link_13` (
   `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',
   `click_num` int(11) DEFAULT NULL COMMENT '点击量',
   `gid` varchar(32) DEFAULT 'default' COMMENT '分组标识',
+  `favicon` varchar(256) DEFAULT NULL COMMENT '网站图标',
   `enable_status` tinyint(1) DEFAULT NULL COMMENT '启用标识: 0启用, 1未启用',
   `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型: 0接口创建, 1控制台创建',
   `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型: 0永久有效, 1自定义',
@@ -131,7 +137,7 @@ CREATE TABLE `t_link_13` (
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1793536276738203651 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_link_14`;
 CREATE TABLE `t_link_14` (
@@ -142,6 +148,7 @@ CREATE TABLE `t_link_14` (
   `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',
   `click_num` int(11) DEFAULT NULL COMMENT '点击量',
   `gid` varchar(32) DEFAULT 'default' COMMENT '分组标识',
+  `favicon` varchar(256) DEFAULT NULL COMMENT '网站图标',
   `enable_status` tinyint(1) DEFAULT NULL COMMENT '启用标识: 0启用, 1未启用',
   `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型: 0接口创建, 1控制台创建',
   `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型: 0永久有效, 1自定义',
@@ -152,7 +159,7 @@ CREATE TABLE `t_link_14` (
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1793536276738203651 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_link_15`;
 CREATE TABLE `t_link_15` (
@@ -163,6 +170,7 @@ CREATE TABLE `t_link_15` (
   `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',
   `click_num` int(11) DEFAULT NULL COMMENT '点击量',
   `gid` varchar(32) DEFAULT 'default' COMMENT '分组标识',
+  `favicon` varchar(256) DEFAULT NULL COMMENT '网站图标',
   `enable_status` tinyint(1) DEFAULT NULL COMMENT '启用标识: 0启用, 1未启用',
   `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型: 0接口创建, 1控制台创建',
   `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型: 0永久有效, 1自定义',
@@ -173,7 +181,7 @@ CREATE TABLE `t_link_15` (
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1793536276738203651 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_link_2`;
 CREATE TABLE `t_link_2` (
@@ -184,6 +192,7 @@ CREATE TABLE `t_link_2` (
   `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',
   `click_num` int(11) DEFAULT NULL COMMENT '点击量',
   `gid` varchar(32) DEFAULT 'default' COMMENT '分组标识',
+  `favicon` varchar(256) DEFAULT NULL COMMENT '网站图标',
   `enable_status` tinyint(1) DEFAULT NULL COMMENT '启用标识: 0启用, 1未启用',
   `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型: 0接口创建, 1控制台创建',
   `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型: 0永久有效, 1自定义',
@@ -194,7 +203,7 @@ CREATE TABLE `t_link_2` (
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1793536276738203651 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_link_3`;
 CREATE TABLE `t_link_3` (
@@ -205,6 +214,7 @@ CREATE TABLE `t_link_3` (
   `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',
   `click_num` int(11) DEFAULT NULL COMMENT '点击量',
   `gid` varchar(32) DEFAULT 'default' COMMENT '分组标识',
+  `favicon` varchar(256) DEFAULT NULL COMMENT '网站图标',
   `enable_status` tinyint(1) DEFAULT NULL COMMENT '启用标识: 0启用, 1未启用',
   `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型: 0接口创建, 1控制台创建',
   `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型: 0永久有效, 1自定义',
@@ -215,7 +225,7 @@ CREATE TABLE `t_link_3` (
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1793536276738203651 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_link_4`;
 CREATE TABLE `t_link_4` (
@@ -226,6 +236,7 @@ CREATE TABLE `t_link_4` (
   `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',
   `click_num` int(11) DEFAULT NULL COMMENT '点击量',
   `gid` varchar(32) DEFAULT 'default' COMMENT '分组标识',
+  `favicon` varchar(256) DEFAULT NULL COMMENT '网站图标',
   `enable_status` tinyint(1) DEFAULT NULL COMMENT '启用标识: 0启用, 1未启用',
   `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型: 0接口创建, 1控制台创建',
   `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型: 0永久有效, 1自定义',
@@ -236,7 +247,7 @@ CREATE TABLE `t_link_4` (
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1793536276738203651 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_link_5`;
 CREATE TABLE `t_link_5` (
@@ -247,6 +258,7 @@ CREATE TABLE `t_link_5` (
   `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',
   `click_num` int(11) DEFAULT NULL COMMENT '点击量',
   `gid` varchar(32) DEFAULT 'default' COMMENT '分组标识',
+  `favicon` varchar(256) DEFAULT NULL COMMENT '网站图标',
   `enable_status` tinyint(1) DEFAULT NULL COMMENT '启用标识: 0启用, 1未启用',
   `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型: 0接口创建, 1控制台创建',
   `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型: 0永久有效, 1自定义',
@@ -257,7 +269,7 @@ CREATE TABLE `t_link_5` (
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1793536276738203651 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_link_6`;
 CREATE TABLE `t_link_6` (
@@ -268,6 +280,7 @@ CREATE TABLE `t_link_6` (
   `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',
   `click_num` int(11) DEFAULT NULL COMMENT '点击量',
   `gid` varchar(32) DEFAULT 'default' COMMENT '分组标识',
+  `favicon` varchar(256) DEFAULT NULL COMMENT '网站图标',
   `enable_status` tinyint(1) DEFAULT NULL COMMENT '启用标识: 0启用, 1未启用',
   `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型: 0接口创建, 1控制台创建',
   `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型: 0永久有效, 1自定义',
@@ -278,7 +291,7 @@ CREATE TABLE `t_link_6` (
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1793536276738203651 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_link_7`;
 CREATE TABLE `t_link_7` (
@@ -289,6 +302,7 @@ CREATE TABLE `t_link_7` (
   `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',
   `click_num` int(11) DEFAULT NULL COMMENT '点击量',
   `gid` varchar(32) DEFAULT 'default' COMMENT '分组标识',
+  `favicon` varchar(256) DEFAULT NULL COMMENT '网站图标',
   `enable_status` tinyint(1) DEFAULT NULL COMMENT '启用标识: 0启用, 1未启用',
   `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型: 0接口创建, 1控制台创建',
   `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型: 0永久有效, 1自定义',
@@ -299,7 +313,7 @@ CREATE TABLE `t_link_7` (
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1793536276738203651 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_link_8`;
 CREATE TABLE `t_link_8` (
@@ -310,6 +324,7 @@ CREATE TABLE `t_link_8` (
   `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',
   `click_num` int(11) DEFAULT NULL COMMENT '点击量',
   `gid` varchar(32) DEFAULT 'default' COMMENT '分组标识',
+  `favicon` varchar(256) DEFAULT NULL COMMENT '网站图标',
   `enable_status` tinyint(1) DEFAULT NULL COMMENT '启用标识: 0启用, 1未启用',
   `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型: 0接口创建, 1控制台创建',
   `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型: 0永久有效, 1自定义',
@@ -320,7 +335,7 @@ CREATE TABLE `t_link_8` (
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1793536276738203651 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_link_9`;
 CREATE TABLE `t_link_9` (
@@ -331,6 +346,7 @@ CREATE TABLE `t_link_9` (
   `origin_url` varchar(1024) DEFAULT NULL COMMENT '原始链接',
   `click_num` int(11) DEFAULT NULL COMMENT '点击量',
   `gid` varchar(32) DEFAULT 'default' COMMENT '分组标识',
+  `favicon` varchar(256) DEFAULT NULL COMMENT '网站图标',
   `enable_status` tinyint(1) DEFAULT NULL COMMENT '启用标识: 0启用, 1未启用',
   `created_type` tinyint(1) DEFAULT NULL COMMENT '创建类型: 0接口创建, 1控制台创建',
   `valid_date_type` tinyint(1) DEFAULT NULL COMMENT '有效期类型: 0永久有效, 1自定义',
@@ -341,7 +357,7 @@ CREATE TABLE `t_link_9` (
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `idx_unique_full_short_url` (`full_short_url`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1793536276738203651 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 

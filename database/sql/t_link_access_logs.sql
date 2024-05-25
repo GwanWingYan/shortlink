@@ -13,16 +13,17 @@ CREATE TABLE `t_link_access_logs` (
   `full_short_url` varchar(128) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '完整短链接',
   `gid` varchar(32) CHARACTER SET utf8mb4 DEFAULT 'default' COMMENT '分组标识',
   `user` varchar(64) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '用户信息',
+  `ip` varchar(64) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT 'IP',
   `browser` varchar(64) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '浏览器',
   `os` varchar(64) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '操作系统',
-  `ip` varchar(64) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT 'IP',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `network` varchar(64) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '访问网络',
+  `device` varchar(64) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '访问设备',
+  `locale` varchar(256) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '地区',
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
+) ENGINE=InnoDB AUTO_INCREMENT=1794422186652475395 DEFAULT CHARSET=utf8mb4;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

@@ -7,15 +7,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 /**
- * 访问日志监控实体
+ * 访问设备监控实体
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("t_link_access_logs")
-public class LinkAccessLogsDO extends BaseDO {
+@TableName("t_link_device_stats")
+public class LinkDeviceStatsDO extends BaseDO {
 
     /**
      * ID
@@ -33,22 +35,17 @@ public class LinkAccessLogsDO extends BaseDO {
     private String gid;
 
     /**
-     * 用户信息
+     * 日期
      */
-    private String user;
+    private Date date;
 
     /**
-     * 浏览器
+     * 访问量
      */
-    private String browser;
+    private Integer cnt;
 
     /**
-     * 操作系统
+     * 访问设备
      */
-    private String os;
-
-    /**
-     * IP
-     */
-    private String ip;
+    private String device;
 }

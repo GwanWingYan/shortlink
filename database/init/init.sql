@@ -9,3 +9,4 @@ source /opt/sql/t_link_access_stats.sql;
 source /opt/sql/t_link_locale_stats.sql;
 source /opt/sql/t_link_os_stats.sql;
 source /opt/sql/t_link_browser_stats.sql;
+source /opt/sql/t_link_access_logs.sql;

@@ -63,19 +63,4 @@ public class LinkAccessStatsDO extends BaseDO {
      * 星期
      */
     private Integer weekday;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 修改时间
-     */
-    private Date updateTime;
-
-    /**
-     * 删除标识: 0未删除， 1已删除
-     */
-    private Integer delFlag;
 }

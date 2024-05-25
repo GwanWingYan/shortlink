@@ -6,3 +6,4 @@ source /opt/sql/t_group.sql;
 source /opt/sql/t_link.sql;
 source /opt/sql/t_link_goto.sql;
 source /opt/sql/t_link_access_stats.sql;
+source /opt/sql/t_link_locale_stats.sql;

@@ -19,3 +19,8 @@ short-link:
   stats:
     locale:
       amap-key: 9249893b483cc314e84a09f8bec93f63
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/*.xml

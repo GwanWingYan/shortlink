@@ -11,7 +11,6 @@ DROP TABLE IF EXISTS `t_link_locale_stats`;
 CREATE TABLE `t_link_locale_stats` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `full_short_url` varchar(128) CHARACTER SET utf8mb4 DEFAULT '' COMMENT '完整短链接',
-  `gid` varchar(32) CHARACTER SET utf8mb4 DEFAULT 'default' COMMENT '分组标识',
   `date` date DEFAULT NULL COMMENT '日期',
   `cnt` int(11) DEFAULT NULL COMMENT '访问量',
   `province` varchar(64) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '省份名称',
@@ -22,7 +21,7 @@ CREATE TABLE `t_link_locale_stats` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unqie_locale_stats` (`full_short_url`,`gid`,`date`,`adcode`,`province`) USING BTREE
+  UNIQUE KEY `idx_unqie_locale_stats` (`full_short_url`, `date`,`adcode`,`province`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 

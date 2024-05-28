@@ -231,8 +231,17 @@ CREATE TABLE `t_group_9` (
   KEY `idx_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE `t_group_unique`
+(
+    `id`  bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
+    `gid` varchar(32) DEFAULT NULL COMMENT '分组标识',
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `idx_unique_gid` (`gid`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 INSERT INTO `t_group_15` (`id`, `gid`, `name`, `username`, `sort_order`, `create_time`, `update_time`, `del_flag`)
 VALUES (1752265619253805057, 'tSUBMP', '默认分组', 'admin', 0, '2024-01-31 21:00:00', '2024-01-31 21:00:00', 0);
+
 
 
 

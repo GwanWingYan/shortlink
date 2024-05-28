@@ -18,7 +18,7 @@ CREATE TABLE `t_group_0` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除表示: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unique_username_gid` (`gid`,`username`) USING BTREE
+  KEY `idx_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_group_1`;
@@ -32,7 +32,7 @@ CREATE TABLE `t_group_1` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除表示: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unique_username_gid` (`gid`,`username`) USING BTREE
+  KEY `idx_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_group_10`;
@@ -46,7 +46,7 @@ CREATE TABLE `t_group_10` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除表示: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unique_username_gid` (`gid`,`username`) USING BTREE
+  KEY `idx_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_group_11`;
@@ -60,7 +60,7 @@ CREATE TABLE `t_group_11` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除表示: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unique_username_gid` (`gid`,`username`) USING BTREE
+  KEY `idx_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_group_12`;
@@ -74,7 +74,7 @@ CREATE TABLE `t_group_12` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除表示: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unique_username_gid` (`gid`,`username`) USING BTREE
+  KEY `idx_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_group_13`;
@@ -88,7 +88,7 @@ CREATE TABLE `t_group_13` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除表示: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unique_username_gid` (`gid`,`username`) USING BTREE
+  KEY `idx_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_group_14`;
@@ -102,7 +102,7 @@ CREATE TABLE `t_group_14` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除表示: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unique_username_gid` (`gid`,`username`) USING BTREE
+  KEY `idx_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_group_15`;
@@ -116,7 +116,7 @@ CREATE TABLE `t_group_15` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除表示: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unique_username_gid` (`gid`,`username`) USING BTREE
+  KEY `idx_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_group_2`;
@@ -130,7 +130,7 @@ CREATE TABLE `t_group_2` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除表示: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unique_username_gid` (`gid`,`username`) USING BTREE
+  KEY `idx_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_group_3`;
@@ -144,7 +144,7 @@ CREATE TABLE `t_group_3` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除表示: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unique_username_gid` (`gid`,`username`) USING BTREE
+  KEY `idx_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_group_4`;
@@ -158,7 +158,7 @@ CREATE TABLE `t_group_4` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除表示: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unique_username_gid` (`gid`,`username`) USING BTREE
+  KEY `idx_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_group_5`;
@@ -172,7 +172,7 @@ CREATE TABLE `t_group_5` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除表示: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unique_username_gid` (`gid`,`username`) USING BTREE
+  KEY `idx_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_group_6`;
@@ -186,7 +186,7 @@ CREATE TABLE `t_group_6` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除表示: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unique_username_gid` (`gid`,`username`) USING BTREE
+  KEY `idx_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_group_7`;
@@ -200,7 +200,7 @@ CREATE TABLE `t_group_7` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除表示: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unique_username_gid` (`gid`,`username`) USING BTREE
+  KEY `idx_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_group_8`;
@@ -214,7 +214,7 @@ CREATE TABLE `t_group_8` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除表示: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unique_username_gid` (`gid`,`username`) USING BTREE
+  KEY `idx_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_group_9`;
@@ -228,7 +228,7 @@ CREATE TABLE `t_group_9` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除表示: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unique_username_gid` (`gid`,`username`) USING BTREE
+  KEY `idx_username` (`username`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `t_group_15` (`id`, `gid`, `name`, `username`, `sort_order`, `create_time`, `update_time`, `del_flag`)

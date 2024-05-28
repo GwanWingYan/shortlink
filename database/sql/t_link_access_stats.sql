@@ -22,7 +22,7 @@ CREATE TABLE `t_link_access_stats` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   UNIQUE KEY `id` (`id`),
-  UNIQUE KEY `idx_unique_access_stats` (`full_short_url`,`gid`,`weekday`,`hour`)
+  UNIQUE KEY `idx_unique_access_stats` (`full_short_url`,`gid`,`date`,`hour`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 

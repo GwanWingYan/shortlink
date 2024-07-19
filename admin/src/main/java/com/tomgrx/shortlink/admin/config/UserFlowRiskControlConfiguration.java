@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "short-link.flow-limit")
+@ConfigurationProperties(prefix = "shortlink.flow-limit")
 public class UserFlowRiskControlConfiguration {
 
     /**

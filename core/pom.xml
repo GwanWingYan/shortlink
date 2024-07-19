@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>shortlink-core</artifactId>
+    <description>短链接核心服务</description>
 
     <dependencies>
         <dependency>

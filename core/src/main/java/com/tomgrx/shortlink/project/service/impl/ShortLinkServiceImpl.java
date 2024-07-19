@@ -75,7 +75,7 @@ public class ShortLinkServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLink
     private final ShortLinkStatsSaveProducer shortLinkStatsSaveProducer;
     private final GotoDomainWhiteListConfiguration gotoDomainWhiteListConfiguration;
 
-    @Value("${short-link.domain.default}")
+    @Value("${shortlink.domain.default}")
     private String createShortLinkDefaultDomain;
 
     @Transactional(rollbackFor = Exception.class)

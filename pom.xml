@@ -13,7 +13,6 @@
         <module>admin</module>
         <module>core</module>
         <module>gateway</module>
-        <module>aggregation</module>
     </modules>
 
     <properties>

@@ -13,11 +13,9 @@
 4. **重定向**：当用户访问该短链接时，短链接服务接收到请求后会根据唯一标识符查找关联的原始 URL，然后将用户重定向到这个原始 URL。
 5. **跟踪统计**：一些短链接服务还会提供访问统计和分析功能，记录访问量、来源、地理位置等信息。
 
-    
+## 技术栈
 
-## 底层技术
-
-Shortlink 采用以下底层技术：
+Shortlink 后端技术栈如下：
 
 * JDK 17
 * Spring Boot 3
@@ -32,17 +30,20 @@ Shortlink 采用以下底层技术：
 * Jenkins CI/CD
 * Docker Compose / K8S 部署
 
+
+## 系统设计
+
+Shortlink 采用微服务架构，分为四大微服务:
+
+* **短链接网关服务 (gateway)**：作为沟通前端控制台和后端（即管理服务和核心服务）的唯一渠道，负责将前端的请求通过负载均衡算法转发到相应的管理服务和核心服务实例上。具体而言，网关服务基于 Spring Cloud Gateway 和 Spring Cloud Loadbalancer 进行实现。
+* **短链接管理服务 (admin)**
+* **短链接核心服务 (core)**
+* **短链接前端服务 (console)**
+
+Shortlink 采用 Nacos 作为服务注册和发现中心，各微服务实例在启动时将自身注册到 Nacos 中，并通过 Nacos 获取其他微服务实例列表。
+
 ## TODO
 
-* 系统设计图
-  * 四大微服务：
-    * 后端
-      * 管理 admin
-      * 核心 project
-      * 网关 gateway
-      * 前端控制台 console-vue
-    * 各个微服务的
-       * 功能
-       * API
-       * 关联
-* 运行 
+* 将当前所有 module 的 constant 抽离到一个单独的 module
+* 测试网关
+* 在 README 添加运行指南 

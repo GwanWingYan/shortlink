@@ -29,7 +29,7 @@ public class ShortLinkController {
     /**
      * 创建短链接
      */
-    @PostMapping("/api/short-link/admin/v1/create")
+    @PostMapping("/api/shortlink/admin/v1/create")
     public Result<ShortLinkCreateRespDTO> createShortLink(@RequestBody ShortLinkCreateReqDTO requestParam) {
         return shortLinkActualRemoteService.createShortLink(requestParam);
     }
@@ -38,7 +38,7 @@ public class ShortLinkController {
      * 批量创建短链接
      */
     @SneakyThrows
-    @PostMapping("/api/short-link/admin/v1/create/batch")
+    @PostMapping("/api/shortlink/admin/v1/create/batch")
     public void batchCreateShortLink(@RequestBody ShortLinkBatchCreateReqDTO requestParam, HttpServletResponse response) {
         Result<ShortLinkBatchCreateRespDTO> shortLinkBatchCreateRespDTOResult = shortLinkActualRemoteService.batchCreateShortLink(requestParam);
         if (shortLinkBatchCreateRespDTOResult.isSuccess()) {
@@ -50,7 +50,7 @@ public class ShortLinkController {
     /**
      * 修改短链接
      */
-    @PostMapping("/api/short-link/admin/v1/update")
+    @PostMapping("/api/shortlink/admin/v1/update")
     public Result<Void> updateShortLink(@RequestBody ShortLinkUpdateReqDTO requestParam) {
         shortLinkActualRemoteService.updateShortLink(requestParam);
         return Results.success(null);
@@ -59,7 +59,7 @@ public class ShortLinkController {
     /**
      * 分页查询短链接
      */
-    @GetMapping("/api/short-link/admin/v1/page")
+    @GetMapping("/api/shortlink/admin/v1/page")
     public Result<Page<ShortLinkPageRespDTO>> pageShortLink(ShortLinkPageReqDTO requestParam) {
         return shortLinkActualRemoteService.pageShortLink(requestParam.getGid(), requestParam.getOrderTag(), requestParam.getCurrent(), requestParam.getSize());
     }

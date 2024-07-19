@@ -50,7 +50,7 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
     private final ShortLinkActualRemoteService shortLinkActualRemoteService;
     private final RedissonClient redissonClient;
 
-    @Value("${short-link.group.max-num}")
+    @Value("${shortlink.group.max-num}")
     private Integer groupMaxNum;
 
     @Override

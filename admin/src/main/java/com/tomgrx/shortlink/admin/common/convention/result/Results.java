@@ -2,6 +2,7 @@ package com.tomgrx.shortlink.admin.common.convention.result;
 
 import com.tomgrx.shortlink.admin.common.convention.errorcode.BaseErrorCode;
 import com.tomgrx.shortlink.admin.common.convention.exception.AbstractException;
+import com.tomgrx.shortlink.admin.common.convention.result.Result;
 
 import java.util.Optional;
 

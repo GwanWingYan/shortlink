@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 网关错误返回信息
+ * 短链接网关错误返回信息
  */
 @Data
 @Builder

@@ -20,7 +20,7 @@ public class SentinelRuleConfig implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         List<FlowRule> rules = new ArrayList<>();
         FlowRule createOrderRule = new FlowRule();
-        createOrderRule.setResource("create_short-link");
+        createOrderRule.setResource("create_shortlink");
         createOrderRule.setGrade(RuleConstant.FLOW_GRADE_QPS);
         createOrderRule.setCount(1);
         rules.add(createOrderRule);

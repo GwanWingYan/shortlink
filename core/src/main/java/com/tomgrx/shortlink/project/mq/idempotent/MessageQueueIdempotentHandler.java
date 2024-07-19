@@ -16,7 +16,7 @@ public class MessageQueueIdempotentHandler {
 
     private final StringRedisTemplate stringRedisTemplate;
 
-    private static final String IDEMPOTENT_KEY_PREFIX = "short-link:idempotent:";
+    private static final String IDEMPOTENT_KEY_PREFIX = "shortlink:idempotent:";
 
     /**
      * 判断当前消息是否消费过

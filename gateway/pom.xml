@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>shortlink-gateway</artifactId>
+    <description>短链接网关服务</description>
 
     <dependencies>
         <dependency>
@@ -22,7 +23,6 @@
             <artifactId>spring-cloud-loadbalancer</artifactId>
         </dependency>
 
-        <!-- Unable to load io.netty.resolver.dns.macos.MacOSDnsServerAddressStreamProvider xxx -->
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>

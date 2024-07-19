@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>shortlink-admin</artifactId>
+    <description>短链接管理服务</description>
 
     <dependencies>
         <dependency>

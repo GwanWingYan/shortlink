@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "short-link.goto-domain.white-list")
+@ConfigurationProperties(prefix = "shortlink.goto-domain.white-list")
 public class GotoDomainWhiteListConfiguration {
 
     /**

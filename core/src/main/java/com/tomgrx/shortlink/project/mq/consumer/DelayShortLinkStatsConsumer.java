@@ -34,7 +34,7 @@ public class DelayShortLinkStatsConsumer implements InitializingBean {
         Executors.newSingleThreadExecutor(
                         runnable -> {
                             Thread thread = new Thread(runnable);
-                            thread.setName("delay_short-link_stats_consumer");
+                            thread.setName("delay_shortlink_stats_consumer");
                             thread.setDaemon(Boolean.TRUE);
                             return thread;
                         })

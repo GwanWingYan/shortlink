@@ -42,7 +42,7 @@ public class RedisStreamConfiguration {
                 new LinkedBlockingQueue<>(),
                 runnable -> {
                     Thread thread = new Thread(runnable);
-                    thread.setName("stream_consumer_short-link_stats_" + index.incrementAndGet());
+                    thread.setName("stream_consumer_shortlink_stats_" + index.incrementAndGet());
                     thread.setDaemon(true);
                     return thread;
                 }

@@ -42,19 +42,19 @@ import static com.tomgrx.shortlink.admin.common.enums.UserErrorCodeEnum.*;
 /**
  * 用户接口实现层
  */
-@Service
+@Service(value = "userServiceImplByAdmin")
 @RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements UserService {
 
-    private final RBloomFilter<String> userRegisterCachePenetrationBloomFilter;
+    private final RBloomFilter<String> userNameBloomFilter;
     private final RedissonClient redissonClient;
     private final StringRedisTemplate stringRedisTemplate;
     private final GroupService groupService;
 
     @Override
-    public UserRespDTO getUserByUsername(String username) {
+    public UserRespDTO getUserByUsername(String userName) {
         LambdaQueryWrapper<UserDO> queryWrapper = Wrappers.lambdaQuery(UserDO.class)
-                .eq(UserDO::getUsername, username);
+                .eq(UserDO::getUserName, userName);
         UserDO userDO = baseMapper.selectOne(queryWrapper);
         if (userDO == null) {
             throw new ServiceException(UserErrorCodeEnum.USER_NULL);
@@ -65,17 +65,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     }
 
     @Override
-    public Boolean hasUsername(String username) {
-        return !userRegisterCachePenetrationBloomFilter.contains(username);
+    public Boolean hasUsername(String userName) {
+        return !userNameBloomFilter.contains(userName);
     }
 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void register(UserRegisterReqDTO requestParam) {
-        if (!hasUsername(requestParam.getUsername())) {
+        if (!hasUsername(requestParam.getUserName())) {
             throw new ClientException(USER_NAME_EXIST);
         }
-        RLock lock = redissonClient.getLock(LOCK_USER_REGISTER_KEY + requestParam.getUsername());
+        RLock lock = redissonClient.getLock(LOCK_USER_REGISTER_KEY + requestParam.getUserName());
         if (!lock.tryLock()) {
             throw new ClientException(USER_NAME_EXIST);
         }
@@ -84,8 +84,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
             if (inserted < 1) {
                 throw new ClientException(USER_SAVE_ERROR);
             }
-            groupService.saveGroup(requestParam.getUsername(), "默认分组");
-            userRegisterCachePenetrationBloomFilter.add(requestParam.getUsername());
+            groupService.createGroup(requestParam.getUserName(), "默认分组");
+            userNameBloomFilter.add(requestParam.getUserName());
         } catch (DuplicateKeyException ex) {
             throw new ClientException(USER_EXIST);
         } finally {
@@ -95,27 +95,27 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
 
     @Override
     public void update(UserUpdateReqDTO requestParam) {
-        if (!Objects.equals(requestParam.getUsername(), UserContext.getUsername())) {
+        if (!Objects.equals(requestParam.getUserName(), UserContext.getUserName())) {
             throw new ClientException("当前登录用户修改请求异常");
         }
         LambdaUpdateWrapper<UserDO> updateWrapper = Wrappers.lambdaUpdate(UserDO.class)
-                .eq(UserDO::getUsername, requestParam.getUsername());
+                .eq(UserDO::getUserName, requestParam.getUserName());
         baseMapper.update(BeanUtil.toBean(requestParam, UserDO.class), updateWrapper);
     }
 
     @Override
     public UserLoginRespDTO login(UserLoginReqDTO requestParam) {
         LambdaQueryWrapper<UserDO> queryWrapper = Wrappers.lambdaQuery(UserDO.class)
-                .eq(UserDO::getUsername, requestParam.getUsername())
+                .eq(UserDO::getUserName, requestParam.getUserName())
                 .eq(UserDO::getPassword, requestParam.getPassword())
                 .eq(UserDO::getDelFlag, 0);
         UserDO userDO = baseMapper.selectOne(queryWrapper);
         if (userDO == null) {
             throw new ClientException("用户不存在");
         }
-        Map<Object, Object> hasLoginMap = stringRedisTemplate.opsForHash().entries(USER_LOGIN_KEY + requestParam.getUsername());
+        Map<Object, Object> hasLoginMap = stringRedisTemplate.opsForHash().entries(USER_LOGIN_KEY + requestParam.getUserName());
         if (CollUtil.isNotEmpty(hasLoginMap)) {
-            stringRedisTemplate.expire(USER_LOGIN_KEY + requestParam.getUsername(), 30L, TimeUnit.MINUTES);
+            stringRedisTemplate.expire(USER_LOGIN_KEY + requestParam.getUserName(), 30L, TimeUnit.MINUTES);
             String token = hasLoginMap.keySet().stream()
                     .findFirst()
                     .map(Object::toString)
@@ -130,20 +130,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
          *  Val：JSON 字符串（用户信息）
          */
         String uuid = UUID.randomUUID().toString();
-        stringRedisTemplate.opsForHash().put(USER_LOGIN_KEY + requestParam.getUsername(), uuid, JSON.toJSONString(userDO));
-        stringRedisTemplate.expire(USER_LOGIN_KEY + requestParam.getUsername(), 30L, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForHash().put(USER_LOGIN_KEY + requestParam.getUserName(), uuid, JSON.toJSONString(userDO));
+        stringRedisTemplate.expire(USER_LOGIN_KEY + requestParam.getUserName(), 30L, TimeUnit.MINUTES);
         return new UserLoginRespDTO(uuid);
     }
 
     @Override
-    public Boolean checkLogin(String username, String token) {
-        return stringRedisTemplate.opsForHash().get(USER_LOGIN_KEY + username, token) != null;
+    public Boolean checkLogin(String userName, String token) {
+        return stringRedisTemplate.opsForHash().get(USER_LOGIN_KEY + userName, token) != null;
     }
 
     @Override
-    public void logout(String username, String token) {
-        if (checkLogin(username, token)) {
-            stringRedisTemplate.delete(USER_LOGIN_KEY + username);
+    public void logout(String userName, String token) {
+        if (checkLogin(userName, token)) {
+            stringRedisTemplate.delete(USER_LOGIN_KEY + userName);
             return;
         }
         throw new ClientException("用户Token不存在或用户未登录");

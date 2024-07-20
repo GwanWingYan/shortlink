@@ -19,11 +19,11 @@ public class UserTransmitFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-        String username = httpServletRequest.getHeader("username");
-        if (StrUtil.isNotBlank(username)) {
+        String userName = httpServletRequest.getHeader("userName");
+        if (StrUtil.isNotBlank(userName)) {
             String userId = httpServletRequest.getHeader("userId");
             String realName = httpServletRequest.getHeader("realName");
-            UserInfoDTO userInfoDTO = new UserInfoDTO(userId, username, realName);
+            UserInfoDTO userInfoDTO = new UserInfoDTO(userId, userName, realName);
             UserContext.setUser(userInfoDTO);
         }
         try {

@@ -10,7 +10,7 @@
 DROP TABLE IF EXISTS `t_user_0`;
 CREATE TABLE `t_user_0` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(256) DEFAULT NULL COMMENT '用户名',
+  `user_name` varchar(256) DEFAULT NULL COMMENT '用户名',
   `password` varchar(512) DEFAULT NULL COMMENT '密码',
   `real_name` varchar(256) DEFAULT NULL COMMENT '真实姓名',
   `phone` varchar(128) DEFAULT NULL COMMENT '手机号',
@@ -20,13 +20,13 @@ CREATE TABLE `t_user_0` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique_username` (`username`) USING BTREE
+  UNIQUE KEY `idx_unique_user_name` (`user_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_user_1`;
 CREATE TABLE `t_user_1` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(256) DEFAULT NULL COMMENT '用户名',
+  `user_name` varchar(256) DEFAULT NULL COMMENT '用户名',
   `password` varchar(512) DEFAULT NULL COMMENT '密码',
   `real_name` varchar(256) DEFAULT NULL COMMENT '真实姓名',
   `phone` varchar(128) DEFAULT NULL COMMENT '手机号',
@@ -36,13 +36,13 @@ CREATE TABLE `t_user_1` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique_username` (`username`) USING BTREE
+  UNIQUE KEY `idx_unique_user_name` (`user_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_user_10`;
 CREATE TABLE `t_user_10` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(256) DEFAULT NULL COMMENT '用户名',
+  `user_name` varchar(256) DEFAULT NULL COMMENT '用户名',
   `password` varchar(512) DEFAULT NULL COMMENT '密码',
   `real_name` varchar(256) DEFAULT NULL COMMENT '真实姓名',
   `phone` varchar(128) DEFAULT NULL COMMENT '手机号',
@@ -52,13 +52,13 @@ CREATE TABLE `t_user_10` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique_username` (`username`) USING BTREE
+  UNIQUE KEY `idx_unique_user_name` (`user_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_user_11`;
 CREATE TABLE `t_user_11` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(256) DEFAULT NULL COMMENT '用户名',
+  `user_name` varchar(256) DEFAULT NULL COMMENT '用户名',
   `password` varchar(512) DEFAULT NULL COMMENT '密码',
   `real_name` varchar(256) DEFAULT NULL COMMENT '真实姓名',
   `phone` varchar(128) DEFAULT NULL COMMENT '手机号',
@@ -68,13 +68,13 @@ CREATE TABLE `t_user_11` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique_username` (`username`) USING BTREE
+  UNIQUE KEY `idx_unique_user_name` (`user_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_user_12`;
 CREATE TABLE `t_user_12` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(256) DEFAULT NULL COMMENT '用户名',
+  `user_name` varchar(256) DEFAULT NULL COMMENT '用户名',
   `password` varchar(512) DEFAULT NULL COMMENT '密码',
   `real_name` varchar(256) DEFAULT NULL COMMENT '真实姓名',
   `phone` varchar(128) DEFAULT NULL COMMENT '手机号',
@@ -84,13 +84,13 @@ CREATE TABLE `t_user_12` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique_username` (`username`) USING BTREE
+  UNIQUE KEY `idx_unique_user_name` (`user_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_user_13`;
 CREATE TABLE `t_user_13` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(256) DEFAULT NULL COMMENT '用户名',
+  `user_name` varchar(256) DEFAULT NULL COMMENT '用户名',
   `password` varchar(512) DEFAULT NULL COMMENT '密码',
   `real_name` varchar(256) DEFAULT NULL COMMENT '真实姓名',
   `phone` varchar(128) DEFAULT NULL COMMENT '手机号',
@@ -100,13 +100,13 @@ CREATE TABLE `t_user_13` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique_username` (`username`) USING BTREE
+  UNIQUE KEY `idx_unique_user_name` (`user_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_user_14`;
 CREATE TABLE `t_user_14` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(256) DEFAULT NULL COMMENT '用户名',
+  `user_name` varchar(256) DEFAULT NULL COMMENT '用户名',
   `password` varchar(512) DEFAULT NULL COMMENT '密码',
   `real_name` varchar(256) DEFAULT NULL COMMENT '真实姓名',
   `phone` varchar(128) DEFAULT NULL COMMENT '手机号',
@@ -116,13 +116,13 @@ CREATE TABLE `t_user_14` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique_username` (`username`) USING BTREE
+  UNIQUE KEY `idx_unique_user_name` (`user_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_user_15`;
 CREATE TABLE `t_user_15` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(256) DEFAULT NULL COMMENT '用户名',
+  `user_name` varchar(256) DEFAULT NULL COMMENT '用户名',
   `password` varchar(512) DEFAULT NULL COMMENT '密码',
   `real_name` varchar(256) DEFAULT NULL COMMENT '真实姓名',
   `phone` varchar(128) DEFAULT NULL COMMENT '手机号',
@@ -132,13 +132,13 @@ CREATE TABLE `t_user_15` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique_username` (`username`) USING BTREE
+  UNIQUE KEY `idx_unique_user_name` (`user_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_user_2`;
 CREATE TABLE `t_user_2` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(256) DEFAULT NULL COMMENT '用户名',
+  `user_name` varchar(256) DEFAULT NULL COMMENT '用户名',
   `password` varchar(512) DEFAULT NULL COMMENT '密码',
   `real_name` varchar(256) DEFAULT NULL COMMENT '真实姓名',
   `phone` varchar(128) DEFAULT NULL COMMENT '手机号',
@@ -148,13 +148,13 @@ CREATE TABLE `t_user_2` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique_username` (`username`) USING BTREE
+  UNIQUE KEY `idx_unique_user_name` (`user_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_user_3`;
 CREATE TABLE `t_user_3` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(256) DEFAULT NULL COMMENT '用户名',
+  `user_name` varchar(256) DEFAULT NULL COMMENT '用户名',
   `password` varchar(512) DEFAULT NULL COMMENT '密码',
   `real_name` varchar(256) DEFAULT NULL COMMENT '真实姓名',
   `phone` varchar(128) DEFAULT NULL COMMENT '手机号',
@@ -164,13 +164,13 @@ CREATE TABLE `t_user_3` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique_username` (`username`) USING BTREE
+  UNIQUE KEY `idx_unique_user_name` (`user_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_user_4`;
 CREATE TABLE `t_user_4` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(256) DEFAULT NULL COMMENT '用户名',
+  `user_name` varchar(256) DEFAULT NULL COMMENT '用户名',
   `password` varchar(512) DEFAULT NULL COMMENT '密码',
   `real_name` varchar(256) DEFAULT NULL COMMENT '真实姓名',
   `phone` varchar(128) DEFAULT NULL COMMENT '手机号',
@@ -180,13 +180,13 @@ CREATE TABLE `t_user_4` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique_username` (`username`) USING BTREE
+  UNIQUE KEY `idx_unique_user_name` (`user_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_user_5`;
 CREATE TABLE `t_user_5` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(256) DEFAULT NULL COMMENT '用户名',
+  `user_name` varchar(256) DEFAULT NULL COMMENT '用户名',
   `password` varchar(512) DEFAULT NULL COMMENT '密码',
   `real_name` varchar(256) DEFAULT NULL COMMENT '真实姓名',
   `phone` varchar(128) DEFAULT NULL COMMENT '手机号',
@@ -196,13 +196,13 @@ CREATE TABLE `t_user_5` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique_username` (`username`) USING BTREE
+  UNIQUE KEY `idx_unique_user_name` (`user_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_user_6`;
 CREATE TABLE `t_user_6` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(256) DEFAULT NULL COMMENT '用户名',
+  `user_name` varchar(256) DEFAULT NULL COMMENT '用户名',
   `password` varchar(512) DEFAULT NULL COMMENT '密码',
   `real_name` varchar(256) DEFAULT NULL COMMENT '真实姓名',
   `phone` varchar(128) DEFAULT NULL COMMENT '手机号',
@@ -212,13 +212,13 @@ CREATE TABLE `t_user_6` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique_username` (`username`) USING BTREE
+  UNIQUE KEY `idx_unique_user_name` (`user_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_user_7`;
 CREATE TABLE `t_user_7` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(256) DEFAULT NULL COMMENT '用户名',
+  `user_name` varchar(256) DEFAULT NULL COMMENT '用户名',
   `password` varchar(512) DEFAULT NULL COMMENT '密码',
   `real_name` varchar(256) DEFAULT NULL COMMENT '真实姓名',
   `phone` varchar(128) DEFAULT NULL COMMENT '手机号',
@@ -228,13 +228,13 @@ CREATE TABLE `t_user_7` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique_username` (`username`) USING BTREE
+  UNIQUE KEY `idx_unique_user_name` (`user_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_user_8`;
 CREATE TABLE `t_user_8` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(256) DEFAULT NULL COMMENT '用户名',
+  `user_name` varchar(256) DEFAULT NULL COMMENT '用户名',
   `password` varchar(512) DEFAULT NULL COMMENT '密码',
   `real_name` varchar(256) DEFAULT NULL COMMENT '真实姓名',
   `phone` varchar(128) DEFAULT NULL COMMENT '手机号',
@@ -244,13 +244,13 @@ CREATE TABLE `t_user_8` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique_username` (`username`) USING BTREE
+  UNIQUE KEY `idx_unique_user_name` (`user_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `t_user_9`;
 CREATE TABLE `t_user_9` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(256) DEFAULT NULL COMMENT '用户名',
+  `user_name` varchar(256) DEFAULT NULL COMMENT '用户名',
   `password` varchar(512) DEFAULT NULL COMMENT '密码',
   `real_name` varchar(256) DEFAULT NULL COMMENT '真实姓名',
   `phone` varchar(128) DEFAULT NULL COMMENT '手机号',
@@ -260,10 +260,10 @@ CREATE TABLE `t_user_9` (
   `update_time` datetime DEFAULT NULL COMMENT '修改时间',
   `del_flag` tinyint(1) DEFAULT NULL COMMENT '删除标识: 0未删除, 1已删除',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_unique_username` (`username`) USING BTREE
+  UNIQUE KEY `idx_unique_user_name` (`user_name`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `t_user_15` (`id`, `username`, `password`, `real_name`, `phone`, `mail`, `deletion_time`, `create_time`,
+INSERT INTO `t_user_15` (`id`, `user_name`, `password`, `real_name`, `phone`, `mail`, `deletion_time`, `create_time`,
                          `update_time`, `del_flag`)
 VALUES (1752265616481370113, 'admin', 'admin123456', 'admin', 'yKZz0xLyjNb9LSCOCfJD4w==', '02/9oF/nWTBK0cM8UPtCOw==',
         NULL, '2024-01-31 21:00:00', '2024-01-31 21:00:00', 0);

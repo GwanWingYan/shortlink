@@ -7,7 +7,7 @@ public class UserUpdateReqDTO {
     /**
      * 用户名
      */
-    private String username;
+    private String userName;
 
 
     /**

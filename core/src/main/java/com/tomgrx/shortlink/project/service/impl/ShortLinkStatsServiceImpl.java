@@ -482,11 +482,11 @@ public class ShortLinkStatsServiceImpl implements ShortLinkStatsService {
     }
 
     public void checkGroupBelongToUser(String gid) throws ServiceException {
-        String username = Optional.ofNullable(UserContext.getUsername())
+        String userName = Optional.ofNullable(UserContext.getUserName())
                 .orElseThrow(() -> new ServiceException("用户未登录"));
         LambdaQueryWrapper<GroupDO> queryWrapper = Wrappers.lambdaQuery(GroupDO.class)
                 .eq(GroupDO::getGid, gid)
-                .eq(GroupDO::getUsername, username);
+                .eq(GroupDO::getUserName, userName);
         List<GroupDO> groupDOList = linkGroupMapper.selectList(queryWrapper);
         if (CollUtil.isEmpty(groupDOList)) {
             throw new ServiceException("用户信息与分组标识不匹配");

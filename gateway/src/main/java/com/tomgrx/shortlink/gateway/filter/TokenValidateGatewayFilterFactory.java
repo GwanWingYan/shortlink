@@ -24,7 +24,7 @@ import java.util.List;
 import static com.tomgrx.shortlink.gateway.common.constant.RedisCacheConstant.USER_LOGIN_KEY;
 
 /**
- * 检验用户请求中的 username 和 token 是否存在且合法
+ * 检验用户请求中的 userName 和 token 是否存在且合法
  * 注：在 application.yaml 中， 这个 filter 的名字是 'TokenValidate'，不包含后缀。这是 Spring Cloud Gateway filter 命名规范的一部分。
  */
 @Component
@@ -49,12 +49,12 @@ public class TokenValidateGatewayFilterFactory extends AbstractGatewayFilterFact
                 return chain.filter(exchange);
             }
 
-            String username = request.getHeaders().getFirst("username");
+            String userName = request.getHeaders().getFirst("userName");
             String token = request.getHeaders().getFirst("token");
 
-            // 放行 header 包含有效 username 和 token 的请求
+            // 放行 header 包含有效 userName 和 token 的请求
             Object userInfo;
-            if (StringUtils.hasText(username) && StringUtils.hasText(token) && (userInfo = stringRedisTemplate.opsForHash().get(USER_LOGIN_KEY + username, token)) != null) {
+            if (StringUtils.hasText(userName) && StringUtils.hasText(token) && (userInfo = stringRedisTemplate.opsForHash().get(USER_LOGIN_KEY + userName, token)) != null) {
                 JSONObject userInfoJsonObject = JSON.parseObject(userInfo.toString());
                 ServerHttpRequest newRequest = exchange.getRequest()
                         .mutate()

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 数据库持久层配置类
+ * 数据库持久层配置
  */
 @Configuration(value = "databaseConfigurationByAdmin")
 public class DatabaseConfiguration {

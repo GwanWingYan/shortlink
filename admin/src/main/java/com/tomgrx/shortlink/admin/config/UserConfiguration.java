@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 /**
- * 用户配置自动装配
+ * 用户配置
  */
 @Configuration
 public class UserConfiguration {

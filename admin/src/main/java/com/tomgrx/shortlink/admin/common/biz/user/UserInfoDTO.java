@@ -24,7 +24,7 @@ public class UserInfoDTO {
     /**
      * 用户名
      */
-    private String username;
+    private String userName;
 
     /**
      * 真实姓名

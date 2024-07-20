@@ -28,16 +28,26 @@ public class RecycleBinServiceImpl implements RecycleBinService {
     private final ShortLinkActualRemoteService shortLinkActualRemoteService;
     private final GroupMapper groupMapper;
 
+    /**
+     * 分页查询回收站短链接
+     *
+     * @param requestParam 请求参数，需包含 current (当前页数，从 1 开始) 和 size (每页大小)
+     * @return 返回参数包装
+     */
     @Override
     public Result<Page<ShortLinkPageRespDTO>> pageRecycleBinShortLink(ShortLinkRecycleBinPageReqDTO requestParam) {
         LambdaQueryWrapper<GroupDO> queryWrapper = Wrappers.lambdaQuery(GroupDO.class)
-                .eq(GroupDO::getUsername, UserContext.getUsername())
+                .eq(GroupDO::getUserName, UserContext.getUserName())
                 .eq(GroupDO::getDelFlag, 0);
         List<GroupDO> groupDOList = groupMapper.selectList(queryWrapper);
         if (CollUtil.isEmpty(groupDOList)) {
             throw new ServiceException("用户无分组信息");
         }
         requestParam.setGidList(groupDOList.stream().map(GroupDO::getGid).toList());
-        return shortLinkActualRemoteService.pageRecycleBinShortLink(requestParam.getGidList(), requestParam.getCurrent(), requestParam.getSize());
+        return shortLinkActualRemoteService.pageRecycleBinShortLink(
+                requestParam.getGidList(),
+                requestParam.getCurrent(),
+                requestParam.getSize()
+        );
     }
 }

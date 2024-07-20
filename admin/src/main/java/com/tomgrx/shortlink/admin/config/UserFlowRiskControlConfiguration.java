@@ -15,15 +15,15 @@ public class UserFlowRiskControlConfiguration {
     /**
      * 是否开启用户流量风控验证
      */
-    private Boolean enable;
+    private Boolean enable = true;
 
     /**
      * 流量风控时间窗口，单位：秒
      */
-    private String timeWindow;
+    private String timeWindow = "60";
 
     /**
      * 流量风控时间窗口内可访问次数
      */
-    private Long maxAccessCount;
+    private Long maxAccessCount = 100L;
 }

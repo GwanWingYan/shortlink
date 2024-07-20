@@ -12,21 +12,21 @@ import org.springframework.context.annotation.Configuration;
 public class RBloomFilterConfiguration {
 
     /**
-     * 防止用户注册查询数据库的布隆过滤器
+     * 用户名布隆过滤器，防止注册用户时查询数据库导致缓存穿透
      */
     @Bean
-    public RBloomFilter<String> userRegisterCachePenetrationBloomFilter(RedissonClient redissonClient) {
-        RBloomFilter<String> cachePenetrationBloomFilter = redissonClient.getBloomFilter("shortUriCreateCachePenetrationBloomFilter");
+    public RBloomFilter<String> userNameBloomFilter(RedissonClient redissonClient) {
+        RBloomFilter<String> cachePenetrationBloomFilter = redissonClient.getBloomFilter("userNameBloomFilter");
         cachePenetrationBloomFilter.tryInit(100_000_000L, 0.001);
         return cachePenetrationBloomFilter;
     }
 
     /**
-     * 防止分组标识注册查询数据库的布隆过滤器
+     * 分组标识布隆过滤器，防止注册分组标识时查询数据库导致缓存穿透
      */
     @Bean
-    public RBloomFilter<String> gidRegisterCachePenetrationBloomFilter(RedissonClient redissonClient) {
-        RBloomFilter<String> cachePenetrationBloomFilter = redissonClient.getBloomFilter("gidRegisterCachePenetrationBloomFilter");
+    public RBloomFilter<String> gidBloomFilter(RedissonClient redissonClient) {
+        RBloomFilter<String> cachePenetrationBloomFilter = redissonClient.getBloomFilter("gidBloomFilter");
         cachePenetrationBloomFilter.tryInit(200000000L, 0.001);
         return cachePenetrationBloomFilter;
     }

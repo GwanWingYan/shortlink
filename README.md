@@ -22,6 +22,7 @@ Shortlink 后端技术栈如下：
 * Spring Cloud Gateway
 * Redis Cluster 缓存集群
 * MySQL 数据库读写分离
+* ShardingSphere
 * Nacos 服务注册发现和分布式配置
 * SkyWalking Tracing 分布式追踪
 * Sentinel 服务熔断和限流
@@ -35,8 +36,13 @@ Shortlink 后端技术栈如下：
 
 Shortlink 采用微服务架构，分为四大微服务:
 
-* **短链接网关服务 (gateway)**：作为沟通前端控制台和后端（即管理服务和核心服务）的唯一渠道，负责将前端的请求通过负载均衡算法转发到相应的管理服务和核心服务实例上。具体而言，网关服务基于 Spring Cloud Gateway 和 Spring Cloud Loadbalancer 进行实现。
-* **短链接管理服务 (admin)**
+* **短链接网关服务 (gateway)**：作为沟通前端控制台和后端（即管理服务和核心服务）的渠道，基于 Spring Cloud Gateway 对前端请求进行分流，并通过 Spring Cloud Loadbalancer 的负载均衡算法转发到相应的管理服务和核心服务实例上。
+* **短链接管理服务 (admin)**：负责对来自网关服务的请求进行身份鉴权与流量控制，并提供用户管理功能，具有以下特点：
+  * 使用布隆过滤器查询短链接或短链接分组是否存在，避免直接访问数据库导致的缓存穿透。
+  * 使用 ShardingSphere 对数据库进行分表，使数据库支持水平扩展。
+  * 使用 Redis 分布式互斥锁，高效保障创建分组业务的原子性。
+  * 借助 Redis Lua 脚本的原子性特点，实现对用户请求的流量控制。
+  * 使用 OpenFeign 调用短链接核心服务的 RESTful API。
 * **短链接核心服务 (core)**
 * **短链接前端服务 (console)**
 
@@ -45,5 +51,7 @@ Shortlink 采用 Nacos 作为服务注册和发现中心，各微服务实例在
 ## TODO
 
 * 将当前所有 module 的 constant 抽离到一个单独的 module
+* ShortLink -> Shortlink
+* 厘清 admin 和 core 的职责
 * 测试网关
 * 在 README 添加运行指南 

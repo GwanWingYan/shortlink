@@ -19,7 +19,7 @@ public class UserDO extends BaseDO {
     /**
      * 用户名
      */
-    private String username;
+    private String userName;
 
 
     /**

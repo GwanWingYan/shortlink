@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 /**
- * MyBatis-Plus 原数据自动填充类
+ * MyBatis-Plus 自动填充元数据
  */
 @Primary
 @Component(value = "myMetaObjectHandlerByAdmin")

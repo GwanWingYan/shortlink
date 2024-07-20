@@ -15,11 +15,11 @@ public class UserTransmitInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(@Nullable HttpServletRequest request, @Nullable HttpServletResponse response, @Nullable Object handler) throws Exception {
-        String username = request.getHeader("username");
-        if (StrUtil.isNotBlank(username)) {
+        String userName = request.getHeader("userName");
+        if (StrUtil.isNotBlank(userName)) {
             String userId = request.getHeader("userId");
             String realName = request.getHeader("realName");
-            UserInfoDTO userInfoDTO = new UserInfoDTO(userId, username, realName);
+            UserInfoDTO userInfoDTO = new UserInfoDTO(userId, userName, realName);
             UserContext.setUser(userInfoDTO);
         }
         return true;

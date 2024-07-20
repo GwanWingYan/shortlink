@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 用户管理控制层
  */
-@RestController
+@RestController(value = "userControllerByAdmin")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -25,22 +25,22 @@ public class UserController {
     /**
      * 根据用户名查询用户信息
      */
-    @GetMapping("/api/shortlink/admin/v1/user/{username}")
-    public Result<UserRespDTO> getUserByUsername(@PathVariable("username") String username) {
-        return Results.success(userService.getUserByUsername(username));
+    @GetMapping("/api/shortlink/admin/v1/user/{userName}")
+    public Result<UserRespDTO> getUserByUsername(@PathVariable("userName") String userName) {
+        return Results.success(userService.getUserByUsername(userName));
     }
 
     /**
      * 根据用户名查询无脱敏用户信息
      */
-    @GetMapping("/api/shortlink/admin/v1/actual/user/{username}")
-    public Result<UserActualRespDTO> getActualUserByUsername(@PathVariable("username") String username) {
-        return Results.success(BeanUtil.toBean(userService.getUserByUsername(username), UserActualRespDTO.class));
+    @GetMapping("/api/shortlink/admin/v1/actual/user/{userName}")
+    public Result<UserActualRespDTO> getActualUserByUsername(@PathVariable("userName") String userName) {
+        return Results.success(BeanUtil.toBean(userService.getUserByUsername(userName), UserActualRespDTO.class));
     }
 
-    @GetMapping("/api/shortlink/admin/v1/user/has-username")
-    public Result<Boolean> hasUsername(@RequestParam("username") String username) {
-        return Results.success(userService.hasUsername(username));
+    @GetMapping("/api/shortlink/admin/v1/user/has-userName")
+    public Result<Boolean> hasUsername(@RequestParam("userName") String userName) {
+        return Results.success(userService.hasUsername(userName));
     }
 
     /**
@@ -73,16 +73,16 @@ public class UserController {
      * 检查用户是否登录
      */
     @GetMapping("/api/shortlink/admin/v1/user/check-login")
-    public Result<Boolean> checkLogin(@RequestParam("username") String username, @RequestParam("token") String token) {
-        return Results.success(userService.checkLogin(username, token));
+    public Result<Boolean> checkLogin(@RequestParam("userName") String userName, @RequestParam("token") String token) {
+        return Results.success(userService.checkLogin(userName, token));
     }
 
     /**
      * 用户退出登录
      */
     @DeleteMapping("/api/shortlink/admin/v1/user/logout")
-    public Result<Void> logout(@RequestParam("username") String username, @RequestParam("token") String token) {
-        userService.logout(username, token);
+    public Result<Void> logout(@RequestParam("userName") String userName, @RequestParam("token") String token) {
+        userService.logout(userName, token);
         return Results.success();
     }
 }

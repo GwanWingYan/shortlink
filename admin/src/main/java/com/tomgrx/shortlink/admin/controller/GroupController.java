@@ -15,18 +15,18 @@ import java.util.List;
 /**
  * 短链接分组控制层
  */
-@RestController
+@RestController(value = "groupControllerByAdmin")
 @RequiredArgsConstructor
 public class GroupController {
 
     private final GroupService groupService;
 
     /**
-     * 新增短链接分组
+     * 创建短链接分组
      */
     @PostMapping("/api/shortlink/admin/v1/group")
     public Result<Void> save(@RequestBody ShortLinkGroupSaveReqDTO requestParam) {
-        groupService.saveGroup(requestParam.getName());
+        groupService.createGroup(requestParam.getName());
         return Results.success();
     }
 

@@ -14,18 +14,18 @@ import com.tomgrx.shortlink.admin.dto.resp.UserRespDTO;
 public interface UserService extends IService<UserDO> {
     /**
      * 根据用户名查询用户信息
-     * @param username 用户名
+     * @param userName 用户名
      * @return 用户返回实体
      */
-    UserRespDTO getUserByUsername(String username);
+    UserRespDTO getUserByUsername(String userName);
 
     /**
      * 查询用户名是否存在
      *
-     * @param username 用户名
+     * @param userName 用户名
      * @return 用户名存在返回 true，不存在返回 false
      */
-    Boolean hasUsername(String username);
+    Boolean hasUsername(String userName);
 
 
     /**
@@ -56,10 +56,10 @@ public interface UserService extends IService<UserDO> {
      * @param token 用户登录 Token
      * @return 用户是否登录标识
      */
-    Boolean checkLogin(String username, String token);
+    Boolean checkLogin(String userName, String token);
 
     /**
      * 用户退出登录
      */
-    void logout(String username, String token);
+    void logout(String userName, String token);
 }

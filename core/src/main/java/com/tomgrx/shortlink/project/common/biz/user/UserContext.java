@@ -38,9 +38,9 @@ public final class UserContext {
      *
      * @return 用户名称
      */
-    public static String getUsername() {
+    public static String getUserName() {
         UserInfoDTO userInfoDTO = USER_THREAD_LOCAL.get();
-        return Optional.ofNullable(userInfoDTO).map(UserInfoDTO::getUsername).orElse(null);
+        return Optional.ofNullable(userInfoDTO).map(UserInfoDTO::getUserName).orElse(null);
     }
 
     /**

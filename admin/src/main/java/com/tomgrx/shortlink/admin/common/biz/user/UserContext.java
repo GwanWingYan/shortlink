@@ -6,7 +6,6 @@ import java.util.Optional;
 
 /**
  * 用户上下文
- * 公众号：马丁玩编程，回复：加群，添加马哥微信（备注：link）获取项目资料
  */
 public final class UserContext {
 
@@ -39,9 +38,9 @@ public final class UserContext {
      *
      * @return 用户名称
      */
-    public static String getUsername() {
+    public static String getUserName() {
         UserInfoDTO userInfoDTO = USER_THREAD_LOCAL.get();
-        return Optional.ofNullable(userInfoDTO).map(UserInfoDTO::getUsername).orElse(null);
+        return Optional.ofNullable(userInfoDTO).map(UserInfoDTO::getUserName).orElse(null);
     }
 
     /**

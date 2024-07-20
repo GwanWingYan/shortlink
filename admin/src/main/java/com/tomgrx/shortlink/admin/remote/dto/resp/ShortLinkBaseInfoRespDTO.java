@@ -20,7 +20,7 @@ public class ShortLinkBaseInfoRespDTO {
     /**
      * 描述信息
      */
-    @ExcelProperty("标题")
+    @ExcelProperty("描述信息")
     @ColumnWidth(40)
     private String describe;
 

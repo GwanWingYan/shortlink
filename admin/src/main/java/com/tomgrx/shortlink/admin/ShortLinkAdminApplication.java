@@ -1,4 +1,4 @@
-package com.tomgrx.shortlink.admin.remote;
+package com.tomgrx.shortlink.admin;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

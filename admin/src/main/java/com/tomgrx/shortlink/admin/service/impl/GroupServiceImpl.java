@@ -2,7 +2,6 @@ package com.tomgrx.shortlink.admin.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -41,73 +40,89 @@ import static com.tomgrx.shortlink.admin.common.constant.RedisCacheConstant.LOCK
  * 短链接分组接口实现层
  */
 @Slf4j
-@Service
+@Service(value = "groupServiceImplByAdmin")
 @RequiredArgsConstructor
 public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implements GroupService {
 
-    private final RBloomFilter<String> gidRegisterCachePenetrationBloomFilter;
+    private final RBloomFilter<String> gidBloomFilter;
     private final GroupUniqueMapper groupUniqueMapper;
     private final ShortLinkActualRemoteService shortLinkActualRemoteService;
     private final RedissonClient redissonClient;
 
     @Value("${shortlink.group.max-num}")
-    private Integer groupMaxNum;
+    private Integer groupMaxNum = 10;
 
+    @Value("${shortlink.group.max-retry}")
+    private Integer groupMaxRetry = 10;
+
+    /**
+     * 创建短链接分组
+     *
+     * @param groupName 短链接分组名称
+     */
     @Override
-    public void saveGroup(String groupName) {
-        saveGroup(UserContext.getUsername(), groupName);
+    public void createGroup(String groupName) {
+        createGroup(UserContext.getUserName(), groupName);
     }
 
+    /**
+     * 创建短链接分组
+     *
+     * @param userName 用户名
+     * @param groupName 短链接分组名称
+     */
     @Override
-    public void saveGroup(String username, String groupName) {
-        RLock lock = redissonClient.getLock(String.format(LOCK_GROUP_CREATE_KEY, username));
+    public void createGroup(String userName, String groupName) {
+        // 使用 Redis 分布式锁保证同一分组不被重复创建
+        RLock lock = redissonClient.getLock(String.format(LOCK_GROUP_CREATE_KEY, userName));
         lock.lock();
         try {
+            // 拒绝分组数已达上限的用户创建分组
             LambdaQueryWrapper<GroupDO> queryWrapper = Wrappers.lambdaQuery(GroupDO.class)
-                    .eq(GroupDO::getUsername, username)
+                    .eq(GroupDO::getUserName, userName)
                     .eq(GroupDO::getDelFlag, 0);
             List<GroupDO> groupDOList = baseMapper.selectList(queryWrapper);
             if (CollUtil.isNotEmpty(groupDOList) && groupDOList.size() == groupMaxNum) {
-                throw new ClientException(String.format("已超出最大分组数：%d", groupMaxNum));
+                throw new ClientException(String.format("当前用户分组数已达上限：%d", groupMaxNum));
             }
-            int retryCount = 0;
-            int maxRetries = 10;
-            String gid = null;
-            while (retryCount < maxRetries) {
-                gid = saveGroupUniqueReturnGid();
-                if (StrUtil.isNotEmpty(gid)) {
-                    GroupDO groupDO = GroupDO.builder()
-                            .gid(gid)
-                            .sortOrder(0)
-                            .username(username)
-                            .name(groupName)
-                            .build();
-                    baseMapper.insert(groupDO);
-                    gidRegisterCachePenetrationBloomFilter.add(gid);
-                    break;
-                }
-                retryCount++;
-            }
-            if (StrUtil.isEmpty(gid)) {
-                throw new ServiceException("生成分组标识频繁");
-            }
+
+            // 创建分组
+            String gid = createUniqueGroupId();
+            GroupDO groupDO = GroupDO.builder()
+                    .gid(gid)
+                    .sortOrder(0)
+                    .userName(userName)
+                    .name(groupName)
+                    .build();
+            baseMapper.insert(groupDO);
         } finally {
             lock.unlock();
         }
     }
 
+    /**
+     * 查询用户短链接分组集合
+     *
+     * @return 用户短链接分组集合
+     */
     @Override
     public List<ShortLinkGroupRespDTO> listGroup() {
+        // 查询用户的所有分组信息，不含分组的短链接数量
+        @SuppressWarnings("unchecked")
         LambdaQueryWrapper<GroupDO> queryWrapper = Wrappers.lambdaQuery(GroupDO.class)
                 .eq(GroupDO::getDelFlag, 0)
-                .eq(GroupDO::getUsername, UserContext.getUsername())
+                .eq(GroupDO::getUserName, UserContext.getUserName())
                 .orderByDesc(GroupDO::getSortOrder, GroupDO::getUpdateTime);
         List<GroupDO> groupDOList = baseMapper.selectList(queryWrapper);
-        Result<List<ShortLinkGroupCountQueryRespDTO>> listResult = shortLinkActualRemoteService
+
+        // 查询各个分组的短链接数量
+        Result<List<ShortLinkGroupCountQueryRespDTO>> groupShortlinkCountList = shortLinkActualRemoteService
                 .listGroupShortLinkCount(groupDOList.stream().map(GroupDO::getGid).toList());
+
+        // 将各分组短链接数量加入到返回结果中
         List<ShortLinkGroupRespDTO> shortLinkGroupRespDTOList = BeanUtil.copyToList(groupDOList, ShortLinkGroupRespDTO.class);
         shortLinkGroupRespDTOList.forEach(each -> {
-            Optional<ShortLinkGroupCountQueryRespDTO> first = listResult.getData().stream()
+            Optional<ShortLinkGroupCountQueryRespDTO> first = groupShortlinkCountList.getData().stream()
                     .filter(item -> Objects.equals(item.getGid(), each.getGid()))
                     .findFirst();
             first.ifPresent(item -> each.setShortLinkCount(first.get().getShortLinkCount()));
@@ -115,28 +130,44 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
         return shortLinkGroupRespDTOList;
     }
 
+    /**
+     * 修改短链接分组
+     *
+     * @param requestParam 修改短链接分组参数
+     */
     @Override
     public void updateGroup(ShortLinkGroupUpdateReqDTO requestParam) {
+        GroupDO groupDO = GroupDO.builder()
+                .name(requestParam.getName())
+                .build();
         LambdaUpdateWrapper<GroupDO> updateWrapper = Wrappers.lambdaUpdate(GroupDO.class)
-                .eq(GroupDO::getUsername, UserContext.getUsername())
+                .eq(GroupDO::getUserName, UserContext.getUserName())
                 .eq(GroupDO::getGid, requestParam.getGid())
                 .eq(GroupDO::getDelFlag, 0);
-        GroupDO groupDO = new GroupDO();
-        groupDO.setName(requestParam.getName());
         baseMapper.update(groupDO, updateWrapper);
     }
 
+    /**
+     * 删除短链接分组
+     *
+     * @param gid 短链接分组标识
+     */
     @Override
     public void deleteGroup(String gid) {
-        LambdaUpdateWrapper<GroupDO> updateWrapper = Wrappers.lambdaUpdate(GroupDO.class)
-                .eq(GroupDO::getUsername, UserContext.getUsername())
-                .eq(GroupDO::getGid, gid)
-                .eq(GroupDO::getDelFlag, 0);
         GroupDO groupDO = new GroupDO();
         groupDO.setDelFlag(1);
+        LambdaUpdateWrapper<GroupDO> updateWrapper = Wrappers.lambdaUpdate(GroupDO.class)
+                .eq(GroupDO::getUserName, UserContext.getUserName())
+                .eq(GroupDO::getGid, gid)
+                .eq(GroupDO::getDelFlag, 0);
         baseMapper.update(groupDO, updateWrapper);
     }
 
+    /**
+     * 短链接分组排序
+     *
+     * @param requestParam 短链接分组排序参数
+     */
     @Override
     public void sortGroup(List<ShortLinkGroupSortReqDTO> requestParam) {
         requestParam.forEach(each -> {
@@ -144,33 +175,43 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
                     .sortOrder(each.getSortOrder())
                     .build();
             LambdaUpdateWrapper<GroupDO> updateWrapper = Wrappers.lambdaUpdate(GroupDO.class)
-                    .eq(GroupDO::getUsername, UserContext.getUsername())
+                    .eq(GroupDO::getUserName, UserContext.getUserName())
                     .eq(GroupDO::getGid, each.getGid())
                     .eq(GroupDO::getDelFlag, 0);
             baseMapper.update(groupDO, updateWrapper);
         });
     }
 
-    private boolean hasGid(String username, String gid) {
-        LambdaQueryWrapper<GroupDO> queryWrapper = Wrappers.lambdaQuery(GroupDO.class)
-                .eq(GroupDO::getGid, gid)
-                .eq(GroupDO::getUsername, Optional.ofNullable(username).orElse(UserContext.getUsername()));
-        GroupDO hasGroupFlag = baseMapper.selectOne(queryWrapper);
-        return hasGroupFlag == null;
-    }
+    /**
+     * 创建一个唯一分组标识
+     *
+     * @return 唯一分组标识
+     * @throws ServiceException 如果经历多次重试仍无法创建唯一分组标识，则抛出 ServiceException
+     */
+    private String createUniqueGroupId() {
+        for (int retry = 0; retry < groupMaxRetry; retry++) {
+            String gid = RandomGenerator.generateRandom();
 
-    private String saveGroupUniqueReturnGid() {
-        String gid = RandomGenerator.generateRandom();
-        if (!gidRegisterCachePenetrationBloomFilter.contains(gid)) {
+            // 拒绝已存在于布隆过滤器中的分组标识
+            if (gidBloomFilter.contains(gid)) {
+                continue;
+            }
+
+            // 拒绝已存在于数据库中的分组标识
             GroupUniqueDO groupUniqueDO = GroupUniqueDO.builder()
                     .gid(gid)
                     .build();
             try {
                 groupUniqueMapper.insert(groupUniqueDO);
             } catch (DuplicateKeyException e) {
-                return null;
+                continue;
             }
+
+            // 返回全新的唯一分组标识
+            gidBloomFilter.add(gid);
+            return gid;
         }
-        return gid;
+
+        throw new ServiceException("生成分组标识过于频繁");
     }
 }

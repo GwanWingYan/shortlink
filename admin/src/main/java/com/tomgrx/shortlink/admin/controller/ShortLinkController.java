@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 短链接后管控制层
+ * 短链接管理控制层
  */
 @RestController(value = "shortLinkControllerByAdmin")
 @RequiredArgsConstructor
@@ -35,7 +35,7 @@ public class ShortLinkController {
     }
 
     /**
-     * 批量创建短链接
+     * 批量创建短链接，并返回 excel 文件展示批量创建短链接结果
      */
     @SneakyThrows
     @PostMapping("/api/shortlink/admin/v1/create/batch")
@@ -43,7 +43,7 @@ public class ShortLinkController {
         Result<ShortLinkBatchCreateRespDTO> shortLinkBatchCreateRespDTOResult = shortLinkActualRemoteService.batchCreateShortLink(requestParam);
         if (shortLinkBatchCreateRespDTOResult.isSuccess()) {
             List<ShortLinkBaseInfoRespDTO> baseLinkInfos = shortLinkBatchCreateRespDTOResult.getData().getBaseLinkInfos();
-            EasyExcelWebUtil.write(response, "批量创建短链接-SaaS短链接系统", ShortLinkBaseInfoRespDTO.class, baseLinkInfos);
+            EasyExcelWebUtil.write(response, "批量创建短链接结果", ShortLinkBaseInfoRespDTO.class, baseLinkInfos);
         }
     }
 

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 回收站管理控制层
+ * 回收站控制层
  */
 @RestController(value = "recycleBinControllerByAdmin")
 @RequiredArgsConstructor

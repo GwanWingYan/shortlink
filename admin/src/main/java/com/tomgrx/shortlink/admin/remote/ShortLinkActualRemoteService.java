@@ -24,11 +24,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 /**
- * 短链接中台远程调用服务
+ * 短链接核心服务远程调用
  */
 @FeignClient(
         value = "shortlink-core",
-        url = "${aggregation.remote-url:}",
         configuration = OpenFeignConfiguration.class
 )
 public interface ShortLinkActualRemoteService {
@@ -64,8 +63,8 @@ public interface ShortLinkActualRemoteService {
      *
      * @param gid      分组标识
      * @param orderTag 排序类型
-     * @param current  当前页
-     * @param size     当前数据多少
+     * @param current  页号
+     * @param size     页大小
      * @return 查询短链接响应
      */
     @GetMapping("/api/shortlink/v1/page")

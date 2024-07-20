@@ -20,7 +20,7 @@ public class ShortLinkGroupRespDTO {
     /**
      * 创建分组用户名
      */
-    private String username;
+    private String userName;
 
     /**
      * 分组排序

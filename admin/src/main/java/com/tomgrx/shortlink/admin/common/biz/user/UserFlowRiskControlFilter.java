@@ -43,10 +43,10 @@ public class UserFlowRiskControlFilter implements Filter {
         DefaultRedisScript<Long> redisScript = new DefaultRedisScript<>();
         redisScript.setScriptSource(new ResourceScriptSource(new ClassPathResource(USER_FLOW_RISK_CONTROL_LUA_SCRIPT_PATH)));
         redisScript.setResultType(Long.class);
-        String username = Optional.ofNullable(UserContext.getUsername()).orElse("other");
+        String userName = Optional.ofNullable(UserContext.getUserName()).orElse("other");
         Long result = null;
         try {
-            result = stringRedisTemplate.execute(redisScript, Lists.newArrayList(username), userFlowRiskControlConfiguration.getTimeWindow());
+            result = stringRedisTemplate.execute(redisScript, Lists.newArrayList(userName), userFlowRiskControlConfiguration.getTimeWindow());
         } catch (Throwable ex) {
             log.error("执行用户请求流量限制LUA脚本出错", ex);
             returnJson((HttpServletResponse) response, JSON.toJSONString(Results.failure(new ClientException(FLOW_LIMIT_ERROR))));

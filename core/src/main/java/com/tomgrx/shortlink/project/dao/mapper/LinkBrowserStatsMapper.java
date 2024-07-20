@@ -2,8 +2,8 @@ package com.tomgrx.shortlink.project.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tomgrx.shortlink.project.dao.entity.LinkBrowserStatsDO;
-import com.tomgrx.shortlink.project.dto.req.ShortLinkGroupStatsReqDTO;
-import com.tomgrx.shortlink.project.dto.req.ShortLinkStatsReqDTO;
+import com.tomgrx.shortlink.project.dto.req.ShortlinkGroupStatsReqDTO;
+import com.tomgrx.shortlink.project.dto.req.ShortlinkStatsReqDTO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -42,7 +42,7 @@ public interface LinkBrowserStatsMapper extends BaseMapper<LinkBrowserStatsDO> {
             "    AND tlbs.date BETWEEN #{param.startDate} and #{param.endDate} " +
             "GROUP BY " +
             "    tlbs.full_short_url, tl.gid, tlbs.browser;")
-    List<HashMap<String, Object>> listBrowserStatsByShortLink(@Param("param") ShortLinkStatsReqDTO requestParam);
+    List<HashMap<String, Object>> listBrowserStatsByShortlink(@Param("param") ShortlinkStatsReqDTO requestParam);
 
     /**
      * 根据分组获取指定日期内浏览器监控数据
@@ -60,5 +60,5 @@ public interface LinkBrowserStatsMapper extends BaseMapper<LinkBrowserStatsDO> {
             "    AND tlbs.date BETWEEN #{param.startDate} and #{param.endDate} " +
             "GROUP BY " +
             "    tl.gid, tlbs.browser;")
-    List<HashMap<String, Object>> listBrowserStatsByGroup(@Param("param") ShortLinkGroupStatsReqDTO requestParam);
+    List<HashMap<String, Object>> listBrowserStatsByGroup(@Param("param") ShortlinkGroupStatsReqDTO requestParam);
 }

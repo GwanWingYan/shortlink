@@ -1,7 +1,7 @@
 package com.tomgrx.shortlink.project.mq.producer;
 
 import cn.hutool.core.lang.UUID;
-import com.tomgrx.shortlink.project.dto.biz.ShortLinkStatsRecordDTO;
+import com.tomgrx.shortlink.project.dto.biz.ShortlinkStatsRecordDTO;
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RBlockingDeque;
 import org.redisson.api.RDelayedQueue;
@@ -18,7 +18,7 @@ import static com.tomgrx.shortlink.project.common.constant.RedisKeyConstant.DELA
 @Component
 @Deprecated
 @RequiredArgsConstructor
-public class DelayShortLinkStatsProducer {
+public class DelayShortlinkStatsProducer {
 
     private final RedissonClient redissonClient;
 
@@ -27,10 +27,10 @@ public class DelayShortLinkStatsProducer {
      *
      * @param statsRecord 短链接统计实体参数
      */
-    public void send(ShortLinkStatsRecordDTO statsRecord) {
+    public void send(ShortlinkStatsRecordDTO statsRecord) {
         statsRecord.setKeys(UUID.fastUUID().toString());
-        RBlockingDeque<ShortLinkStatsRecordDTO> blockingDeque = redissonClient.getBlockingDeque(DELAY_QUEUE_STATS_KEY);
-        RDelayedQueue<ShortLinkStatsRecordDTO> delayedQueue = redissonClient.getDelayedQueue(blockingDeque);
+        RBlockingDeque<ShortlinkStatsRecordDTO> blockingDeque = redissonClient.getBlockingDeque(DELAY_QUEUE_STATS_KEY);
+        RDelayedQueue<ShortlinkStatsRecordDTO> delayedQueue = redissonClient.getDelayedQueue(blockingDeque);
         delayedQueue.offer(statsRecord, 5, TimeUnit.SECONDS);
     }
 }

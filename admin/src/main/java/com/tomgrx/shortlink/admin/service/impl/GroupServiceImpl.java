@@ -14,11 +14,11 @@ import com.tomgrx.shortlink.admin.dao.entity.GroupDO;
 import com.tomgrx.shortlink.admin.dao.entity.GroupUniqueDO;
 import com.tomgrx.shortlink.admin.dao.mapper.GroupMapper;
 import com.tomgrx.shortlink.admin.dao.mapper.GroupUniqueMapper;
-import com.tomgrx.shortlink.admin.dto.req.ShortLinkGroupSortReqDTO;
-import com.tomgrx.shortlink.admin.dto.req.ShortLinkGroupUpdateReqDTO;
-import com.tomgrx.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
-import com.tomgrx.shortlink.admin.remote.ShortLinkActualRemoteService;
-import com.tomgrx.shortlink.admin.remote.dto.resp.ShortLinkGroupCountQueryRespDTO;
+import com.tomgrx.shortlink.admin.dto.req.ShortlinkGroupSortReqDTO;
+import com.tomgrx.shortlink.admin.dto.req.ShortlinkGroupUpdateReqDTO;
+import com.tomgrx.shortlink.admin.dto.resp.ShortlinkGroupRespDTO;
+import com.tomgrx.shortlink.admin.remote.ShortlinkActualRemoteService;
+import com.tomgrx.shortlink.admin.remote.dto.resp.ShortlinkGroupCountQueryRespDTO;
 import com.tomgrx.shortlink.admin.service.GroupService;
 import com.tomgrx.shortlink.admin.toolkit.RandomGenerator;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +46,7 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
 
     private final RBloomFilter<String> gidBloomFilter;
     private final GroupUniqueMapper groupUniqueMapper;
-    private final ShortLinkActualRemoteService shortLinkActualRemoteService;
+    private final ShortlinkActualRemoteService shortLinkActualRemoteService;
     private final RedissonClient redissonClient;
 
     @Value("${shortlink.group.max-num}")
@@ -106,7 +106,7 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
      * @return 用户短链接分组集合
      */
     @Override
-    public List<ShortLinkGroupRespDTO> listGroup() {
+    public List<ShortlinkGroupRespDTO> listGroup() {
         // 查询用户的所有分组信息，不含分组的短链接数量
         @SuppressWarnings("unchecked")
         LambdaQueryWrapper<GroupDO> queryWrapper = Wrappers.lambdaQuery(GroupDO.class)
@@ -116,18 +116,18 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
         List<GroupDO> groupDOList = baseMapper.selectList(queryWrapper);
 
         // 查询各个分组的短链接数量
-        Result<List<ShortLinkGroupCountQueryRespDTO>> groupShortlinkCountList = shortLinkActualRemoteService
-                .listGroupShortLinkCount(groupDOList.stream().map(GroupDO::getGid).toList());
+        Result<List<ShortlinkGroupCountQueryRespDTO>> groupShortlinkCountList = shortLinkActualRemoteService
+                .listGroupShortlinkCount(groupDOList.stream().map(GroupDO::getGid).toList());
 
         // 将各分组短链接数量加入到返回结果中
-        List<ShortLinkGroupRespDTO> shortLinkGroupRespDTOList = BeanUtil.copyToList(groupDOList, ShortLinkGroupRespDTO.class);
-        shortLinkGroupRespDTOList.forEach(each -> {
-            Optional<ShortLinkGroupCountQueryRespDTO> first = groupShortlinkCountList.getData().stream()
+        List<ShortlinkGroupRespDTO> shortlinkGroupRespDTOList = BeanUtil.copyToList(groupDOList, ShortlinkGroupRespDTO.class);
+        shortlinkGroupRespDTOList.forEach(each -> {
+            Optional<ShortlinkGroupCountQueryRespDTO> first = groupShortlinkCountList.getData().stream()
                     .filter(item -> Objects.equals(item.getGid(), each.getGid()))
                     .findFirst();
-            first.ifPresent(item -> each.setShortLinkCount(first.get().getShortLinkCount()));
+            first.ifPresent(item -> each.setShortlinkCount(first.get().getShortlinkCount()));
         });
-        return shortLinkGroupRespDTOList;
+        return shortlinkGroupRespDTOList;
     }
 
     /**
@@ -136,7 +136,7 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
      * @param requestParam 修改短链接分组参数
      */
     @Override
-    public void updateGroup(ShortLinkGroupUpdateReqDTO requestParam) {
+    public void updateGroup(ShortlinkGroupUpdateReqDTO requestParam) {
         GroupDO groupDO = GroupDO.builder()
                 .name(requestParam.getName())
                 .build();
@@ -169,7 +169,7 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
      * @param requestParam 短链接分组排序参数
      */
     @Override
-    public void sortGroup(List<ShortLinkGroupSortReqDTO> requestParam) {
+    public void sortGroup(List<ShortlinkGroupSortReqDTO> requestParam) {
         requestParam.forEach(each -> {
             GroupDO groupDO = GroupDO.builder()
                     .sortOrder(each.getSortOrder())

@@ -51,7 +51,6 @@ Shortlink 采用 Nacos 作为服务注册和发现中心，各微服务实例在
 ## TODO
 
 * 将当前所有 module 的 constant 抽离到一个单独的 module
-* ShortLink -> Shortlink
 * 厘清 admin 和 core 的职责
 * 测试网关
 * 在 README 添加运行指南 

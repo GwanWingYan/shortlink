@@ -2,9 +2,9 @@ package com.tomgrx.shortlink.admin.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.tomgrx.shortlink.admin.dao.entity.GroupDO;
-import com.tomgrx.shortlink.admin.dto.req.ShortLinkGroupSortReqDTO;
-import com.tomgrx.shortlink.admin.dto.req.ShortLinkGroupUpdateReqDTO;
-import com.tomgrx.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
+import com.tomgrx.shortlink.admin.dto.req.ShortlinkGroupSortReqDTO;
+import com.tomgrx.shortlink.admin.dto.req.ShortlinkGroupUpdateReqDTO;
+import com.tomgrx.shortlink.admin.dto.resp.ShortlinkGroupRespDTO;
 
 import java.util.List;
 
@@ -33,14 +33,14 @@ public interface GroupService extends IService<GroupDO> {
      *
      * @return 用户短链接分组集合
      */
-    List<ShortLinkGroupRespDTO> listGroup();
+    List<ShortlinkGroupRespDTO> listGroup();
 
     /**
      * 修改短链接分组
      *
      * @param requestParam 修改短链接分组参数
      */
-    void updateGroup(ShortLinkGroupUpdateReqDTO requestParam);
+    void updateGroup(ShortlinkGroupUpdateReqDTO requestParam);
 
     /**
      * 删除短链接分组
@@ -54,5 +54,5 @@ public interface GroupService extends IService<GroupDO> {
      *
      * @param requestParam 短链接分组排序参数
      */
-    void sortGroup(List<ShortLinkGroupSortReqDTO> requestParam);
+    void sortGroup(List<ShortlinkGroupSortReqDTO> requestParam);
 }

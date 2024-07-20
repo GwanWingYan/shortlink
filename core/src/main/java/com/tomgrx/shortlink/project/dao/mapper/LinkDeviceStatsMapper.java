@@ -2,8 +2,8 @@ package com.tomgrx.shortlink.project.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tomgrx.shortlink.project.dao.entity.LinkDeviceStatsDO;
-import com.tomgrx.shortlink.project.dto.req.ShortLinkGroupStatsReqDTO;
-import com.tomgrx.shortlink.project.dto.req.ShortLinkStatsReqDTO;
+import com.tomgrx.shortlink.project.dto.req.ShortlinkGroupStatsReqDTO;
+import com.tomgrx.shortlink.project.dto.req.ShortlinkStatsReqDTO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -41,7 +41,7 @@ public interface LinkDeviceStatsMapper extends BaseMapper<LinkDeviceStatsDO> {
             "    AND tlds.date BETWEEN #{param.startDate} and #{param.endDate} " +
             "GROUP BY " +
             "    tlds.full_short_url, tl.gid, tlds.device;")
-    List<LinkDeviceStatsDO> listDeviceStatsByShortLink(@Param("param") ShortLinkStatsReqDTO requestParam);
+    List<LinkDeviceStatsDO> listDeviceStatsByShortlink(@Param("param") ShortlinkStatsReqDTO requestParam);
 
     /**
      * 根据分组获取指定日期内访问设备监控数据
@@ -59,5 +59,5 @@ public interface LinkDeviceStatsMapper extends BaseMapper<LinkDeviceStatsDO> {
             "    AND tlds.date BETWEEN #{param.startDate} and #{param.endDate} " +
             "GROUP BY " +
             "    tl.gid, tlds.device;")
-    List<LinkDeviceStatsDO> listDeviceStatsByGroup(@Param("param") ShortLinkGroupStatsReqDTO requestParam);
+    List<LinkDeviceStatsDO> listDeviceStatsByGroup(@Param("param") ShortlinkGroupStatsReqDTO requestParam);
 }

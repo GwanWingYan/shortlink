@@ -2,10 +2,10 @@ package com.tomgrx.shortlink.admin.controller;
 
 import com.tomgrx.shortlink.admin.common.convention.result.Result;
 import com.tomgrx.shortlink.admin.common.convention.result.Results;
-import com.tomgrx.shortlink.admin.dto.req.ShortLinkGroupSaveReqDTO;
-import com.tomgrx.shortlink.admin.dto.req.ShortLinkGroupSortReqDTO;
-import com.tomgrx.shortlink.admin.dto.req.ShortLinkGroupUpdateReqDTO;
-import com.tomgrx.shortlink.admin.dto.resp.ShortLinkGroupRespDTO;
+import com.tomgrx.shortlink.admin.dto.req.ShortlinkGroupSaveReqDTO;
+import com.tomgrx.shortlink.admin.dto.req.ShortlinkGroupSortReqDTO;
+import com.tomgrx.shortlink.admin.dto.req.ShortlinkGroupUpdateReqDTO;
+import com.tomgrx.shortlink.admin.dto.resp.ShortlinkGroupRespDTO;
 import com.tomgrx.shortlink.admin.service.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +25,7 @@ public class GroupController {
      * 创建短链接分组
      */
     @PostMapping("/api/shortlink/admin/v1/group")
-    public Result<Void> save(@RequestBody ShortLinkGroupSaveReqDTO requestParam) {
+    public Result<Void> save(@RequestBody ShortlinkGroupSaveReqDTO requestParam) {
         groupService.createGroup(requestParam.getName());
         return Results.success();
     }
@@ -35,7 +35,7 @@ public class GroupController {
      * 查询短链接分组集合
      */
     @GetMapping("/api/shortlink/admin/v1/group")
-    public Result<List<ShortLinkGroupRespDTO>> listGroup() {
+    public Result<List<ShortlinkGroupRespDTO>> listGroup() {
         return Results.success(groupService.listGroup());
     }
 
@@ -43,7 +43,7 @@ public class GroupController {
      * 修改短链接分组名称
      */
     @PutMapping("/api/shortlink/admin/v1/group")
-    public Result<Void> updateGroup(@RequestBody ShortLinkGroupUpdateReqDTO requestParam) {
+    public Result<Void> updateGroup(@RequestBody ShortlinkGroupUpdateReqDTO requestParam) {
         groupService.updateGroup(requestParam);
         return Results.success();
     }
@@ -61,7 +61,7 @@ public class GroupController {
      * 排序短链接分组
      */
     @PostMapping("/api/shortlink/admin/v1/group/sort")
-    public Result<Void> sortGroup(@RequestBody List<ShortLinkGroupSortReqDTO> requestParam) {
+    public Result<Void> sortGroup(@RequestBody List<ShortlinkGroupSortReqDTO> requestParam) {
         groupService.sortGroup(requestParam);
         return Results.success();
     }

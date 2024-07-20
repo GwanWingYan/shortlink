@@ -9,9 +9,9 @@ import com.tomgrx.shortlink.admin.common.convention.exception.ServiceException;
 import com.tomgrx.shortlink.admin.common.convention.result.Result;
 import com.tomgrx.shortlink.admin.dao.entity.GroupDO;
 import com.tomgrx.shortlink.admin.dao.mapper.GroupMapper;
-import com.tomgrx.shortlink.admin.remote.ShortLinkActualRemoteService;
-import com.tomgrx.shortlink.admin.remote.dto.req.ShortLinkRecycleBinPageReqDTO;
-import com.tomgrx.shortlink.admin.remote.dto.resp.ShortLinkPageRespDTO;
+import com.tomgrx.shortlink.admin.remote.ShortlinkActualRemoteService;
+import com.tomgrx.shortlink.admin.remote.dto.req.ShortlinkRecycleBinPageReqDTO;
+import com.tomgrx.shortlink.admin.remote.dto.resp.ShortlinkPageRespDTO;
 import com.tomgrx.shortlink.admin.service.RecycleBinService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecycleBinServiceImpl implements RecycleBinService {
 
-    private final ShortLinkActualRemoteService shortLinkActualRemoteService;
+    private final ShortlinkActualRemoteService shortLinkActualRemoteService;
     private final GroupMapper groupMapper;
 
     /**
@@ -35,7 +35,7 @@ public class RecycleBinServiceImpl implements RecycleBinService {
      * @return 返回参数包装
      */
     @Override
-    public Result<Page<ShortLinkPageRespDTO>> pageRecycleBinShortLink(ShortLinkRecycleBinPageReqDTO requestParam) {
+    public Result<Page<ShortlinkPageRespDTO>> pageRecycleBinShortlink(ShortlinkRecycleBinPageReqDTO requestParam) {
         LambdaQueryWrapper<GroupDO> queryWrapper = Wrappers.lambdaQuery(GroupDO.class)
                 .eq(GroupDO::getUserName, UserContext.getUserName())
                 .eq(GroupDO::getDelFlag, 0);
@@ -44,7 +44,7 @@ public class RecycleBinServiceImpl implements RecycleBinService {
             throw new ServiceException("用户无分组信息");
         }
         requestParam.setGidList(groupDOList.stream().map(GroupDO::getGid).toList());
-        return shortLinkActualRemoteService.pageRecycleBinShortLink(
+        return shortLinkActualRemoteService.pageRecycleBinShortlink(
                 requestParam.getGidList(),
                 requestParam.getCurrent(),
                 requestParam.getSize()

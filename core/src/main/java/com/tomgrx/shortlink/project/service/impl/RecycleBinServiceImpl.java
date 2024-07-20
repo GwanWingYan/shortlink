@@ -5,13 +5,13 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.tomgrx.shortlink.project.dao.entity.ShortLinkDO;
-import com.tomgrx.shortlink.project.dao.mapper.ShortLinkMapper;
+import com.tomgrx.shortlink.project.dao.entity.ShortlinkDO;
+import com.tomgrx.shortlink.project.dao.mapper.ShortlinkMapper;
 import com.tomgrx.shortlink.project.dto.req.RecycleBinRecoverReqDTO;
 import com.tomgrx.shortlink.project.dto.req.RecycleBinRemoveReqDTO;
 import com.tomgrx.shortlink.project.dto.req.RecycleBinSaveReqDTO;
-import com.tomgrx.shortlink.project.dto.req.ShortLinkRecycleBinPageReqDTO;
-import com.tomgrx.shortlink.project.dto.resp.ShortLinkPageRespDTO;
+import com.tomgrx.shortlink.project.dto.req.ShortlinkRecycleBinPageReqDTO;
+import com.tomgrx.shortlink.project.dto.resp.ShortlinkPageRespDTO;
 import com.tomgrx.shortlink.project.service.RecycleBinService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -22,18 +22,18 @@ import static com.tomgrx.shortlink.project.common.constant.RedisKeyConstant.GOTO
 
 @Service
 @RequiredArgsConstructor
-public class RecycleBinServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLinkDO> implements RecycleBinService {
+public class RecycleBinServiceImpl extends ServiceImpl<ShortlinkMapper, ShortlinkDO> implements RecycleBinService {
 
     private final StringRedisTemplate stringRedisTemplate;
 
     @Override
     public void saveRecycleBin(RecycleBinSaveReqDTO requestParam) {
-        LambdaUpdateWrapper<ShortLinkDO> updateWrapper = Wrappers.lambdaUpdate(ShortLinkDO.class)
-                .eq(ShortLinkDO::getFullShortUrl, requestParam.getFullShortUrl())
-                .eq(ShortLinkDO::getGid, requestParam.getGid())
-                .eq(ShortLinkDO::getEnableStatus, 0)
-                .eq(ShortLinkDO::getDelFlag, 0);
-        ShortLinkDO shortLinkDO = ShortLinkDO.builder()
+        LambdaUpdateWrapper<ShortlinkDO> updateWrapper = Wrappers.lambdaUpdate(ShortlinkDO.class)
+                .eq(ShortlinkDO::getFullShortUrl, requestParam.getFullShortUrl())
+                .eq(ShortlinkDO::getGid, requestParam.getGid())
+                .eq(ShortlinkDO::getEnableStatus, 0)
+                .eq(ShortlinkDO::getDelFlag, 0);
+        ShortlinkDO shortLinkDO = ShortlinkDO.builder()
                 .enableStatus(1)
                 .build();
         baseMapper.update(shortLinkDO, updateWrapper);
@@ -41,10 +41,10 @@ public class RecycleBinServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLin
     }
 
     @Override
-    public IPage<ShortLinkPageRespDTO> pageShortLink(ShortLinkRecycleBinPageReqDTO requestParam) {
-        IPage<ShortLinkDO> resultPage = baseMapper.pageRecycleBinLink(requestParam);
+    public IPage<ShortlinkPageRespDTO> pageShortlink(ShortlinkRecycleBinPageReqDTO requestParam) {
+        IPage<ShortlinkDO> resultPage = baseMapper.pageRecycleBinLink(requestParam);
         return resultPage.convert(each -> {
-            ShortLinkPageRespDTO result = BeanUtil.toBean(each, ShortLinkPageRespDTO.class);
+            ShortlinkPageRespDTO result = BeanUtil.toBean(each, ShortlinkPageRespDTO.class);
             result.setDomain("http://" + result.getDomain());
             return result;
         });
@@ -52,12 +52,12 @@ public class RecycleBinServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLin
 
     @Override
     public void recoverRecycleBin(RecycleBinRecoverReqDTO requestParam) {
-        LambdaUpdateWrapper<ShortLinkDO> updateWrapper = Wrappers.lambdaUpdate(ShortLinkDO.class)
-                .eq(ShortLinkDO::getFullShortUrl, requestParam.getFullShortUrl())
-                .eq(ShortLinkDO::getGid, requestParam.getGid())
-                .eq(ShortLinkDO::getEnableStatus, 1)
-                .eq(ShortLinkDO::getDelFlag, 0);
-        ShortLinkDO shortLinkDO = ShortLinkDO.builder()
+        LambdaUpdateWrapper<ShortlinkDO> updateWrapper = Wrappers.lambdaUpdate(ShortlinkDO.class)
+                .eq(ShortlinkDO::getFullShortUrl, requestParam.getFullShortUrl())
+                .eq(ShortlinkDO::getGid, requestParam.getGid())
+                .eq(ShortlinkDO::getEnableStatus, 1)
+                .eq(ShortlinkDO::getDelFlag, 0);
+        ShortlinkDO shortLinkDO = ShortlinkDO.builder()
                 .enableStatus(0)
                 .build();
         baseMapper.update(shortLinkDO, updateWrapper);
@@ -66,16 +66,16 @@ public class RecycleBinServiceImpl extends ServiceImpl<ShortLinkMapper, ShortLin
 
     @Override
     public void removeRecycleBin(RecycleBinRemoveReqDTO requestParam) {
-        LambdaUpdateWrapper<ShortLinkDO> updateWrapper = Wrappers.lambdaUpdate(ShortLinkDO.class)
-                .eq(ShortLinkDO::getFullShortUrl, requestParam.getFullShortUrl())
-                .eq(ShortLinkDO::getGid, requestParam.getGid())
-                .eq(ShortLinkDO::getEnableStatus, 1)
-                .eq(ShortLinkDO::getDelTime, 0L)
-                .eq(ShortLinkDO::getDelFlag, 0);
-        ShortLinkDO delShortLinkDO = ShortLinkDO.builder()
+        LambdaUpdateWrapper<ShortlinkDO> updateWrapper = Wrappers.lambdaUpdate(ShortlinkDO.class)
+                .eq(ShortlinkDO::getFullShortUrl, requestParam.getFullShortUrl())
+                .eq(ShortlinkDO::getGid, requestParam.getGid())
+                .eq(ShortlinkDO::getEnableStatus, 1)
+                .eq(ShortlinkDO::getDelTime, 0L)
+                .eq(ShortlinkDO::getDelFlag, 0);
+        ShortlinkDO delShortlinkDO = ShortlinkDO.builder()
                 .delTime(System.currentTimeMillis())
                 .build();
-        delShortLinkDO.setDelFlag(1);
-        baseMapper.update(delShortLinkDO, updateWrapper);
+        delShortlinkDO.setDelFlag(1);
+        baseMapper.update(delShortlinkDO, updateWrapper);
     }
 }

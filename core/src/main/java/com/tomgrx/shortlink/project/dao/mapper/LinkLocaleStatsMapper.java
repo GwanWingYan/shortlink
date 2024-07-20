@@ -2,8 +2,8 @@ package com.tomgrx.shortlink.project.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tomgrx.shortlink.project.dao.entity.LinkLocaleStatsDO;
-import com.tomgrx.shortlink.project.dto.req.ShortLinkGroupStatsReqDTO;
-import com.tomgrx.shortlink.project.dto.req.ShortLinkStatsReqDTO;
+import com.tomgrx.shortlink.project.dto.req.ShortlinkGroupStatsReqDTO;
+import com.tomgrx.shortlink.project.dto.req.ShortlinkStatsReqDTO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -41,7 +41,7 @@ public interface LinkLocaleStatsMapper extends BaseMapper<LinkLocaleStatsDO> {
             "    AND tlls.date BETWEEN #{param.startDate} and #{param.endDate} " +
             "GROUP BY " +
             "    tlls.full_short_url, tl.gid, tlls.province;")
-    List<LinkLocaleStatsDO> listLocaleByShortLink(@Param("param") ShortLinkStatsReqDTO requestParam);
+    List<LinkLocaleStatsDO> listLocaleByShortlink(@Param("param") ShortlinkStatsReqDTO requestParam);
 
     /**
      * 根据分组获取指定日期内地区监控数据
@@ -59,5 +59,5 @@ public interface LinkLocaleStatsMapper extends BaseMapper<LinkLocaleStatsDO> {
             "    AND tlls.date BETWEEN #{param.startDate} and #{param.endDate} " +
             "GROUP BY " +
             "    tl.gid, tlls.province;")
-    List<LinkLocaleStatsDO> listLocaleByGroup(@Param("param") ShortLinkGroupStatsReqDTO requestParam);
+    List<LinkLocaleStatsDO> listLocaleByGroup(@Param("param") ShortlinkGroupStatsReqDTO requestParam);
 }

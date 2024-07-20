@@ -3,12 +3,12 @@ package com.tomgrx.shortlink.admin.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tomgrx.shortlink.admin.common.convention.result.Result;
 import com.tomgrx.shortlink.admin.common.convention.result.Results;
-import com.tomgrx.shortlink.admin.remote.ShortLinkActualRemoteService;
+import com.tomgrx.shortlink.admin.remote.ShortlinkActualRemoteService;
 import com.tomgrx.shortlink.admin.remote.dto.req.RecycleBinRecoverReqDTO;
 import com.tomgrx.shortlink.admin.remote.dto.req.RecycleBinRemoveReqDTO;
 import com.tomgrx.shortlink.admin.remote.dto.req.RecycleBinSaveReqDTO;
-import com.tomgrx.shortlink.admin.remote.dto.req.ShortLinkRecycleBinPageReqDTO;
-import com.tomgrx.shortlink.admin.remote.dto.resp.ShortLinkPageRespDTO;
+import com.tomgrx.shortlink.admin.remote.dto.req.ShortlinkRecycleBinPageReqDTO;
+import com.tomgrx.shortlink.admin.remote.dto.resp.ShortlinkPageRespDTO;
 import com.tomgrx.shortlink.admin.service.RecycleBinService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +25,7 @@ public class RecycleBinController {
 
     private final RecycleBinService recycleBinService;
 
-    private final ShortLinkActualRemoteService shortLinkActualRemoteService;
+    private final ShortlinkActualRemoteService shortLinkActualRemoteService;
 
     /**
      * 保存回收站
@@ -40,8 +40,8 @@ public class RecycleBinController {
      * 分页查询回收站短链接
      */
     @GetMapping("/api/shortlink/admin/v1/recycle-bin/page")
-    public Result<Page<ShortLinkPageRespDTO>> pageRecycleBinShortLink(ShortLinkRecycleBinPageReqDTO requestParam) {
-        return recycleBinService.pageRecycleBinShortLink(requestParam);
+    public Result<Page<ShortlinkPageRespDTO>> pageRecycleBinShortlink(ShortlinkRecycleBinPageReqDTO requestParam) {
+        return recycleBinService.pageRecycleBinShortlink(requestParam);
     }
 
     /**

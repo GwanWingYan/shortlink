@@ -2,8 +2,8 @@ package com.tomgrx.shortlink.project.dao.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tomgrx.shortlink.project.dao.entity.LinkOsStatsDO;
-import com.tomgrx.shortlink.project.dto.req.ShortLinkGroupStatsReqDTO;
-import com.tomgrx.shortlink.project.dto.req.ShortLinkStatsReqDTO;
+import com.tomgrx.shortlink.project.dto.req.ShortlinkGroupStatsReqDTO;
+import com.tomgrx.shortlink.project.dto.req.ShortlinkStatsReqDTO;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -42,7 +42,7 @@ public interface LinkOsStatsMapper extends BaseMapper<LinkOsStatsDO> {
             "    AND tlos.date BETWEEN #{param.startDate} and #{param.endDate} " +
             "GROUP BY " +
             "    tlos.full_short_url, tl.gid, tlos.os;")
-    List<HashMap<String, Object>> listOsStatsByShortLink(@Param("param") ShortLinkStatsReqDTO requestParam);
+    List<HashMap<String, Object>> listOsStatsByShortlink(@Param("param") ShortlinkStatsReqDTO requestParam);
 
     /**
      * 根据分组获取指定日期内操作系统监控数据
@@ -60,5 +60,5 @@ public interface LinkOsStatsMapper extends BaseMapper<LinkOsStatsDO> {
             "    AND tlos.date BETWEEN #{param.startDate} and #{param.endDate} " +
             "GROUP BY " +
             "    tl.gid, tlos.os;")
-    List<HashMap<String, Object>> listOsStatsByGroup(@Param("param") ShortLinkGroupStatsReqDTO requestParam);
+    List<HashMap<String, Object>> listOsStatsByGroup(@Param("param") ShortlinkGroupStatsReqDTO requestParam);
 }

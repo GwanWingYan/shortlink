@@ -1,6 +1,6 @@
 package com.tomgrx.shortlink.project.config;
 
-import com.tomgrx.shortlink.project.mq.consumer.ShortLinkStatsSaveConsumer;
+import com.tomgrx.shortlink.project.mq.consumer.ShortlinkStatsSaveConsumer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,7 +29,7 @@ import static com.tomgrx.shortlink.project.common.constant.RedisKeyConstant.SHOR
 public class RedisStreamConfiguration {
 
     private final RedisConnectionFactory redisConnectionFactory;
-    private final ShortLinkStatsSaveConsumer shortLinkStatsSaveConsumer;
+    private final ShortlinkStatsSaveConsumer shortLinkStatsSaveConsumer;
 
     @Bean
     public ExecutorService asyncStreamConsumer() {

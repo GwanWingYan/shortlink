@@ -1,9 +1,9 @@
 package com.tomgrx.shortlink.project.mq.consumer;
 
 import com.tomgrx.shortlink.project.common.convention.exception.ServiceException;
-import com.tomgrx.shortlink.project.dto.biz.ShortLinkStatsRecordDTO;
+import com.tomgrx.shortlink.project.dto.biz.ShortlinkStatsRecordDTO;
 import com.tomgrx.shortlink.project.mq.idempotent.MessageQueueIdempotentHandler;
-import com.tomgrx.shortlink.project.service.ShortLinkService;
+import com.tomgrx.shortlink.project.service.ShortlinkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBlockingDeque;
@@ -24,10 +24,10 @@ import static com.tomgrx.shortlink.project.common.constant.RedisKeyConstant.DELA
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DelayShortLinkStatsConsumer implements InitializingBean {
+public class DelayShortlinkStatsConsumer implements InitializingBean {
 
     private final RedissonClient redissonClient;
-    private final ShortLinkService shortLinkService;
+    private final ShortlinkService shortLinkService;
     private final MessageQueueIdempotentHandler messageQueueIdempotentHandler;
 
     public void onMessage() {
@@ -39,11 +39,11 @@ public class DelayShortLinkStatsConsumer implements InitializingBean {
                             return thread;
                         })
                 .execute(() -> {
-                    RBlockingDeque<ShortLinkStatsRecordDTO> blockingDeque = redissonClient.getBlockingDeque(DELAY_QUEUE_STATS_KEY);
-                    RDelayedQueue<ShortLinkStatsRecordDTO> delayedQueue = redissonClient.getDelayedQueue(blockingDeque);
+                    RBlockingDeque<ShortlinkStatsRecordDTO> blockingDeque = redissonClient.getBlockingDeque(DELAY_QUEUE_STATS_KEY);
+                    RDelayedQueue<ShortlinkStatsRecordDTO> delayedQueue = redissonClient.getDelayedQueue(blockingDeque);
                     for (; ; ) {
                         try {
-                            ShortLinkStatsRecordDTO statsRecord = delayedQueue.poll();
+                            ShortlinkStatsRecordDTO statsRecord = delayedQueue.poll();
                             if (statsRecord != null) {
                                 if (messageQueueIdempotentHandler.isMessageBeingConsumed(statsRecord.getKeys())) {
                                     // 判断当前的这个消息流程是否执行完成

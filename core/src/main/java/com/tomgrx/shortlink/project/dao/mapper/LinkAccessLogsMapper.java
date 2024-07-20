@@ -4,9 +4,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tomgrx.shortlink.project.dao.entity.LinkAccessLogsDO;
 import com.tomgrx.shortlink.project.dao.entity.LinkAccessStatsDO;
-import com.tomgrx.shortlink.project.dto.req.ShortLinkGroupStatsAccessRecordReqDTO;
-import com.tomgrx.shortlink.project.dto.req.ShortLinkGroupStatsReqDTO;
-import com.tomgrx.shortlink.project.dto.req.ShortLinkStatsReqDTO;
+import com.tomgrx.shortlink.project.dto.req.ShortlinkGroupStatsAccessRecordReqDTO;
+import com.tomgrx.shortlink.project.dto.req.ShortlinkGroupStatsReqDTO;
+import com.tomgrx.shortlink.project.dto.req.ShortlinkStatsReqDTO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -39,7 +39,7 @@ public interface LinkAccessLogsMapper extends BaseMapper<LinkAccessLogsDO> {
             "ORDER BY " +
             "    count DESC " +
             "LIMIT 5;")
-    List<HashMap<String, Object>> listTopIpByShortLink(@Param("param") ShortLinkStatsReqDTO requestParam);
+    List<HashMap<String, Object>> listTopIpByShortlink(@Param("param") ShortlinkStatsReqDTO requestParam);
 
     /**
      * 根据分组获取指定日期内高频访问IP数据
@@ -60,7 +60,7 @@ public interface LinkAccessLogsMapper extends BaseMapper<LinkAccessLogsDO> {
             "ORDER BY " +
             "    count DESC " +
             "LIMIT 5;")
-    List<HashMap<String, Object>> listTopIpByGroup(@Param("param") ShortLinkGroupStatsReqDTO requestParam);
+    List<HashMap<String, Object>> listTopIpByGroup(@Param("param") ShortlinkGroupStatsReqDTO requestParam);
 
     /**
      * 根据短链接获取指定日期内新旧访客数据
@@ -83,7 +83,7 @@ public interface LinkAccessLogsMapper extends BaseMapper<LinkAccessLogsDO> {
             "    GROUP BY " +
             "        tlal.user " +
             ") AS user_counts;")
-    HashMap<String, Object> findUvTypeCntByShortLink(@Param("param") ShortLinkStatsReqDTO requestParam);
+    HashMap<String, Object> findUvTypeCntByShortlink(@Param("param") ShortlinkStatsReqDTO requestParam);
 
     /**
      * 获取用户信息是否新老访客
@@ -168,7 +168,7 @@ public interface LinkAccessLogsMapper extends BaseMapper<LinkAccessLogsDO> {
             "    AND tlal.create_time BETWEEN #{param.startDate} and #{param.endDate} " +
             "GROUP BY " +
             "    tlal.full_short_url, tl.gid;")
-    LinkAccessStatsDO findPvUvUidStatsByShortLink(@Param("param") ShortLinkStatsReqDTO requestParam);
+    LinkAccessStatsDO findPvUvUidStatsByShortlink(@Param("param") ShortlinkStatsReqDTO requestParam);
 
     /**
      * 根据分组获取指定日期内PV、UV、UIP数据
@@ -187,7 +187,7 @@ public interface LinkAccessLogsMapper extends BaseMapper<LinkAccessLogsDO> {
             "    AND tlal.create_time BETWEEN #{param.startDate} and #{param.endDate} " +
             "GROUP BY " +
             "    tl.gid;")
-    LinkAccessStatsDO findPvUvUidStatsByGroup(@Param("param") ShortLinkGroupStatsReqDTO requestParam);
+    LinkAccessStatsDO findPvUvUidStatsByGroup(@Param("param") ShortlinkGroupStatsReqDTO requestParam);
 
     @Select("SELECT " +
             "    tlal.* " +
@@ -201,5 +201,5 @@ public interface LinkAccessLogsMapper extends BaseMapper<LinkAccessLogsDO> {
             "    AND tlal.create_time BETWEEN #{param.startDate} and #{param.endDate} " +
             "ORDER BY " +
             "    tlal.create_time DESC")
-    IPage<LinkAccessLogsDO> selectGroupPage(@Param("param") ShortLinkGroupStatsAccessRecordReqDTO requestParam);
+    IPage<LinkAccessLogsDO> selectGroupPage(@Param("param") ShortlinkGroupStatsAccessRecordReqDTO requestParam);
 }

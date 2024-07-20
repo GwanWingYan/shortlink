@@ -37,7 +37,7 @@
           </elementProp>
           <stringProp name="HTTPSampler.domain">localhost</stringProp>
           <stringProp name="HTTPSampler.port">8001</stringProp>
-          <stringProp name="HTTPSampler.path">/api/short-link/v1/create</stringProp>
+          <stringProp name="HTTPSampler.path">/api/shortlink/v1/create</stringProp>
           <stringProp name="HTTPSampler.method">POST</stringProp>
           <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
           <boolProp name="HTTPSampler.use_keepalive">true</boolProp>

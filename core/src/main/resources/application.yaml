@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: short-link-core
+    name: shortlink-core
   datasource:
     driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
     url: jdbc:shardingsphere:classpath:shardingsphere-config-${database.env:dev}.yaml
@@ -21,7 +21,7 @@ spring:
       discovery:
         server-addr: 127.0.0.1:8848
 
-short-link:
+shortlink:
   domain:
     default: nurl.ink:8001
   stats:

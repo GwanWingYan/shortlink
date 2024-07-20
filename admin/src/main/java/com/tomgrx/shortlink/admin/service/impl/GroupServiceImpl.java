@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.tomgrx.shortlink.admin.common.constant.RedisCacheConstant.LOCK_GROUP_CREATE_KEY;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.LOCK_CREATE_GROUP_KEY;
 
 /**
  * 短链接分组接口实现层
@@ -46,7 +46,7 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
 
     private final RBloomFilter<String> gidBloomFilter;
     private final GroupUniqueMapper groupUniqueMapper;
-    private final ShortlinkActualRemoteService shortLinkActualRemoteService;
+    private final ShortlinkActualRemoteService shortlinkActualRemoteService;
     private final RedissonClient redissonClient;
 
     @Value("${shortlink.group.max-num}")
@@ -74,7 +74,7 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
     @Override
     public void createGroup(String userName, String groupName) {
         // 使用 Redis 分布式锁保证同一分组不被重复创建
-        RLock lock = redissonClient.getLock(String.format(LOCK_GROUP_CREATE_KEY, userName));
+        RLock lock = redissonClient.getLock(LOCK_CREATE_GROUP_KEY + userName);
         lock.lock();
         try {
             // 拒绝分组数已达上限的用户创建分组
@@ -116,7 +116,7 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
         List<GroupDO> groupDOList = baseMapper.selectList(queryWrapper);
 
         // 查询各个分组的短链接数量
-        Result<List<ShortlinkGroupCountQueryRespDTO>> groupShortlinkCountList = shortLinkActualRemoteService
+        Result<List<ShortlinkGroupCountQueryRespDTO>> groupShortlinkCountList = shortlinkActualRemoteService
                 .listGroupShortlinkCount(groupDOList.stream().map(GroupDO::getGid).toList());
 
         // 将各分组短链接数量加入到返回结果中

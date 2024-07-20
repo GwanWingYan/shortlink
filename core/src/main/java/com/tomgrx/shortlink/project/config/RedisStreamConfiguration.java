@@ -18,8 +18,8 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.tomgrx.shortlink.project.common.constant.RedisKeyConstant.SHORT_LINK_STATS_STREAM_GROUP_KEY;
-import static com.tomgrx.shortlink.project.common.constant.RedisKeyConstant.SHORT_LINK_STATS_STREAM_TOPIC_KEY;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.STATS_STREAM_GROUP_KEY;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.STATS_STREAM_TOPIC_KEY;
 
 /**
  * Redis Stream 消息队列配置
@@ -29,7 +29,7 @@ import static com.tomgrx.shortlink.project.common.constant.RedisKeyConstant.SHOR
 public class RedisStreamConfiguration {
 
     private final RedisConnectionFactory redisConnectionFactory;
-    private final ShortlinkStatsSaveConsumer shortLinkStatsSaveConsumer;
+    private final ShortlinkStatsSaveConsumer shortlinkStatsSaveConsumer;
 
     @Bean
     public ExecutorService asyncStreamConsumer() {
@@ -63,8 +63,8 @@ public class RedisStreamConfiguration {
                         .build();
         StreamMessageListenerContainer<String, MapRecord<String, String, String>> streamMessageListenerContainer =
                 StreamMessageListenerContainer.create(redisConnectionFactory, options);
-        streamMessageListenerContainer.receiveAutoAck(Consumer.from(SHORT_LINK_STATS_STREAM_GROUP_KEY, "stats-consumer"),
-                StreamOffset.create(SHORT_LINK_STATS_STREAM_TOPIC_KEY, ReadOffset.lastConsumed()), shortLinkStatsSaveConsumer);
+        streamMessageListenerContainer.receiveAutoAck(Consumer.from(STATS_STREAM_GROUP_KEY, "stats-consumer"),
+                StreamOffset.create(STATS_STREAM_TOPIC_KEY, ReadOffset.lastConsumed()), shortlinkStatsSaveConsumer);
         return streamMessageListenerContainer;
     }
 }

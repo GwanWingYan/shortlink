@@ -35,8 +35,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import static com.tomgrx.shortlink.admin.common.constant.RedisCacheConstant.LOCK_USER_REGISTER_KEY;
-import static com.tomgrx.shortlink.admin.common.constant.RedisCacheConstant.USER_LOGIN_KEY;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.LOCK_CREATE_USER_KEY;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.LOGIN_KEY;
 import static com.tomgrx.shortlink.admin.common.enums.UserErrorCodeEnum.*;
 
 /**
@@ -75,7 +75,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         if (!hasUsername(requestParam.getUserName())) {
             throw new ClientException(USER_NAME_EXIST);
         }
-        RLock lock = redissonClient.getLock(LOCK_USER_REGISTER_KEY + requestParam.getUserName());
+        RLock lock = redissonClient.getLock(LOCK_CREATE_USER_KEY + requestParam.getUserName());
         if (!lock.tryLock()) {
             throw new ClientException(USER_NAME_EXIST);
         }
@@ -113,9 +113,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         if (userDO == null) {
             throw new ClientException("用户不存在");
         }
-        Map<Object, Object> hasLoginMap = stringRedisTemplate.opsForHash().entries(USER_LOGIN_KEY + requestParam.getUserName());
+        Map<Object, Object> hasLoginMap = stringRedisTemplate.opsForHash().entries(LOGIN_KEY + requestParam.getUserName());
         if (CollUtil.isNotEmpty(hasLoginMap)) {
-            stringRedisTemplate.expire(USER_LOGIN_KEY + requestParam.getUserName(), 30L, TimeUnit.MINUTES);
+            stringRedisTemplate.expire(LOGIN_KEY + requestParam.getUserName(), 30L, TimeUnit.MINUTES);
             String token = hasLoginMap.keySet().stream()
                     .findFirst()
                     .map(Object::toString)
@@ -130,20 +130,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
          *  Val：JSON 字符串（用户信息）
          */
         String uuid = UUID.randomUUID().toString();
-        stringRedisTemplate.opsForHash().put(USER_LOGIN_KEY + requestParam.getUserName(), uuid, JSON.toJSONString(userDO));
-        stringRedisTemplate.expire(USER_LOGIN_KEY + requestParam.getUserName(), 30L, TimeUnit.MINUTES);
+        stringRedisTemplate.opsForHash().put(LOGIN_KEY + requestParam.getUserName(), uuid, JSON.toJSONString(userDO));
+        stringRedisTemplate.expire(LOGIN_KEY + requestParam.getUserName(), 30L, TimeUnit.MINUTES);
         return new UserLoginRespDTO(uuid);
     }
 
     @Override
     public Boolean checkLogin(String userName, String token) {
-        return stringRedisTemplate.opsForHash().get(USER_LOGIN_KEY + userName, token) != null;
+        return stringRedisTemplate.opsForHash().get(LOGIN_KEY + userName, token) != null;
     }
 
     @Override
     public void logout(String userName, String token) {
         if (checkLogin(userName, token)) {
-            stringRedisTemplate.delete(USER_LOGIN_KEY + userName);
+            stringRedisTemplate.delete(LOGIN_KEY + userName);
             return;
         }
         throw new ClientException("用户Token不存在或用户未登录");

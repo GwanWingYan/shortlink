@@ -20,18 +20,18 @@ import java.util.List;
 /**
  * 短链接管理控制层
  */
-@RestController(value = "shortLinkControllerByAdmin")
+@RestController(value = "shortlinkControllerByAdmin")
 @RequiredArgsConstructor
 public class ShortlinkController {
 
-    private final ShortlinkActualRemoteService shortLinkActualRemoteService;
+    private final ShortlinkActualRemoteService shortlinkActualRemoteService;
 
     /**
      * 创建短链接
      */
     @PostMapping("/api/shortlink/admin/v1/create")
     public Result<ShortlinkCreateRespDTO> createShortlink(@RequestBody ShortlinkCreateReqDTO requestParam) {
-        return shortLinkActualRemoteService.createShortlink(requestParam);
+        return shortlinkActualRemoteService.createShortlink(requestParam);
     }
 
     /**
@@ -40,9 +40,9 @@ public class ShortlinkController {
     @SneakyThrows
     @PostMapping("/api/shortlink/admin/v1/create/batch")
     public void batchCreateShortlink(@RequestBody ShortlinkBatchCreateReqDTO requestParam, HttpServletResponse response) {
-        Result<ShortlinkBatchCreateRespDTO> shortLinkBatchCreateRespDTOResult = shortLinkActualRemoteService.batchCreateShortlink(requestParam);
-        if (shortLinkBatchCreateRespDTOResult.isSuccess()) {
-            List<ShortlinkBaseInfoRespDTO> baseLinkInfos = shortLinkBatchCreateRespDTOResult.getData().getBaseLinkInfos();
+        Result<ShortlinkBatchCreateRespDTO> shortlinkBatchCreateRespDTOResult = shortlinkActualRemoteService.batchCreateShortlink(requestParam);
+        if (shortlinkBatchCreateRespDTOResult.isSuccess()) {
+            List<ShortlinkBaseInfoRespDTO> baseLinkInfos = shortlinkBatchCreateRespDTOResult.getData().getBaseLinkInfos();
             EasyExcelWebUtil.write(response, "批量创建短链接结果", ShortlinkBaseInfoRespDTO.class, baseLinkInfos);
         }
     }
@@ -52,7 +52,7 @@ public class ShortlinkController {
      */
     @PostMapping("/api/shortlink/admin/v1/update")
     public Result<Void> updateShortlink(@RequestBody ShortlinkUpdateReqDTO requestParam) {
-        shortLinkActualRemoteService.updateShortlink(requestParam);
+        shortlinkActualRemoteService.updateShortlink(requestParam);
         return Results.success(null);
     }
 
@@ -61,6 +61,6 @@ public class ShortlinkController {
      */
     @GetMapping("/api/shortlink/admin/v1/page")
     public Result<Page<ShortlinkPageRespDTO>> pageShortlink(ShortlinkPageReqDTO requestParam) {
-        return shortLinkActualRemoteService.pageShortlink(requestParam.getGid(), requestParam.getOrderTag(), requestParam.getCurrent(), requestParam.getSize());
+        return shortlinkActualRemoteService.pageShortlink(requestParam.getGid(), requestParam.getOrderTag(), requestParam.getCurrent(), requestParam.getSize());
     }
 }

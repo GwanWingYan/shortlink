@@ -25,14 +25,14 @@ public class RecycleBinController {
 
     private final RecycleBinService recycleBinService;
 
-    private final ShortlinkActualRemoteService shortLinkActualRemoteService;
+    private final ShortlinkActualRemoteService shortlinkActualRemoteService;
 
     /**
      * 保存回收站
      */
     @PostMapping("/api/shortlink/admin/v1/recycle-bin/save")
     public Result<Void> saveRecycleBin(@RequestBody RecycleBinSaveReqDTO requestParam) {
-        shortLinkActualRemoteService.saveRecycleBin(requestParam);
+        shortlinkActualRemoteService.saveRecycleBin(requestParam);
         return Results.success();
     }
 
@@ -49,7 +49,7 @@ public class RecycleBinController {
      */
     @PostMapping("/api/shortlink/admin/v1/recycle-bin/recover")
     public Result<Void> recoverRecycleBin(@RequestBody RecycleBinRecoverReqDTO requestParam) {
-        shortLinkActualRemoteService.recoverRecycleBin(requestParam);
+        shortlinkActualRemoteService.recoverRecycleBin(requestParam);
         return Results.success();
     }
 
@@ -58,7 +58,7 @@ public class RecycleBinController {
      */
     @PostMapping("/api/shortlink/admin/v1/recycle-bin/remove")
     public Result<Void> removeRecycleBin(@RequestBody RecycleBinRemoveReqDTO requestParam) {
-        shortLinkActualRemoteService.removeRecycleBin(requestParam);
+        shortlinkActualRemoteService.removeRecycleBin(requestParam);
         return Results.success();
     }
 }

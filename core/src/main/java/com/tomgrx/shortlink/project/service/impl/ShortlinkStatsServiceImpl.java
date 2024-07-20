@@ -415,7 +415,7 @@ public class ShortlinkStatsServiceImpl implements ShortlinkStatsService {
     }
 
     @Override
-    public IPage<ShortlinkStatsAccessRecordRespDTO> shortLinkStatsAccessRecord(ShortlinkStatsAccessRecordReqDTO requestParam) {
+    public IPage<ShortlinkStatsAccessRecordRespDTO> shortlinkStatsAccessRecord(ShortlinkStatsAccessRecordReqDTO requestParam) {
         checkGroupBelongToUser(requestParam.getGid());
 
         LambdaQueryWrapper<LinkAccessLogsDO> queryWrapper = Wrappers.lambdaQuery(LinkAccessLogsDO.class)

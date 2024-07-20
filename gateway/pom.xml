@@ -42,6 +42,12 @@
             <groupId>com.alibaba.fastjson2</groupId>
             <artifactId>fastjson2</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.tomgrx.shortlink</groupId>
+            <artifactId>shortlink-constant</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

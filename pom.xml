@@ -13,6 +13,7 @@
         <module>admin</module>
         <module>core</module>
         <module>gateway</module>
+        <module>constant</module>
     </modules>
 
     <properties>

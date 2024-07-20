@@ -30,5 +30,5 @@ public class ShortlinkGroupRespDTO {
     /**
      * 分组短链接数量
      */
-    private Integer shortLinkCount;
+    private Integer shortlinkCount;
 }

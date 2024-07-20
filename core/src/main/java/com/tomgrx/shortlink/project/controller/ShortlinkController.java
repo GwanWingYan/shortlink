@@ -29,14 +29,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ShortlinkController {
 
-    private final ShortlinkService shortLinkService;
+    private final ShortlinkService shortlinkService;
 
     /**
      * 短链接跳转原始链接
      */
     @GetMapping("/{short-uri}")
     public void restoreUrl(@PathVariable("short-uri") String shortUri, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        shortLinkService.restoreUrl(shortUri, request, response);
+        shortlinkService.restoreUrl(shortUri, request, response);
     }
 
     /**
@@ -49,7 +49,7 @@ public class ShortlinkController {
             blockHandlerClass = CustomBlockHandler.class
     )
     public Result<ShortlinkCreateRespDTO> createShortlink(@RequestBody ShortlinkCreateReqDTO requestParam) {
-        return Results.success(shortLinkService.createShortlink(requestParam));
+        return Results.success(shortlinkService.createShortlink(requestParam));
     }
 
     /**
@@ -57,7 +57,7 @@ public class ShortlinkController {
      */
     @PostMapping("/api/shortlink/v1/create/by-lock")
     public Result<ShortlinkCreateRespDTO> createShortlinkByLock(@RequestBody ShortlinkCreateReqDTO requestParam) {
-        return Results.success(shortLinkService.createShortlinkByLock(requestParam));
+        return Results.success(shortlinkService.createShortlinkByLock(requestParam));
     }
 
     /**
@@ -65,7 +65,7 @@ public class ShortlinkController {
      */
     @PostMapping("/api/shortlink/v1/create/batch")
     public Result<ShortlinkBatchCreateRespDTO> batchCreateShortlink(@RequestBody ShortlinkBatchCreateReqDTO requestParam) {
-        return Results.success(shortLinkService.batchCreateShortlink(requestParam));
+        return Results.success(shortlinkService.batchCreateShortlink(requestParam));
     }
 
     /**
@@ -73,7 +73,7 @@ public class ShortlinkController {
      */
     @PostMapping("/api/shortlink/v1/update")
     public Result<Void> updateShortlink(@RequestBody ShortlinkUpdateReqDTO requestParam) {
-        shortLinkService.updateShortlink(requestParam);
+        shortlinkService.updateShortlink(requestParam);
         return Results.success(null);
     }
 
@@ -82,7 +82,7 @@ public class ShortlinkController {
      */
     @GetMapping("/api/shortlink/v1/page")
     public Result<IPage<ShortlinkPageRespDTO>> pageShortlink(ShortlinkPageReqDTO requestParam) {
-        return Results.success(shortLinkService.pageShortlink(requestParam));
+        return Results.success(shortlinkService.pageShortlink(requestParam));
     }
 
     /**
@@ -91,6 +91,6 @@ public class ShortlinkController {
      */
     @GetMapping("/api/shortlink/v1/count")
     public Result<List<ShortlinkGroupCountQueryRespDTO>> listGroupShortlinkCount(@RequestParam("requestParam") List<String> requestParam) {
-        return Results.success(shortLinkService.listGroupShortlinkCount(requestParam));
+        return Results.success(shortlinkService.listGroupShortlinkCount(requestParam));
     }
 }

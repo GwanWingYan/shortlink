@@ -22,7 +22,7 @@ public interface LinkNetworkStatsMapper extends BaseMapper<LinkNetworkStatsDO> {
             "t_link_network_stats (full_short_url, date, cnt, network, create_time, update_time, del_flag) " +
             "VALUES( #{linkNetworkStats.fullShortUrl}, #{linkNetworkStats.date}, #{linkNetworkStats.cnt}, #{linkNetworkStats.network}, NOW(), NOW(), 0) " +
             "ON DUPLICATE KEY UPDATE cnt = cnt +  #{linkNetworkStats.cnt};")
-    void shortLinkNetworkStats(@Param("linkNetworkStats") LinkNetworkStatsDO linkNetworkStatsDO);
+    void shortlinkNetworkStats(@Param("linkNetworkStats") LinkNetworkStatsDO linkNetworkStatsDO);
 
     /**
      * 根据短链接获取指定日期内访问网络监控数据

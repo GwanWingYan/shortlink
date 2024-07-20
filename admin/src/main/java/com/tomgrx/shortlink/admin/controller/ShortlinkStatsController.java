@@ -16,18 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 短链接监控控制层
  */
-@RestController(value = "shortLinkStatsControllerByAdmin")
+@RestController(value = "shortlinkStatsControllerByAdmin")
 @RequiredArgsConstructor
 public class ShortlinkStatsController {
 
-    private final ShortlinkActualRemoteService shortLinkActualRemoteService;
+    private final ShortlinkActualRemoteService shortlinkActualRemoteService;
 
     /**
      * 访问单个短链接指定时间内监控数据
      */
     @GetMapping("/api/shortlink/admin/v1/stats")
-    public Result<ShortlinkStatsRespDTO> shortLinkStats(ShortlinkStatsReqDTO requestParam) {
-        return shortLinkActualRemoteService.oneShortlinkStats(
+    public Result<ShortlinkStatsRespDTO> shortlinkStats(ShortlinkStatsReqDTO requestParam) {
+        return shortlinkActualRemoteService.oneShortlinkStats(
                 requestParam.getFullShortUrl(),
                 requestParam.getGid(),
                 requestParam.getEnableStatus(),
@@ -41,7 +41,7 @@ public class ShortlinkStatsController {
      */
     @GetMapping("/api/shortlink/admin/v1/stats/group")
     public Result<ShortlinkStatsRespDTO> groupShortlinkStats(ShortlinkGroupStatsReqDTO requestParam) {
-        return shortLinkActualRemoteService.groupShortlinkStats(
+        return shortlinkActualRemoteService.groupShortlinkStats(
                 requestParam.getGid(),
                 requestParam.getStartDate(),
                 requestParam.getEndDate()
@@ -52,8 +52,8 @@ public class ShortlinkStatsController {
      * 访问单个短链接指定时间内访问记录监控数据
      */
     @GetMapping("/api/shortlink/admin/v1/stats/access-record")
-    public Result<Page<ShortlinkStatsAccessRecordRespDTO>> shortLinkStatsAccessRecord(ShortlinkStatsAccessRecordReqDTO requestParam) {
-        return shortLinkActualRemoteService.shortLinkStatsAccessRecord(
+    public Result<Page<ShortlinkStatsAccessRecordRespDTO>> shortlinkStatsAccessRecord(ShortlinkStatsAccessRecordReqDTO requestParam) {
+        return shortlinkActualRemoteService.shortlinkStatsAccessRecord(
                 requestParam.getFullShortUrl(),
                 requestParam.getGid(),
                 requestParam.getStartDate(),
@@ -69,7 +69,7 @@ public class ShortlinkStatsController {
      */
     @GetMapping("/api/shortlink/admin/v1/stats/access-record/group")
     public Result<Page<ShortlinkStatsAccessRecordRespDTO>> groupShortlinkStatsAccessRecord(ShortlinkGroupStatsAccessRecordReqDTO requestParam) {
-        return shortLinkActualRemoteService.groupShortlinkStatsAccessRecord(
+        return shortlinkActualRemoteService.groupShortlinkStatsAccessRecord(
                 requestParam.getGid(),
                 requestParam.getStartDate(),
                 requestParam.getEndDate(),

@@ -17,8 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import static com.tomgrx.shortlink.project.common.constant.RedisKeyConstant.GOTO_IS_NULL_SHORT_LINK_KEY;
-import static com.tomgrx.shortlink.project.common.constant.RedisKeyConstant.GOTO_SHORT_LINK_KEY;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.GOTO_IS_NULL_KEY;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.GOTO_KEY;
 
 @Service
 @RequiredArgsConstructor
@@ -33,11 +33,11 @@ public class RecycleBinServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlin
                 .eq(ShortlinkDO::getGid, requestParam.getGid())
                 .eq(ShortlinkDO::getEnableStatus, 0)
                 .eq(ShortlinkDO::getDelFlag, 0);
-        ShortlinkDO shortLinkDO = ShortlinkDO.builder()
+        ShortlinkDO shortlinkDO = ShortlinkDO.builder()
                 .enableStatus(1)
                 .build();
-        baseMapper.update(shortLinkDO, updateWrapper);
-        stringRedisTemplate.delete(String.format(GOTO_SHORT_LINK_KEY, requestParam.getFullShortUrl()));
+        baseMapper.update(shortlinkDO, updateWrapper);
+        stringRedisTemplate.delete(GOTO_KEY + requestParam.getFullShortUrl());
     }
 
     @Override
@@ -57,11 +57,11 @@ public class RecycleBinServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlin
                 .eq(ShortlinkDO::getGid, requestParam.getGid())
                 .eq(ShortlinkDO::getEnableStatus, 1)
                 .eq(ShortlinkDO::getDelFlag, 0);
-        ShortlinkDO shortLinkDO = ShortlinkDO.builder()
+        ShortlinkDO shortlinkDO = ShortlinkDO.builder()
                 .enableStatus(0)
                 .build();
-        baseMapper.update(shortLinkDO, updateWrapper);
-        stringRedisTemplate.delete(String.format(GOTO_IS_NULL_SHORT_LINK_KEY, requestParam.getFullShortUrl()));
+        baseMapper.update(shortlinkDO, updateWrapper);
+        stringRedisTemplate.delete(GOTO_IS_NULL_KEY + requestParam.getFullShortUrl());
     }
 
     @Override

@@ -170,7 +170,7 @@ public interface ShortlinkActualRemoteService {
      * @return 短链接监控访问记录信息
      */
     @GetMapping("/api/shortlink/v1/stats/access-record")
-    Result<Page<ShortlinkStatsAccessRecordRespDTO>> shortLinkStatsAccessRecord(@RequestParam("fullShortUrl") String fullShortUrl,
+    Result<Page<ShortlinkStatsAccessRecordRespDTO>> shortlinkStatsAccessRecord(@RequestParam("fullShortUrl") String fullShortUrl,
                                                                                @RequestParam("gid") String gid,
                                                                                @RequestParam("startDate") String startDate,
                                                                                @RequestParam("endDate") String endDate,

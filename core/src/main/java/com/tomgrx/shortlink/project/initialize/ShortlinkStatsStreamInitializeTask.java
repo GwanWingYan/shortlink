@@ -5,8 +5,8 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import static com.tomgrx.shortlink.project.common.constant.RedisKeyConstant.SHORT_LINK_STATS_STREAM_GROUP_KEY;
-import static com.tomgrx.shortlink.project.common.constant.RedisKeyConstant.SHORT_LINK_STATS_STREAM_TOPIC_KEY;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.STATS_STREAM_GROUP_KEY;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.STATS_STREAM_TOPIC_KEY;
 
 /**
  * 初始化短链接监控消息队列消费者组
@@ -19,9 +19,9 @@ public class ShortlinkStatsStreamInitializeTask implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        Boolean hasKey = stringRedisTemplate.hasKey(SHORT_LINK_STATS_STREAM_TOPIC_KEY);
+        Boolean hasKey = stringRedisTemplate.hasKey(STATS_STREAM_TOPIC_KEY);
         if (hasKey == null || !hasKey) {
-            stringRedisTemplate.opsForStream().createGroup(SHORT_LINK_STATS_STREAM_TOPIC_KEY, SHORT_LINK_STATS_STREAM_GROUP_KEY);
+            stringRedisTemplate.opsForStream().createGroup(STATS_STREAM_TOPIC_KEY, STATS_STREAM_GROUP_KEY);
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.tomgrx.shortlink.project.common.constant;
+package com.tomgrx.shortlink.constant;
 
 /**
  * 短链接常量类
@@ -6,7 +6,7 @@ package com.tomgrx.shortlink.project.common.constant;
 public class ShortlinkConstant {
 
     /**
-     * 永久短链接默认缓存有效时间
+     * 永久短链接默认缓存有效时间（毫秒）
      */
     public static final long DEFAULT_CACHE_VALID_TIME = 2626560000L;
 

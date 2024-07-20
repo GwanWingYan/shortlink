@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
-import static com.tomgrx.shortlink.project.common.constant.RedisKeyConstant.DELAY_QUEUE_STATS_KEY;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.DELAY_QUEUE_STATS_KEY;
 
 /**
  * 延迟消费短链接统计发送者

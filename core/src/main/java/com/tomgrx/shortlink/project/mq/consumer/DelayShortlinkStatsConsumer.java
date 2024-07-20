@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.LockSupport;
 
-import static com.tomgrx.shortlink.project.common.constant.RedisKeyConstant.DELAY_QUEUE_STATS_KEY;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.DELAY_QUEUE_STATS_KEY;
 
 /**
  * 延迟记录短链接统计组件
@@ -27,7 +27,7 @@ import static com.tomgrx.shortlink.project.common.constant.RedisKeyConstant.DELA
 public class DelayShortlinkStatsConsumer implements InitializingBean {
 
     private final RedissonClient redissonClient;
-    private final ShortlinkService shortLinkService;
+    private final ShortlinkService shortlinkService;
     private final MessageQueueIdempotentHandler messageQueueIdempotentHandler;
 
     public void onMessage() {
@@ -53,7 +53,7 @@ public class DelayShortlinkStatsConsumer implements InitializingBean {
                                     throw new ServiceException("消息未完成流程，需要消息队列重试");
                                 }
                                 try {
-                                    shortLinkService.shortLinkStats(statsRecord);
+                                    shortlinkService.shortlinkStats(statsRecord);
                                 } catch (Throwable ex) {
                                     messageQueueIdempotentHandler.delMessageProcessed(statsRecord.getKeys());
                                     log.error("延迟记录短链接监控消费异常", ex);

@@ -58,7 +58,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static com.tomgrx.shortlink.project.common.constant.RedisKeyConstant.*;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.*;
 
 /**
  * 短链接接口实现层
@@ -69,10 +69,10 @@ import static com.tomgrx.shortlink.project.common.constant.RedisKeyConstant.*;
 public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, ShortlinkDO> implements ShortlinkService {
 
     private final RBloomFilter<String> shortUriCreateCachePenetrationBloomFilter;
-    private final ShortlinkGotoMapper shortLinkGotoMapper;
+    private final ShortlinkGotoMapper shortlinkGotoMapper;
     private final StringRedisTemplate stringRedisTemplate;
     private final RedissonClient redissonClient;
-    private final ShortlinkStatsSaveProducer shortLinkStatsSaveProducer;
+    private final ShortlinkStatsSaveProducer shortlinkStatsSaveProducer;
     private final GotoDomainWhiteListConfiguration gotoDomainWhiteListConfiguration;
 
     @Value("${shortlink.domain.default}")
@@ -83,12 +83,12 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
     public ShortlinkCreateRespDTO createShortlink(ShortlinkCreateReqDTO requestParam) {
         // 短链接接口的并发量有多少？如何测试？详情查看：https://tomgrx.com/shortlink/question
         verificationWhitelist(requestParam.getOriginUrl());
-        String shortLinkSuffix = generateSuffix(requestParam);
+        String shortlinkSuffix = generateSuffix(requestParam);
         String fullShortUrl = StrBuilder.create(createShortlinkDefaultDomain)
                 .append("/")
-                .append(shortLinkSuffix)
+                .append(shortlinkSuffix)
                 .toString();
-        ShortlinkDO shortLinkDO = ShortlinkDO.builder()
+        ShortlinkDO shortlinkDO = ShortlinkDO.builder()
                 .domain(createShortlinkDefaultDomain)
                 .originUrl(requestParam.getOriginUrl())
                 .gid(requestParam.getGid())
@@ -96,7 +96,7 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
                 .validDateType(requestParam.getValidDateType())
                 .validDate(requestParam.getValidDate())
                 .describe(requestParam.getDescribe())
-                .shortUri(shortLinkSuffix)
+                .shortUri(shortlinkSuffix)
                 .enableStatus(0)
                 .totalPv(0)
                 .totalUv(0)
@@ -111,9 +111,9 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
                 .build();
         try {
             // 短链接项目有多少数据？如何解决海量数据存储？详情查看：https://tomgrx.com/shortlink/question
-            baseMapper.insert(shortLinkDO);
+            baseMapper.insert(shortlinkDO);
             // 短链接数据库分片键是如何考虑的？详情查看：https://tomgrx.com/shortlink/question
-            shortLinkGotoMapper.insert(linkGotoDO);
+            shortlinkGotoMapper.insert(linkGotoDO);
         } catch (DuplicateKeyException ex) {
             // 首先判断是否存在布隆过滤器，如果不存在直接新增
             if (!shortUriCreateCachePenetrationBloomFilter.contains(fullShortUrl)) {
@@ -123,14 +123,14 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
         }
         // 项目中短链接缓存预热是怎么做的？详情查看：https://tomgrx.com/shortlink/question
         stringRedisTemplate.opsForValue().set(
-                String.format(GOTO_SHORT_LINK_KEY, fullShortUrl),
+                GOTO_KEY + fullShortUrl,
                 requestParam.getOriginUrl(),
                 LinkUtil.getLinkCacheValidTime(requestParam.getValidDate()), TimeUnit.MILLISECONDS
         );
         // 删除短链接后，布隆过滤器如何删除？详情查看：https://tomgrx.com/shortlink/question
         shortUriCreateCachePenetrationBloomFilter.add(fullShortUrl);
         return ShortlinkCreateRespDTO.builder()
-                .fullShortUrl("http://" + shortLinkDO.getFullShortUrl())
+                .fullShortUrl("http://" + shortlinkDO.getFullShortUrl())
                 .originUrl(requestParam.getOriginUrl())
                 .gid(requestParam.getGid())
                 .build();
@@ -141,15 +141,15 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
         verificationWhitelist(requestParam.getOriginUrl());
         String fullShortUrl;
         // 为什么说布隆过滤器性能远胜于分布式锁？详情查看：https://tomgrx.com/shortlink/question
-        RLock lock = redissonClient.getLock(SHORT_LINK_CREATE_LOCK_KEY);
+        RLock lock = redissonClient.getLock(LOCK_CREATE_SHORTLINK_KEY);
         lock.lock();
         try {
-            String shortLinkSuffix = generateSuffixByLock(requestParam);
+            String shortlinkSuffix = generateSuffixByLock(requestParam);
             fullShortUrl = StrBuilder.create(createShortlinkDefaultDomain)
                     .append("/")
-                    .append(shortLinkSuffix)
+                    .append(shortlinkSuffix)
                     .toString();
-            ShortlinkDO shortLinkDO = ShortlinkDO.builder()
+            ShortlinkDO shortlinkDO = ShortlinkDO.builder()
                     .domain(createShortlinkDefaultDomain)
                     .originUrl(requestParam.getOriginUrl())
                     .gid(requestParam.getGid())
@@ -157,7 +157,7 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
                     .validDateType(requestParam.getValidDateType())
                     .validDate(requestParam.getValidDate())
                     .describe(requestParam.getDescribe())
-                    .shortUri(shortLinkSuffix)
+                    .shortUri(shortlinkSuffix)
                     .enableStatus(0)
                     .totalPv(0)
                     .totalUv(0)
@@ -171,13 +171,13 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
                     .gid(requestParam.getGid())
                     .build();
             try {
-                baseMapper.insert(shortLinkDO);
-                shortLinkGotoMapper.insert(linkGotoDO);
+                baseMapper.insert(shortlinkDO);
+                shortlinkGotoMapper.insert(linkGotoDO);
             } catch (DuplicateKeyException ex) {
                 throw new ServiceException(String.format("短链接：%s 生成重复", fullShortUrl));
             }
             stringRedisTemplate.opsForValue().set(
-                    String.format(GOTO_SHORT_LINK_KEY, fullShortUrl),
+                    GOTO_KEY + fullShortUrl,
                     requestParam.getOriginUrl(),
                     LinkUtil.getLinkCacheValidTime(requestParam.getValidDate()), TimeUnit.MILLISECONDS
             );
@@ -197,14 +197,14 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
         List<String> describes = requestParam.getDescribes();
         List<ShortlinkBaseInfoRespDTO> result = new ArrayList<>();
         for (int i = 0; i < originUrls.size(); i++) {
-            ShortlinkCreateReqDTO shortLinkCreateReqDTO = BeanUtil.toBean(requestParam, ShortlinkCreateReqDTO.class);
-            shortLinkCreateReqDTO.setOriginUrl(originUrls.get(i));
-            shortLinkCreateReqDTO.setDescribe(describes.get(i));
+            ShortlinkCreateReqDTO shortlinkCreateReqDTO = BeanUtil.toBean(requestParam, ShortlinkCreateReqDTO.class);
+            shortlinkCreateReqDTO.setOriginUrl(originUrls.get(i));
+            shortlinkCreateReqDTO.setDescribe(describes.get(i));
             try {
-                ShortlinkCreateRespDTO shortLink = createShortlink(shortLinkCreateReqDTO);
+                ShortlinkCreateRespDTO shortlink = createShortlink(shortlinkCreateReqDTO);
                 ShortlinkBaseInfoRespDTO linkBaseInfoRespDTO = ShortlinkBaseInfoRespDTO.builder()
-                        .fullShortUrl(shortLink.getFullShortUrl())
-                        .originUrl(shortLink.getOriginUrl())
+                        .fullShortUrl(shortlink.getFullShortUrl())
+                        .originUrl(shortlink.getOriginUrl())
                         .describe(describes.get(i))
                         .build();
                 result.add(linkBaseInfoRespDTO);
@@ -238,7 +238,7 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
                     .eq(ShortlinkDO::getDelFlag, 0)
                     .eq(ShortlinkDO::getEnableStatus, 0)
                     .set(Objects.equals(requestParam.getValidDateType(), ValidDateTypeEnum.PERMANENT.getType()), ShortlinkDO::getValidDate, null);
-            ShortlinkDO shortLinkDO = ShortlinkDO.builder()
+            ShortlinkDO shortlinkDO = ShortlinkDO.builder()
                     .domain(hasShortlinkDO.getDomain())
                     .shortUri(hasShortlinkDO.getShortUri())
                     .favicon(hasShortlinkDO.getFavicon())
@@ -249,10 +249,10 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
                     .validDateType(requestParam.getValidDateType())
                     .validDate(requestParam.getValidDate())
                     .build();
-            baseMapper.update(shortLinkDO, updateWrapper);
+            baseMapper.update(shortlinkDO, updateWrapper);
         } else {
-            // 为什么监控表要加上Gid？不加的话是否就不存在读写锁？详情查看：https://tomgrx.com/shortlink/question
-            RReadWriteLock readWriteLock = redissonClient.getReadWriteLock(String.format(LOCK_GID_UPDATE_KEY, requestParam.getFullShortUrl()));
+            // 为什么监控表要加上Gid？不加的话是否就不存在读写锁？详情查看：https://nageoffer.com/shortlink/question
+            RReadWriteLock readWriteLock = redissonClient.getReadWriteLock(LOCK_GID_UPDATE_KEY + requestParam.getFullShortUrl());
             RLock rLock = readWriteLock.writeLock();
             rLock.lock();
             try {
@@ -267,7 +267,7 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
                         .build();
                 delShortlinkDO.setDelFlag(1);
                 baseMapper.update(delShortlinkDO, linkUpdateWrapper);
-                ShortlinkDO shortLinkDO = ShortlinkDO.builder()
+                ShortlinkDO shortlinkDO = ShortlinkDO.builder()
                         .domain(createShortlinkDefaultDomain)
                         .originUrl(requestParam.getOriginUrl())
                         .gid(requestParam.getGid())
@@ -284,14 +284,14 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
                         .favicon(getFavicon(requestParam.getOriginUrl()))
                         .delTime(0L)
                         .build();
-                baseMapper.insert(shortLinkDO);
+                baseMapper.insert(shortlinkDO);
                 LambdaQueryWrapper<ShortlinkGotoDO> linkGotoQueryWrapper = Wrappers.lambdaQuery(ShortlinkGotoDO.class)
                         .eq(ShortlinkGotoDO::getFullShortUrl, requestParam.getFullShortUrl())
                         .eq(ShortlinkGotoDO::getGid, hasShortlinkDO.getGid());
-                ShortlinkGotoDO shortLinkGotoDO = shortLinkGotoMapper.selectOne(linkGotoQueryWrapper);
-                shortLinkGotoMapper.delete(linkGotoQueryWrapper);
-                shortLinkGotoDO.setGid(requestParam.getGid());
-                shortLinkGotoMapper.insert(shortLinkGotoDO);
+                ShortlinkGotoDO shortlinkGotoDO = shortlinkGotoMapper.selectOne(linkGotoQueryWrapper);
+                shortlinkGotoMapper.delete(linkGotoQueryWrapper);
+                shortlinkGotoDO.setGid(requestParam.getGid());
+                shortlinkGotoMapper.insert(shortlinkGotoDO);
             } finally {
                 rLock.unlock();
             }
@@ -300,11 +300,11 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
         if (!Objects.equals(hasShortlinkDO.getValidDateType(), requestParam.getValidDateType())
                 || !Objects.equals(hasShortlinkDO.getValidDate(), requestParam.getValidDate())
                 || !Objects.equals(hasShortlinkDO.getOriginUrl(), requestParam.getOriginUrl())) {
-            stringRedisTemplate.delete(String.format(GOTO_SHORT_LINK_KEY, requestParam.getFullShortUrl()));
+            stringRedisTemplate.delete(GOTO_KEY + requestParam.getFullShortUrl());
             Date currentDate = new Date();
             if (hasShortlinkDO.getValidDate() != null && hasShortlinkDO.getValidDate().before(currentDate)) {
                 if (Objects.equals(requestParam.getValidDateType(), ValidDateTypeEnum.PERMANENT.getType()) || requestParam.getValidDate().after(currentDate)) {
-                    stringRedisTemplate.delete(String.format(GOTO_IS_NULL_SHORT_LINK_KEY, requestParam.getFullShortUrl()));
+                    stringRedisTemplate.delete(GOTO_IS_NULL_KEY + requestParam.getFullShortUrl());
                 }
             }
         }
@@ -323,14 +323,14 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
     @Override
     public List<ShortlinkGroupCountQueryRespDTO> listGroupShortlinkCount(List<String> requestParam) {
         QueryWrapper<ShortlinkDO> queryWrapper = Wrappers.query(new ShortlinkDO())
-                .select("gid as gid, count(*) as shortLinkCount")
+                .select("gid as gid, count(*) as shortlinkCount")
                 .in("gid", requestParam)
                 .eq("enable_status", 0)
                 .eq("del_flag", 0)
                 .eq("del_time", 0L)
                 .groupBy("gid");
-        List<Map<String, Object>> shortLinkDOList = baseMapper.selectMaps(queryWrapper);
-        return BeanUtil.copyToList(shortLinkDOList, ShortlinkGroupCountQueryRespDTO.class);
+        List<Map<String, Object>> shortlinkDOList = baseMapper.selectMaps(queryWrapper);
+        return BeanUtil.copyToList(shortlinkDOList, ShortlinkGroupCountQueryRespDTO.class);
     }
 
     @SneakyThrows
@@ -345,9 +345,9 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
                 .map(each -> ":" + each)
                 .orElse("");
         String fullShortUrl = serverName + serverPort + "/" + shortUri;
-        String originalLink = stringRedisTemplate.opsForValue().get(String.format(GOTO_SHORT_LINK_KEY, fullShortUrl));
+        String originalLink = stringRedisTemplate.opsForValue().get(GOTO_KEY + fullShortUrl);
         if (StrUtil.isNotBlank(originalLink)) {
-            shortLinkStats(buildLinkStatsRecordAndSetUser(fullShortUrl, request, response));
+            shortlinkStats(buildLinkStatsRecordAndSetUser(fullShortUrl, request, response));
             ((HttpServletResponse) response).sendRedirect(originalLink);
             return;
         }
@@ -356,51 +356,51 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
             ((HttpServletResponse) response).sendRedirect("/page/notfound");
             return;
         }
-        String gotoIsNullShortlink = stringRedisTemplate.opsForValue().get(String.format(GOTO_IS_NULL_SHORT_LINK_KEY, fullShortUrl));
+        String gotoIsNullShortlink = stringRedisTemplate.opsForValue().get(GOTO_IS_NULL_KEY + fullShortUrl);
         if (StrUtil.isNotBlank(gotoIsNullShortlink)) {
             ((HttpServletResponse) response).sendRedirect("/page/notfound");
             return;
         }
-        RLock lock = redissonClient.getLock(String.format(LOCK_GOTO_SHORT_LINK_KEY, fullShortUrl));
+        RLock lock = redissonClient.getLock(LOCK_GOTO_SHORT_LINK_KEY + fullShortUrl);
         lock.lock();
         try {
-            originalLink = stringRedisTemplate.opsForValue().get(String.format(GOTO_SHORT_LINK_KEY, fullShortUrl));
+            originalLink = stringRedisTemplate.opsForValue().get(GOTO_KEY + fullShortUrl);
             if (StrUtil.isNotBlank(originalLink)) {
-                shortLinkStats(buildLinkStatsRecordAndSetUser(fullShortUrl, request, response));
+                shortlinkStats(buildLinkStatsRecordAndSetUser(fullShortUrl, request, response));
                 ((HttpServletResponse) response).sendRedirect(originalLink);
                 return;
             }
-            gotoIsNullShortlink = stringRedisTemplate.opsForValue().get(String.format(GOTO_IS_NULL_SHORT_LINK_KEY, fullShortUrl));
+            gotoIsNullShortlink = stringRedisTemplate.opsForValue().get(GOTO_IS_NULL_KEY + fullShortUrl);
             if (StrUtil.isNotBlank(gotoIsNullShortlink)) {
                 ((HttpServletResponse) response).sendRedirect("/page/notfound");
                 return;
             }
             LambdaQueryWrapper<ShortlinkGotoDO> linkGotoQueryWrapper = Wrappers.lambdaQuery(ShortlinkGotoDO.class)
                     .eq(ShortlinkGotoDO::getFullShortUrl, fullShortUrl);
-            ShortlinkGotoDO shortLinkGotoDO = shortLinkGotoMapper.selectOne(linkGotoQueryWrapper);
-            if (shortLinkGotoDO == null) {
-                stringRedisTemplate.opsForValue().set(String.format(GOTO_IS_NULL_SHORT_LINK_KEY, fullShortUrl), "-", 30, TimeUnit.MINUTES);
+            ShortlinkGotoDO shortlinkGotoDO = shortlinkGotoMapper.selectOne(linkGotoQueryWrapper);
+            if (shortlinkGotoDO == null) {
+                stringRedisTemplate.opsForValue().set(GOTO_IS_NULL_KEY + fullShortUrl, "-", 30, TimeUnit.MINUTES);
                 ((HttpServletResponse) response).sendRedirect("/page/notfound");
                 return;
             }
             LambdaQueryWrapper<ShortlinkDO> queryWrapper = Wrappers.lambdaQuery(ShortlinkDO.class)
-                    .eq(ShortlinkDO::getGid, shortLinkGotoDO.getGid())
+                    .eq(ShortlinkDO::getGid, shortlinkGotoDO.getGid())
                     .eq(ShortlinkDO::getFullShortUrl, fullShortUrl)
                     .eq(ShortlinkDO::getDelFlag, 0)
                     .eq(ShortlinkDO::getEnableStatus, 0);
-            ShortlinkDO shortLinkDO = baseMapper.selectOne(queryWrapper);
-            if (shortLinkDO == null || (shortLinkDO.getValidDate() != null && shortLinkDO.getValidDate().before(new Date()))) {
-                stringRedisTemplate.opsForValue().set(String.format(GOTO_IS_NULL_SHORT_LINK_KEY, fullShortUrl), "-", 30, TimeUnit.MINUTES);
+            ShortlinkDO shortlinkDO = baseMapper.selectOne(queryWrapper);
+            if (shortlinkDO == null || (shortlinkDO.getValidDate() != null && shortlinkDO.getValidDate().before(new Date()))) {
+                stringRedisTemplate.opsForValue().set(GOTO_IS_NULL_KEY + fullShortUrl, "-", 30, TimeUnit.MINUTES);
                 ((HttpServletResponse) response).sendRedirect("/page/notfound");
                 return;
             }
             stringRedisTemplate.opsForValue().set(
-                    String.format(GOTO_SHORT_LINK_KEY, fullShortUrl),
-                    shortLinkDO.getOriginUrl(),
-                    LinkUtil.getLinkCacheValidTime(shortLinkDO.getValidDate()), TimeUnit.MILLISECONDS
+                    GOTO_KEY + fullShortUrl,
+                    shortlinkDO.getOriginUrl(),
+                    LinkUtil.getLinkCacheValidTime(shortlinkDO.getValidDate()), TimeUnit.MILLISECONDS
             );
-            shortLinkStats(buildLinkStatsRecordAndSetUser(fullShortUrl, request, response));
-            ((HttpServletResponse) response).sendRedirect(shortLinkDO.getOriginUrl());
+            shortlinkStats(buildLinkStatsRecordAndSetUser(fullShortUrl, request, response));
+            ((HttpServletResponse) response).sendRedirect(shortlinkDO.getOriginUrl());
         } finally {
             lock.unlock();
         }
@@ -417,7 +417,7 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
             uvCookie.setPath(StrUtil.sub(fullShortUrl, fullShortUrl.indexOf("/"), fullShortUrl.length()));
             ((HttpServletResponse) response).addCookie(uvCookie);
             uvFirstFlag.set(Boolean.TRUE);
-            stringRedisTemplate.opsForSet().add(SHORT_LINK_STATS_UV_KEY + fullShortUrl, uv.get());
+            stringRedisTemplate.opsForSet().add(UV_STATS_KEY + fullShortUrl, uv.get());
         };
         if (ArrayUtil.isNotEmpty(cookies)) {
             Arrays.stream(cookies)
@@ -426,7 +426,7 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
                     .map(Cookie::getValue)
                     .ifPresentOrElse(each -> {
                         uv.set(each);
-                        Long uvAdded = stringRedisTemplate.opsForSet().add(SHORT_LINK_STATS_UV_KEY + fullShortUrl, each);
+                        Long uvAdded = stringRedisTemplate.opsForSet().add(UV_STATS_KEY + fullShortUrl, each);
                         uvFirstFlag.set(uvAdded != null && uvAdded > 0L);
                     }, addResponseCookieTask);
         } else {
@@ -437,7 +437,7 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
         String browser = LinkUtil.getBrowser(((HttpServletRequest) request));
         String device = LinkUtil.getDevice(((HttpServletRequest) request));
         String network = LinkUtil.getNetwork(((HttpServletRequest) request));
-        Long uipAdded = stringRedisTemplate.opsForSet().add(SHORT_LINK_STATS_UIP_KEY + fullShortUrl, remoteAddr);
+        Long uipAdded = stringRedisTemplate.opsForSet().add(UIP_STATS_KEY + fullShortUrl, remoteAddr);
         boolean uipFirstFlag = uipAdded != null && uipAdded > 0L;
         return ShortlinkStatsRecordDTO.builder()
                 .fullShortUrl(fullShortUrl)
@@ -454,11 +454,11 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
     }
 
     @Override
-    public void shortLinkStats(ShortlinkStatsRecordDTO statsRecord) {
+    public void shortlinkStats(ShortlinkStatsRecordDTO statsRecord) {
         Map<String, String> producerMap = new HashMap<>();
         producerMap.put("statsRecord", JSON.toJSONString(statsRecord));
         // 消息队列为什么选用RocketMQ？详情查看：https://tomgrx.com/shortlink/question
-        shortLinkStatsSaveProducer.send(producerMap);
+        shortlinkStatsSaveProducer.send(producerMap);
     }
 
     private String generateSuffix(ShortlinkCreateReqDTO requestParam) {
@@ -497,8 +497,8 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
                     .eq(ShortlinkDO::getGid, requestParam.getGid())
                     .eq(ShortlinkDO::getFullShortUrl, createShortlinkDefaultDomain + "/" + shorUri)
                     .eq(ShortlinkDO::getDelFlag, 0);
-            ShortlinkDO shortLinkDO = baseMapper.selectOne(queryWrapper);
-            if (shortLinkDO == null) {
+            ShortlinkDO shortlinkDO = baseMapper.selectOne(queryWrapper);
+            if (shortlinkDO == null) {
                 break;
             }
             customGenerateCount++;

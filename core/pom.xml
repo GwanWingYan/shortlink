@@ -85,5 +85,11 @@
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.tomgrx.shortlink</groupId>
+            <artifactId>shortlink-constant</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 </project>

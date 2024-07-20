@@ -22,7 +22,7 @@ public interface LinkDeviceStatsMapper extends BaseMapper<LinkDeviceStatsDO> {
             "t_link_device_stats (full_short_url, date, cnt, device, create_time, update_time, del_flag) " +
             "VALUES( #{linkDeviceStats.fullShortUrl}, #{linkDeviceStats.date}, #{linkDeviceStats.cnt}, #{linkDeviceStats.device}, NOW(), NOW(), 0) " +
             "ON DUPLICATE KEY UPDATE cnt = cnt +  #{linkDeviceStats.cnt};")
-    void shortLinkDeviceStats(@Param("linkDeviceStats") LinkDeviceStatsDO linkDeviceStatsDO);
+    void shortlinkDeviceStats(@Param("linkDeviceStats") LinkDeviceStatsDO linkDeviceStatsDO);
 
     /**
      * 根据短链接获取指定日期内访问设备监控数据

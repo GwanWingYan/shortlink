@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecycleBinServiceImpl implements RecycleBinService {
 
-    private final ShortlinkActualRemoteService shortLinkActualRemoteService;
+    private final ShortlinkActualRemoteService shortlinkActualRemoteService;
     private final GroupMapper groupMapper;
 
     /**
@@ -44,7 +44,7 @@ public class RecycleBinServiceImpl implements RecycleBinService {
             throw new ServiceException("用户无分组信息");
         }
         requestParam.setGidList(groupDOList.stream().map(GroupDO::getGid).toList());
-        return shortLinkActualRemoteService.pageRecycleBinShortlink(
+        return shortlinkActualRemoteService.pageRecycleBinShortlink(
                 requestParam.getGidList(),
                 requestParam.getCurrent(),
                 requestParam.getSize()

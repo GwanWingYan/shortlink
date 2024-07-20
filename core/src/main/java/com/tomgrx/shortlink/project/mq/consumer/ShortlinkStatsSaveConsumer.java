@@ -27,8 +27,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-import static com.tomgrx.shortlink.project.common.constant.RedisKeyConstant.LOCK_GID_UPDATE_KEY;
-import static com.tomgrx.shortlink.project.common.constant.ShortlinkConstant.AMAP_REMOTE_URL;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.LOCK_GID_UPDATE_KEY;
+import static com.tomgrx.shortlink.constant.ShortlinkConstant.AMAP_REMOTE_URL;
 
 /**
  * 短链接监控状态保存消息队列消费者
@@ -38,8 +38,8 @@ import static com.tomgrx.shortlink.project.common.constant.ShortlinkConstant.AMA
 @RequiredArgsConstructor
 public class ShortlinkStatsSaveConsumer implements StreamListener<String, MapRecord<String, String, String>> {
 
-    private final ShortlinkMapper shortLinkMapper;
-    private final ShortlinkGotoMapper shortLinkGotoMapper;
+    private final ShortlinkMapper shortlinkMapper;
+    private final ShortlinkGotoMapper shortlinkGotoMapper;
     private final RedissonClient redissonClient;
     private final LinkAccessStatsMapper linkAccessStatsMapper;
     private final LinkLocaleStatsMapper linkLocaleStatsMapper;
@@ -82,14 +82,14 @@ public class ShortlinkStatsSaveConsumer implements StreamListener<String, MapRec
 
     public void actualSaveShortlinkStats(ShortlinkStatsRecordDTO statsRecord) {
         String fullShortUrl = statsRecord.getFullShortUrl();
-        RReadWriteLock readWriteLock = redissonClient.getReadWriteLock(String.format(LOCK_GID_UPDATE_KEY, fullShortUrl));
+        RReadWriteLock readWriteLock = redissonClient.getReadWriteLock(LOCK_GID_UPDATE_KEY + fullShortUrl);
         RLock rLock = readWriteLock.readLock();
         rLock.lock();
         try {
             LambdaQueryWrapper<ShortlinkGotoDO> queryWrapper = Wrappers.lambdaQuery(ShortlinkGotoDO.class)
                     .eq(ShortlinkGotoDO::getFullShortUrl, fullShortUrl);
-            ShortlinkGotoDO shortLinkGotoDO = shortLinkGotoMapper.selectOne(queryWrapper);
-            String gid = shortLinkGotoDO.getGid();
+            ShortlinkGotoDO shortlinkGotoDO = shortlinkGotoMapper.selectOne(queryWrapper);
+            String gid = shortlinkGotoDO.getGid();
             Date currentDate = statsRecord.getCurrentDate();
             int hour = DateUtil.hour(currentDate, true);
             Week week = DateUtil.dayOfWeekEnum(currentDate);
@@ -103,7 +103,7 @@ public class ShortlinkStatsSaveConsumer implements StreamListener<String, MapRec
                     .fullShortUrl(fullShortUrl)
                     .date(currentDate)
                     .build();
-            linkAccessStatsMapper.shortLinkStats(linkAccessStatsDO);
+            linkAccessStatsMapper.shortlinkStats(linkAccessStatsDO);
             Map<String, Object> localeParamMap = new HashMap<>();
             localeParamMap.put("key", statsLocaleAmapKey);
             localeParamMap.put("ip", statsRecord.getRemoteAddr());
@@ -124,7 +124,7 @@ public class ShortlinkStatsSaveConsumer implements StreamListener<String, MapRec
                         .country("中国")
                         .date(currentDate)
                         .build();
-                linkLocaleStatsMapper.shortLinkLocaleStats(linkLocaleStatsDO);
+                linkLocaleStatsMapper.shortlinkLocaleStats(linkLocaleStatsDO);
             }
             LinkOsStatsDO linkOsStatsDO = LinkOsStatsDO.builder()
                     .os(statsRecord.getOs())
@@ -132,28 +132,28 @@ public class ShortlinkStatsSaveConsumer implements StreamListener<String, MapRec
                     .fullShortUrl(fullShortUrl)
                     .date(currentDate)
                     .build();
-            linkOsStatsMapper.shortLinkOsStats(linkOsStatsDO);
+            linkOsStatsMapper.shortlinkOsStats(linkOsStatsDO);
             LinkBrowserStatsDO linkBrowserStatsDO = LinkBrowserStatsDO.builder()
                     .browser(statsRecord.getBrowser())
                     .cnt(1)
                     .fullShortUrl(fullShortUrl)
                     .date(currentDate)
                     .build();
-            linkBrowserStatsMapper.shortLinkBrowserStats(linkBrowserStatsDO);
+            linkBrowserStatsMapper.shortlinkBrowserStats(linkBrowserStatsDO);
             LinkDeviceStatsDO linkDeviceStatsDO = LinkDeviceStatsDO.builder()
                     .device(statsRecord.getDevice())
                     .cnt(1)
                     .fullShortUrl(fullShortUrl)
                     .date(currentDate)
                     .build();
-            linkDeviceStatsMapper.shortLinkDeviceStats(linkDeviceStatsDO);
+            linkDeviceStatsMapper.shortlinkDeviceStats(linkDeviceStatsDO);
             LinkNetworkStatsDO linkNetworkStatsDO = LinkNetworkStatsDO.builder()
                     .network(statsRecord.getNetwork())
                     .cnt(1)
                     .fullShortUrl(fullShortUrl)
                     .date(currentDate)
                     .build();
-            linkNetworkStatsMapper.shortLinkNetworkStats(linkNetworkStatsDO);
+            linkNetworkStatsMapper.shortlinkNetworkStats(linkNetworkStatsDO);
             LinkAccessLogsDO linkAccessLogsDO = LinkAccessLogsDO.builder()
                     .user(statsRecord.getUv())
                     .ip(statsRecord.getRemoteAddr())
@@ -165,7 +165,7 @@ public class ShortlinkStatsSaveConsumer implements StreamListener<String, MapRec
                     .fullShortUrl(fullShortUrl)
                     .build();
             linkAccessLogsMapper.insert(linkAccessLogsDO);
-            shortLinkMapper.incrementStats(gid, fullShortUrl, 1, statsRecord.getUvFirstFlag() ? 1 : 0, statsRecord.getUipFirstFlag() ? 1 : 0);
+            shortlinkMapper.incrementStats(gid, fullShortUrl, 1, statsRecord.getUvFirstFlag() ? 1 : 0, statsRecord.getUipFirstFlag() ? 1 : 0);
             LinkStatsTodayDO linkStatsTodayDO = LinkStatsTodayDO.builder()
                     .todayPv(1)
                     .todayUv(statsRecord.getUvFirstFlag() ? 1 : 0)
@@ -173,7 +173,7 @@ public class ShortlinkStatsSaveConsumer implements StreamListener<String, MapRec
                     .fullShortUrl(fullShortUrl)
                     .date(currentDate)
                     .build();
-            linkStatsTodayMapper.shortLinkTodayStats(linkStatsTodayDO);
+            linkStatsTodayMapper.shortlinkTodayStats(linkStatsTodayDO);
         } catch (Throwable ex) {
             log.error("短链接访问量统计异常", ex);
         } finally {

@@ -9,7 +9,7 @@ import java.net.URI;
 import java.util.Date;
 import java.util.Optional;
 
-import static com.tomgrx.shortlink.project.common.constant.ShortlinkConstant.DEFAULT_CACHE_VALID_TIME;
+import static com.tomgrx.shortlink.constant.ShortlinkConstant.DEFAULT_CACHE_VALID_TIME;
 
 /**
  * 短链接工具类

@@ -9,7 +9,6 @@ public class UserUpdateReqDTO {
      */
     private String userName;
 
-
     /**
      * 密码
      */

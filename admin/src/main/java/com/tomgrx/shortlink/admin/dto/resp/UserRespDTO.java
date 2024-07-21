@@ -7,7 +7,7 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * 用户返回参数响应
+ * 脱敏用户信息返回实体
  */
 @Data
 public class UserRespDTO {
@@ -28,7 +28,7 @@ public class UserRespDTO {
     private String realName;
 
     /**
-     * 手机号
+     * 手机号（脱敏）
      */
     @JsonSerialize(using = PhoneDesensitizationSerializer.class)
     private String phone;

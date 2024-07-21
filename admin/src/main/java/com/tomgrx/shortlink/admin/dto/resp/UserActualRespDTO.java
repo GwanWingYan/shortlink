@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * 用户返回参数响应
+ * 无脱敏用户信息返回实体
  */
 @Data
 public class UserActualRespDTO {
@@ -26,7 +26,7 @@ public class UserActualRespDTO {
     private String realName;
 
     /**
-     * 手机号
+     * 手机号（无脱敏）
      */
     private String phone;
 

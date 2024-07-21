@@ -17,8 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
-import static com.tomgrx.shortlink.constant.RedisKeyConstant.GOTO_IS_NULL_KEY;
-import static com.tomgrx.shortlink.constant.RedisKeyConstant.GOTO_KEY;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.GOTO_IS_NULL_KEY_PREFIX;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.GOTO_KEY_PREFIX;
 
 @Service
 @RequiredArgsConstructor
@@ -37,7 +37,7 @@ public class RecycleBinServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlin
                 .enableStatus(1)
                 .build();
         baseMapper.update(shortlinkDO, updateWrapper);
-        stringRedisTemplate.delete(GOTO_KEY + requestParam.getFullShortUrl());
+        stringRedisTemplate.delete(GOTO_KEY_PREFIX + requestParam.getFullShortUrl());
     }
 
     @Override
@@ -61,7 +61,7 @@ public class RecycleBinServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlin
                 .enableStatus(0)
                 .build();
         baseMapper.update(shortlinkDO, updateWrapper);
-        stringRedisTemplate.delete(GOTO_IS_NULL_KEY + requestParam.getFullShortUrl());
+        stringRedisTemplate.delete(GOTO_IS_NULL_KEY_PREFIX + requestParam.getFullShortUrl());
     }
 
     @Override

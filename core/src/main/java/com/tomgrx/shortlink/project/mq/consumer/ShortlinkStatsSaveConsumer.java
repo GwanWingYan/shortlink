@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.*;
 
-import static com.tomgrx.shortlink.constant.RedisKeyConstant.LOCK_GID_UPDATE_KEY;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.LOCK_GID_UPDATE_KEY_PREFIX;
 import static com.tomgrx.shortlink.constant.ShortlinkConstant.AMAP_REMOTE_URL;
 
 /**
@@ -82,7 +82,7 @@ public class ShortlinkStatsSaveConsumer implements StreamListener<String, MapRec
 
     public void actualSaveShortlinkStats(ShortlinkStatsRecordDTO statsRecord) {
         String fullShortUrl = statsRecord.getFullShortUrl();
-        RReadWriteLock readWriteLock = redissonClient.getReadWriteLock(LOCK_GID_UPDATE_KEY + fullShortUrl);
+        RReadWriteLock readWriteLock = redissonClient.getReadWriteLock(LOCK_GID_UPDATE_KEY_PREFIX + fullShortUrl);
         RLock rLock = readWriteLock.readLock();
         rLock.lock();
         try {

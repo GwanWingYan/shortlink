@@ -21,7 +21,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static com.tomgrx.shortlink.constant.RedisKeyConstant.LOGIN_KEY;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.LOGIN_KEY_PREFIX;
 
 /**
  * 检验用户请求中的 userName 和 token 是否存在且合法
@@ -54,7 +54,7 @@ public class TokenValidateGatewayFilterFactory extends AbstractGatewayFilterFact
 
             // 放行 header 包含有效 userName 和 token 的请求
             Object userInfo;
-            if (StringUtils.hasText(userName) && StringUtils.hasText(token) && (userInfo = stringRedisTemplate.opsForHash().get(LOGIN_KEY + userName, token)) != null) {
+            if (StringUtils.hasText(userName) && StringUtils.hasText(token) && (userInfo = stringRedisTemplate.opsForHash().get(LOGIN_KEY_PREFIX + userName, token)) != null) {
                 JSONObject userInfoJsonObject = JSON.parseObject(userInfo.toString());
                 ServerHttpRequest newRequest = exchange.getRequest()
                         .mutate()

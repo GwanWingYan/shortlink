@@ -12,12 +12,14 @@ import com.tomgrx.shortlink.admin.dto.resp.UserRespDTO;
  * 用户接口层
  */
 public interface UserService extends IService<UserDO> {
+
     /**
      * 根据用户名查询用户信息
+     *
      * @param userName 用户名
      * @return 用户返回实体
      */
-    UserRespDTO getUserByUsername(String userName);
+    UserRespDTO getUserByUserName(String userName);
 
     /**
      * 查询用户名是否存在
@@ -25,7 +27,7 @@ public interface UserService extends IService<UserDO> {
      * @param userName 用户名
      * @return 用户名存在返回 true，不存在返回 false
      */
-    Boolean hasUsername(String userName);
+    Boolean hasUserName(String userName);
 
 
     /**
@@ -33,14 +35,14 @@ public interface UserService extends IService<UserDO> {
      *
      * @param requestParam 注册用户请求参数
      */
-    void register(UserRegisterReqDTO requestParam);
+    void createUser(UserRegisterReqDTO requestParam);
 
     /**
-     * 根据用户名修改用户
+     * 根据用户名修改用户信息
      *
      * @param requestParam 修改用户请求参数
      */
-    void update(UserUpdateReqDTO requestParam);
+    void updateUser(UserUpdateReqDTO requestParam);
 
     /**
      * 用户登录
@@ -51,12 +53,12 @@ public interface UserService extends IService<UserDO> {
     UserLoginRespDTO login(UserLoginReqDTO requestParam);
 
     /**
-     * 检查用户是否登录
+     * 检查用户是否登录（即判断token是否有效）
      *
      * @param token 用户登录 Token
-     * @return 用户是否登录标识
+     * @return 如果token有效返回 true，如果token无效返回 false
      */
-    Boolean checkLogin(String userName, String token);
+    Boolean isLogin(String userName, String token);
 
     /**
      * 用户退出登录

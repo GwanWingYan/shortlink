@@ -8,12 +8,12 @@ public class RedisKeyConstant {
     /**
      * 用户注册锁
      */
-    public static final String LOCK_CREATE_USER_KEY = "shortlink:lock:create-user:";
+    public static final String LOCK_CREATE_USER_KEY_PREFIX = "shortlink:lock:create-user:";
 
     /**
      * 分组创建锁
      */
-    public static final String LOCK_CREATE_GROUP_KEY = "shortlink:lock:create-group:";
+    public static final String LOCK_CREATE_GROUP_KEY_PREFIX = "shortlink:lock:create-group:";
 
     /**
      * 短链接创建锁
@@ -23,27 +23,27 @@ public class RedisKeyConstant {
     /**
      * 用户登录缓存标识
      */
-    public static final String LOGIN_KEY = "shortlink:login:";
+    public static final String LOGIN_KEY_PREFIX = "shortlink:login:";
 
     /**
      * 短链接跳转
      */
-    public static final String GOTO_KEY = "shortlink:goto:";
+    public static final String GOTO_KEY_PREFIX = "shortlink:goto:";
 
     /**
      * 短链接空值跳转
      */
-    public static final String GOTO_IS_NULL_KEY = "shortlink:is-null:goto:";
+    public static final String GOTO_IS_NULL_KEY_PREFIX = "shortlink:is-null:goto:";
 
     /**
      * 短链接跳转锁
      */
-    public static final String LOCK_GOTO_SHORT_LINK_KEY = "shortlink:lock:goto:";
+    public static final String LOCK_GOTO_SHORT_LINK_KEY_PREFIX = "shortlink:lock:goto:";
 
     /**
      * 修改分组标识锁
      */
-    public static final String LOCK_GID_UPDATE_KEY = "shortlink:lock:update-gid:";
+    public static final String LOCK_GID_UPDATE_KEY_PREFIX = "shortlink:lock:update-gid:";
 
     /**
      * 延迟队列消费统计
@@ -53,12 +53,12 @@ public class RedisKeyConstant {
     /**
      * 访客数量统计
      */
-    public static final String UV_STATS_KEY = "shortlink:stats:uv:";
+    public static final String UV_STATS_KEY_PREFIX = "shortlink:stats:uv:";
 
     /**
      * IP数量统计
      */
-    public static final String UIP_STATS_KEY = "shortlink:stats:uip:";
+    public static final String UIP_STATS_KEY_PREFIX = "shortlink:stats:uip:";
 
     /**
      * 监控消息保存队列 Topic 缓存标识

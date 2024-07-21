@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.tomgrx.shortlink.constant.RedisKeyConstant.LOCK_CREATE_GROUP_KEY;
+import static com.tomgrx.shortlink.constant.RedisKeyConstant.LOCK_CREATE_GROUP_KEY_PREFIX;
 
 /**
  * 短链接分组接口实现层
@@ -74,7 +74,7 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
     @Override
     public void createGroup(String userName, String groupName) {
         // 使用 Redis 分布式锁保证同一分组不被重复创建
-        RLock lock = redissonClient.getLock(LOCK_CREATE_GROUP_KEY + userName);
+        RLock lock = redissonClient.getLock(LOCK_CREATE_GROUP_KEY_PREFIX + userName);
         lock.lock();
         try {
             // 拒绝分组数已达上限的用户创建分组

@@ -16,30 +16,21 @@ public interface RecycleBinService extends IService<ShortlinkDO> {
 
     /**
      * 保存回收站
-     *
-     * @param requestParam 请求参数
      */
     void saveRecycleBin(RecycleBinSaveReqDTO requestParam);
 
     /**
      * 分页查询回收站
-     *
-     * @param requestParam 分页查询回收站接请求参数
-     * @return 分页查询回收站返回结果
      */
     IPage<ShortlinkPageRespDTO> pageShortlink(ShortlinkRecycleBinPageReqDTO requestParam);
 
     /**
      * 恢复短链接
-     *
-     * @param requestParam 请求参数
      */
-    void recoverRecycleBin(RecycleBinRecoverReqDTO requestParam);
+    void recoverShortlink(RecycleBinRecoverReqDTO requestParam);
 
     /**
-     * 移除短链接
-     *
-     * @param requestParam 请求参数
+     * 彻底移除短链接
      */
     void removeRecycleBin(RecycleBinRemoveReqDTO requestParam);
 }

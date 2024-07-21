@@ -6,6 +6,7 @@ import com.tomgrx.shortlink.project.common.database.BaseDO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -13,14 +14,13 @@ import java.util.Date;
 /**
  * 短链接实体
  */
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @TableName("t_link")
 public class ShortlinkDO extends BaseDO {
-
-    private static final long serialVersionUID = 1L;
 
     /**
      * ID

@@ -26,6 +26,9 @@ public class RecycleBinServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlin
 
     private final StringRedisTemplate stringRedisTemplate;
 
+    /**
+     * 保存回收站
+     */
     @Override
     public void saveRecycleBin(RecycleBinSaveReqDTO requestParam) {
         LambdaUpdateWrapper<ShortlinkDO> updateWrapper = Wrappers.lambdaUpdate(ShortlinkDO.class)
@@ -40,18 +43,24 @@ public class RecycleBinServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlin
         stringRedisTemplate.delete(GOTO_KEY_PREFIX + requestParam.getFullShortUrl());
     }
 
+    /**
+     * 分页查询回收站
+     */
     @Override
     public IPage<ShortlinkPageRespDTO> pageShortlink(ShortlinkRecycleBinPageReqDTO requestParam) {
         IPage<ShortlinkDO> resultPage = baseMapper.pageRecycleBinLink(requestParam);
         return resultPage.convert(each -> {
             ShortlinkPageRespDTO result = BeanUtil.toBean(each, ShortlinkPageRespDTO.class);
-            result.setDomain("http://" + result.getDomain());
+            result.setDomain("http://" + result.getDomain());   // TODO: 删除
             return result;
         });
     }
 
+    /**
+     * 恢复短链接
+     */
     @Override
-    public void recoverRecycleBin(RecycleBinRecoverReqDTO requestParam) {
+    public void recoverShortlink(RecycleBinRecoverReqDTO requestParam) {
         LambdaUpdateWrapper<ShortlinkDO> updateWrapper = Wrappers.lambdaUpdate(ShortlinkDO.class)
                 .eq(ShortlinkDO::getFullShortUrl, requestParam.getFullShortUrl())
                 .eq(ShortlinkDO::getGid, requestParam.getGid())
@@ -64,6 +73,9 @@ public class RecycleBinServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlin
         stringRedisTemplate.delete(GOTO_IS_NULL_KEY_PREFIX + requestParam.getFullShortUrl());
     }
 
+    /**
+     * 彻底移除短链接
+     */
     @Override
     public void removeRecycleBin(RecycleBinRemoveReqDTO requestParam) {
         LambdaUpdateWrapper<ShortlinkDO> updateWrapper = Wrappers.lambdaUpdate(ShortlinkDO.class)

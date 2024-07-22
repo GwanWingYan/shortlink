@@ -17,19 +17,14 @@ public class ShortlinkPageRespDTO {
     private Long id;
 
     /**
-     * 域名
-     */
-    private String domain;
-
-    /**
      * 短链接
      */
-    private String shortUri;
+    private String code;
 
     /**
-     * 完整短链接
+     * 短链接标识符
      */
-    private String fullShortUrl;
+    private String lid;
 
     /**
      * 原始链接
@@ -39,7 +34,7 @@ public class ShortlinkPageRespDTO {
     /**
      * 点击量
      */
-    private Integer clickNum;
+    private Integer click;
 
     /**
      * 分组标识
@@ -54,7 +49,7 @@ public class ShortlinkPageRespDTO {
     /**
      * 启用标识 0：启用 1：未启用
      */
-    private Integer enableStatus;
+    private Integer enableFlag;
 
     /**
      * 创建时间

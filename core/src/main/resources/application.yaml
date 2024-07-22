@@ -22,20 +22,18 @@ spring:
         server-addr: 127.0.0.1:8848
 
 shortlink:
-  domain:
-    default: nurl.ink:8001
+  max-retry: 10
   stats:
     locale:
       amap-key: 9249893b483cc314e84a09f8bec93f63
-  goto-domain:
-    white-list:
-      enable: true
-      names: '拿个offer,知乎,掘金,博客园'
-      details:
-        - tomgrx.com
-        - zhihu.com
-        - juejin.cn
-        - cnblogs.com
+  white-list:
+    enable: true
+    name: '拿个offer,知乎,掘金,博客园'
+    domains:
+      - tomgrx.com
+      - zhihu.com
+      - juejin.cn
+      - cnblogs.com
 
 mybatis-plus:
   configuration:

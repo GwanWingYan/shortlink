@@ -2,9 +2,9 @@ package com.tomgrx.shortlink.admin.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tomgrx.shortlink.admin.common.convention.result.Result;
-import com.tomgrx.shortlink.admin.remote.ShortlinkActualRemoteService;
-import com.tomgrx.shortlink.admin.remote.dto.req.ShortlinkGroupStatsAccessRecordReqDTO;
-import com.tomgrx.shortlink.admin.remote.dto.req.ShortlinkGroupStatsReqDTO;
+import com.tomgrx.shortlink.admin.remote.CoreRemoteService;
+import com.tomgrx.shortlink.admin.remote.dto.req.GroupStatsAccessRecordReqDTO;
+import com.tomgrx.shortlink.admin.remote.dto.req.GroupStatsReqDTO;
 import com.tomgrx.shortlink.admin.remote.dto.req.ShortlinkStatsAccessRecordReqDTO;
 import com.tomgrx.shortlink.admin.remote.dto.req.ShortlinkStatsReqDTO;
 import com.tomgrx.shortlink.admin.remote.dto.resp.ShortlinkStatsAccessRecordRespDTO;
@@ -20,17 +20,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ShortlinkStatsController {
 
-    private final ShortlinkActualRemoteService shortlinkActualRemoteService;
+    private final CoreRemoteService coreRemoteService;
 
     /**
      * 访问单个短链接指定时间内监控数据
      */
     @GetMapping("/api/shortlink/admin/v1/stats")
     public Result<ShortlinkStatsRespDTO> shortlinkStats(ShortlinkStatsReqDTO requestParam) {
-        return shortlinkActualRemoteService.oneShortlinkStats(
-                requestParam.getFullShortUrl(),
+        return coreRemoteService.oneShortlinkStats(
+                requestParam.getLid(),
                 requestParam.getGid(),
-                requestParam.getEnableStatus(),
+                requestParam.getEnableFlag(),
                 requestParam.getStartDate(),
                 requestParam.getEndDate()
         );
@@ -40,8 +40,8 @@ public class ShortlinkStatsController {
      * 访问分组指定时间内监控数据
      */
     @GetMapping("/api/shortlink/admin/v1/stats/group")
-    public Result<ShortlinkStatsRespDTO> groupShortlinkStats(ShortlinkGroupStatsReqDTO requestParam) {
-        return shortlinkActualRemoteService.groupShortlinkStats(
+    public Result<ShortlinkStatsRespDTO> groupShortlinkStats(GroupStatsReqDTO requestParam) {
+        return coreRemoteService.groupShortlinkStats(
                 requestParam.getGid(),
                 requestParam.getStartDate(),
                 requestParam.getEndDate()
@@ -53,12 +53,12 @@ public class ShortlinkStatsController {
      */
     @GetMapping("/api/shortlink/admin/v1/stats/access-record")
     public Result<Page<ShortlinkStatsAccessRecordRespDTO>> shortlinkStatsAccessRecord(ShortlinkStatsAccessRecordReqDTO requestParam) {
-        return shortlinkActualRemoteService.shortlinkStatsAccessRecord(
-                requestParam.getFullShortUrl(),
+        return coreRemoteService.shortlinkStatsAccessRecord(
+                requestParam.getLid(),
                 requestParam.getGid(),
                 requestParam.getStartDate(),
                 requestParam.getEndDate(),
-                requestParam.getEnableStatus(),
+                requestParam.getEnableFlag(),
                 requestParam.getCurrent(),
                 requestParam.getSize()
         );
@@ -68,8 +68,8 @@ public class ShortlinkStatsController {
      * 访问分组指定时间内访问记录监控数据
      */
     @GetMapping("/api/shortlink/admin/v1/stats/access-record/group")
-    public Result<Page<ShortlinkStatsAccessRecordRespDTO>> groupShortlinkStatsAccessRecord(ShortlinkGroupStatsAccessRecordReqDTO requestParam) {
-        return shortlinkActualRemoteService.groupShortlinkStatsAccessRecord(
+    public Result<Page<ShortlinkStatsAccessRecordRespDTO>> groupShortlinkStatsAccessRecord(GroupStatsAccessRecordReqDTO requestParam) {
+        return coreRemoteService.groupShortlinkStatsAccessRecord(
                 requestParam.getGid(),
                 requestParam.getStartDate(),
                 requestParam.getEndDate(),

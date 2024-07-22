@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 短链接基础信息响应参数
+ * 短链接基础信息返回参数
  */
 @Data
 @Builder
@@ -24,11 +24,11 @@ public class ShortlinkBaseInfoRespDTO {
     private String describe;
 
     /**
-     * 短链接
+     * 短链接标识符
      */
-    @ExcelProperty("短链接")
+    @ExcelProperty("短链接标识符")
     @ColumnWidth(40)
-    private String fullShortUrl;
+    private String lid;
 
     /**
      * 原始链接

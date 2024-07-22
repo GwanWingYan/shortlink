@@ -14,7 +14,7 @@ public class RecycleBinRemoveReqDTO {
     private String gid;
 
     /**
-     * 全部短链接
+     * 短链接标识符
      */
-    private String fullShortUrl;
+    private String lid;
 }

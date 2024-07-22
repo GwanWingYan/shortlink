@@ -12,11 +12,6 @@ import java.util.Date;
 public class ShortlinkCreateReqDTO {
 
     /**
-     * 域名
-     */
-    private String domain;
-
-    /**
      * 原始链接
      */
     private String originUrl;
@@ -29,7 +24,7 @@ public class ShortlinkCreateReqDTO {
     /**
      * 创建类型: 0接口创建， 1控制台创建
      */
-    private Integer createdType;
+    private Integer createType;
 
     /**
      * 有效期类型: 0永久有效， 1自定义

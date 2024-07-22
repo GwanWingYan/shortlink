@@ -18,9 +18,9 @@ spring:
         server-addr: 127.0.0.1:8848
 
 shortlink:
+  max-retry: 5
   group:
     max-num: 20
-    max-retry: 5
   flow-limit:
     enable: true
     time-window: 1

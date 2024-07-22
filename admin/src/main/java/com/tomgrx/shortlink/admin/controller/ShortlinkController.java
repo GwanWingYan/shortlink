@@ -3,7 +3,7 @@ package com.tomgrx.shortlink.admin.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tomgrx.shortlink.admin.common.convention.result.Result;
 import com.tomgrx.shortlink.admin.common.convention.result.Results;
-import com.tomgrx.shortlink.admin.remote.ShortlinkActualRemoteService;
+import com.tomgrx.shortlink.admin.remote.CoreRemoteService;
 import com.tomgrx.shortlink.admin.remote.dto.req.ShortlinkBatchCreateReqDTO;
 import com.tomgrx.shortlink.admin.remote.dto.req.ShortlinkCreateReqDTO;
 import com.tomgrx.shortlink.admin.remote.dto.req.ShortlinkPageReqDTO;
@@ -24,14 +24,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ShortlinkController {
 
-    private final ShortlinkActualRemoteService shortlinkActualRemoteService;
+    private final CoreRemoteService coreRemoteService;
 
     /**
      * 创建短链接
      */
     @PostMapping("/api/shortlink/admin/v1/create")
     public Result<ShortlinkCreateRespDTO> createShortlink(@RequestBody ShortlinkCreateReqDTO requestParam) {
-        return shortlinkActualRemoteService.createShortlink(requestParam);
+        return coreRemoteService.createShortlink(requestParam);
     }
 
     /**
@@ -40,7 +40,7 @@ public class ShortlinkController {
     @SneakyThrows
     @PostMapping("/api/shortlink/admin/v1/create/batch")
     public void batchCreateShortlink(@RequestBody ShortlinkBatchCreateReqDTO requestParam, HttpServletResponse response) {
-        Result<ShortlinkBatchCreateRespDTO> shortlinkBatchCreateRespDTOResult = shortlinkActualRemoteService.batchCreateShortlink(requestParam);
+        Result<ShortlinkBatchCreateRespDTO> shortlinkBatchCreateRespDTOResult = coreRemoteService.batchCreateShortlink(requestParam);
         if (shortlinkBatchCreateRespDTOResult.isSuccess()) {
             List<ShortlinkBaseInfoRespDTO> baseLinkInfos = shortlinkBatchCreateRespDTOResult.getData().getBaseLinkInfos();
             EasyExcelWebUtil.write(response, "批量创建短链接结果", ShortlinkBaseInfoRespDTO.class, baseLinkInfos);
@@ -52,7 +52,7 @@ public class ShortlinkController {
      */
     @PostMapping("/api/shortlink/admin/v1/update")
     public Result<Void> updateShortlink(@RequestBody ShortlinkUpdateReqDTO requestParam) {
-        shortlinkActualRemoteService.updateShortlink(requestParam);
+        coreRemoteService.updateShortlink(requestParam);
         return Results.success(null);
     }
 
@@ -61,6 +61,6 @@ public class ShortlinkController {
      */
     @GetMapping("/api/shortlink/admin/v1/page")
     public Result<Page<ShortlinkPageRespDTO>> pageShortlink(ShortlinkPageReqDTO requestParam) {
-        return shortlinkActualRemoteService.pageShortlink(requestParam.getGid(), requestParam.getOrderTag(), requestParam.getCurrent(), requestParam.getSize());
+        return coreRemoteService.pageShortlink(requestParam.getGid(), requestParam.getOrderTag(), requestParam.getCurrent(), requestParam.getSize());
     }
 }

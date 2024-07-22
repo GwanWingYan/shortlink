@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 短链接地区监控响应参数
+ * 短链接地区监控返回参数
  */
 @Data
 @Builder

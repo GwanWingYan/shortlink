@@ -33,12 +33,12 @@ public class RedisKeyConstant {
     /**
      * 短链接空值跳转
      */
-    public static final String GOTO_IS_NULL_KEY_PREFIX = "shortlink:is-null:goto:";
+    public static final String NULL_GOTO_KEY_PREFIX = "shortlink:null-goto:";
 
     /**
      * 短链接跳转锁
      */
-    public static final String LOCK_GOTO_SHORT_LINK_KEY_PREFIX = "shortlink:lock:goto:";
+    public static final String LOCK_GOTO_KEY_PREFIX = "shortlink:lock:goto:";
 
     /**
      * 修改分组标识锁
@@ -46,9 +46,9 @@ public class RedisKeyConstant {
     public static final String LOCK_GID_UPDATE_KEY_PREFIX = "shortlink:lock:update-gid:";
 
     /**
-     * 延迟队列消费统计
+     * 保存监控记录锁
      */
-    public static final String DELAY_QUEUE_STATS_KEY = "shortlink:stats:delay-queue";
+    public static final String LOCK_SAVE_STATS_KEY_PREFIX = "shortlink:lock:save-stats:";
 
     /**
      * 访客数量统计
@@ -59,6 +59,11 @@ public class RedisKeyConstant {
      * IP数量统计
      */
     public static final String UIP_STATS_KEY_PREFIX = "shortlink:stats:uip:";
+
+    /**
+     * 延迟阻塞队列
+     */
+    public static final String STATS_DELAY_QUEUE_KEY = "shortlink:stats:delay-queue";
 
     /**
      * 监控消息保存队列 Topic 缓存标识

@@ -41,7 +41,7 @@ public class UserRespDTO {
     /**
      * 注销时间戳
      */
-    private Long deletionTime;
+    private Long deleteTime;
 
     /**
      * 创建时间
@@ -56,5 +56,5 @@ public class UserRespDTO {
     /**
      * 删除标识: 0未删除， 1已删除
      */
-    private Integer delFlag;
+    private Integer deleteFlag;
 }

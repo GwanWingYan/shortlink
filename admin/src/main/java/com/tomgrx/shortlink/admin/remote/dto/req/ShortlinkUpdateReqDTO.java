@@ -17,9 +17,9 @@ public class ShortlinkUpdateReqDTO {
     private String originUrl;
 
     /**
-     * 完整短链接
+     * 短链接标识符
      */
-    private String fullShortUrl;
+    private String lid;
 
     /**
      * 原始分组标识

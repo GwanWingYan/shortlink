@@ -10,9 +10,9 @@ import lombok.Data;
 public class ShortlinkStatsAccessRecordReqDTO extends Page {
 
     /**
-     * 完整短链接
+     * 短链接标识符
      */
-    private String fullShortUrl;
+    private String lid;
 
     /**
      * 分组标识
@@ -32,5 +32,5 @@ public class ShortlinkStatsAccessRecordReqDTO extends Page {
     /**
      * 启用标识 0：启用 1：未启用
      */
-    private Integer enableStatus;
+    private Integer enableFlag;
 }

@@ -147,7 +147,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
         LambdaQueryWrapper<UserDO> queryWrapper = Wrappers.lambdaQuery(UserDO.class)
                 .eq(UserDO::getUserName, requestParam.getUserName())
                 .eq(UserDO::getPassword, requestParam.getPassword())
-                .eq(UserDO::getDelFlag, 0);
+                .eq(UserDO::getDeleteFlag, 0);
         UserDO userDO = baseMapper.selectOne(queryWrapper);
         if (userDO == null) {
             throw new ClientException("用户不存在");

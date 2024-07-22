@@ -9,8 +9,8 @@ import com.tomgrx.shortlink.admin.common.convention.exception.ServiceException;
 import com.tomgrx.shortlink.admin.common.convention.result.Result;
 import com.tomgrx.shortlink.admin.dao.entity.GroupDO;
 import com.tomgrx.shortlink.admin.dao.mapper.GroupMapper;
-import com.tomgrx.shortlink.admin.remote.ShortlinkActualRemoteService;
-import com.tomgrx.shortlink.admin.remote.dto.req.ShortlinkRecycleBinPageReqDTO;
+import com.tomgrx.shortlink.admin.remote.CoreRemoteService;
+import com.tomgrx.shortlink.admin.remote.dto.req.RecycleBinPageReqDTO;
 import com.tomgrx.shortlink.admin.remote.dto.resp.ShortlinkPageRespDTO;
 import com.tomgrx.shortlink.admin.service.RecycleBinService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class RecycleBinServiceImpl implements RecycleBinService {
 
-    private final ShortlinkActualRemoteService shortlinkActualRemoteService;
+    private final CoreRemoteService coreRemoteService;
     private final GroupMapper groupMapper;
 
     /**
@@ -35,16 +35,16 @@ public class RecycleBinServiceImpl implements RecycleBinService {
      * @return 返回参数包装
      */
     @Override
-    public Result<Page<ShortlinkPageRespDTO>> pageRecycleBinShortlink(ShortlinkRecycleBinPageReqDTO requestParam) {
+    public Result<Page<ShortlinkPageRespDTO>> pageQuery(RecycleBinPageReqDTO requestParam) {
         LambdaQueryWrapper<GroupDO> queryWrapper = Wrappers.lambdaQuery(GroupDO.class)
                 .eq(GroupDO::getUserName, UserContext.getUserName())
-                .eq(GroupDO::getDelFlag, 0);
+                .eq(GroupDO::getDeleteFlag, 0);
         List<GroupDO> groupDOList = groupMapper.selectList(queryWrapper);
         if (CollUtil.isEmpty(groupDOList)) {
             throw new ServiceException("用户无分组信息");
         }
         requestParam.setGidList(groupDOList.stream().map(GroupDO::getGid).toList());
-        return shortlinkActualRemoteService.pageRecycleBinShortlink(
+        return coreRemoteService.pageRecycleBinShortlink(
                 requestParam.getGidList(),
                 requestParam.getCurrent(),
                 requestParam.getSize()

@@ -27,5 +27,5 @@ public class ShortlinkCreateRespDTO {
     /**
      * 短链接
      */
-    private String fullShortUrl;
+    private String ShortUrl;
 }

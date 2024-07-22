@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * 短链接基础访问监控响应参数
+ * 短链接基础访问监控返回参数
  */
 @Data
 public class ShortlinkStatsAccessDailyRespDTO {

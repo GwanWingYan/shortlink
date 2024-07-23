@@ -55,5 +55,24 @@ Shortlink 采用 Nacos 作为服务注册和发现中心，各微服务实例在
 
 ## TODO
 
-* 测试网关
-* 在 README 添加运行指南 
+* console
+* docker 打包
+* docker compose 部署
+* https 支持
+* jenkins CI/CD
+* 部署到公网服务器
+* rocketmq
+* k8s 部署
+
+
+## 部署
+
+短链接服务由四个微服务（gateway, admin, core, console） 、两个中间件（redis 和 nacos）和一个数据库（mysql）组成。
+这些组件统一部署在同一个网络中，只有 console 对外暴露端口，其他组件只对网络内部的组件提供服务。
+
+1. 设置短链接服务的域名指向 console 微服务
+2. 启动 mysql, redis 和 nacos
+3. 启动 core
+4. 启动 admin
+5. 启动 gateway
+6. 启动 console

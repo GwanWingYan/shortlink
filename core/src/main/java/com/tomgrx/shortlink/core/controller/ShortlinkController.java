@@ -6,7 +6,6 @@ import com.tomgrx.shortlink.core.common.convention.result.Result;
 import com.tomgrx.shortlink.core.common.convention.result.Results;
 import com.tomgrx.shortlink.core.dto.req.ShortlinkBatchCreateReqDTO;
 import com.tomgrx.shortlink.core.dto.req.ShortlinkCreateReqDTO;
-import com.tomgrx.shortlink.core.dto.req.ShortlinkPageReqDTO;
 import com.tomgrx.shortlink.core.dto.req.ShortlinkUpdateReqDTO;
 import com.tomgrx.shortlink.core.dto.resp.ShortlinkBatchCreateRespDTO;
 import com.tomgrx.shortlink.core.dto.resp.ShortlinkCreateRespDTO;
@@ -82,15 +81,18 @@ public class ShortlinkController {
      * 分页查询短链接
      */
     @GetMapping("/api/shortlink/v1/page")
-    public Result<IPage<ShortlinkPageRespDTO>> pageShortlink(ShortlinkPageReqDTO requestParam) {
-        return Results.success(shortlinkService.pageShortlink(requestParam));
+    public Result<IPage<ShortlinkPageRespDTO>> pageShortlink(@RequestParam("gid") String gid,
+                                                             @RequestParam("orderTag") String orderTag,
+                                                             @RequestParam("current") Long current,
+                                                             @RequestParam("size") Long size) {
+        return Results.success(shortlinkService.pageShortlink(gid, orderTag, current, size));
     }
 
     /**
      * 查询分组的短链接数量
      */
     @GetMapping("/api/shortlink/v1/count")
-    public Result<List<GroupCountQueryRespDTO>> listGroupShortlinkCount(@RequestParam("requestParam") List<String> requestParam) {
-        return Results.success(shortlinkService.listGroupShortlinkCount(requestParam));
+    public Result<List<GroupCountQueryRespDTO>> listGroupShortlinkCount(@RequestParam("gidList") List<String> gidList) {
+        return Results.success(shortlinkService.listGroupShortlinkCount(gidList));
     }
 }

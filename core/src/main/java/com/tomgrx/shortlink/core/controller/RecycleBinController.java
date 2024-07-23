@@ -13,7 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 回收站管理控制层
@@ -37,8 +40,11 @@ public class RecycleBinController {
      * 分页查询回收站中的短链接
      */
     @GetMapping("/api/shortlink/v1/recycle-bin/page")
-    public Result<IPage<ShortlinkPageRespDTO>> pageQuery(RecycleBinPageQueryReqDTO requestParam) {
-        return Results.success(recycleBinService.pageQuery(requestParam));
+    public Result<IPage<ShortlinkPageRespDTO>> pageQuery(
+            @RequestParam List<String> gidList,
+            @RequestParam Integer current,
+            @RequestParam Integer size) {
+        return Results.success(recycleBinService.pageQuery(gidList, current, size));
     }
 
     /**

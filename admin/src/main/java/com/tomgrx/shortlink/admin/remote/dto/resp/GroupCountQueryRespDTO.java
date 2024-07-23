@@ -16,5 +16,5 @@ public class GroupCountQueryRespDTO {
     /**
      * 短链接数量
      */
-    private Integer shortlinkCount;
+    private Integer count;
 }

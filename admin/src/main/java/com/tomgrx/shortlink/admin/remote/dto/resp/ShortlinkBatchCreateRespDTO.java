@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * 短链接批量创建响应对象
+ * 短链接批量创建返回参数
  */
 @Data
 @Builder

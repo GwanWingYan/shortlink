@@ -7,14 +7,15 @@ import com.tomgrx.shortlink.admin.remote.CoreRemoteService;
 import com.tomgrx.shortlink.admin.remote.dto.req.RecycleBinRecoverReqDTO;
 import com.tomgrx.shortlink.admin.remote.dto.req.RecycleBinRemoveReqDTO;
 import com.tomgrx.shortlink.admin.remote.dto.req.RecycleBinSaveReqDTO;
-import com.tomgrx.shortlink.admin.remote.dto.req.RecycleBinPageReqDTO;
 import com.tomgrx.shortlink.admin.remote.dto.resp.ShortlinkPageRespDTO;
-import com.tomgrx.shortlink.admin.service.RecycleBinService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 回收站控制层
@@ -22,8 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController(value = "recycleBinControllerByAdmin")
 @RequiredArgsConstructor
 public class RecycleBinController {
-
-    private final RecycleBinService recycleBinService;
 
     private final CoreRemoteService coreRemoteService;
 
@@ -40,8 +39,11 @@ public class RecycleBinController {
      * 分页查询回收站短链接
      */
     @GetMapping("/api/shortlink/admin/v1/recycle-bin/page")
-    public Result<Page<ShortlinkPageRespDTO>> pageQuery(RecycleBinPageReqDTO requestParam) {
-        return recycleBinService.pageQuery(requestParam);
+    public Result<Page<ShortlinkPageRespDTO>> pageQuery(
+            @RequestParam List<String> gidList,
+            @RequestParam Integer current,
+            @RequestParam Integer size) {
+        return coreRemoteService.pageRecycleBinShortlink(gidList, current, size);
     }
 
     /**

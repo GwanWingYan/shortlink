@@ -5,7 +5,7 @@ public class UserConstant {
     /**
      * 用户单次登录有效期（分钟）
      */
-    public static final long LOGIN_VALID_DURATION = 60L;
+    public static final long LOGIN_VALID_DURATION = 24 * 60L;
 
     /**
      * 用户Cookie标识有效期（秒）

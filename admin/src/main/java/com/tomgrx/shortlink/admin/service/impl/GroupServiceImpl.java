@@ -127,7 +127,10 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupDO> implemen
             Optional<GroupCountQueryRespDTO> first = groupShortlinkCountList.getData().stream()
                     .filter(item -> Objects.equals(item.getGid(), each.getGid()))
                     .findFirst();
-            first.ifPresent(item -> each.setShortlinkCount(first.get().getShortlinkCount()));
+            first.ifPresent(item -> each.setShortlinkCount(first.get().getCount()));
+            first.ifPresentOrElse(
+                    item -> each.setShortlinkCount(item.getCount()),
+                    () -> each.setShortlinkCount(0));
         });
         return groupRespDTOList;
     }

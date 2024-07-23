@@ -11,11 +11,14 @@ import com.tomgrx.shortlink.core.dto.req.RecycleBinMoveOutReqDTO;
 import com.tomgrx.shortlink.core.dto.req.RecycleBinRemoveReqDTO;
 import com.tomgrx.shortlink.core.dto.req.RecycleBinMoveInReqDTO;
 import com.tomgrx.shortlink.core.dto.req.RecycleBinPageQueryReqDTO;
+import com.tomgrx.shortlink.core.dto.req.ShortlinkPageReqDTO;
 import com.tomgrx.shortlink.core.dto.resp.ShortlinkPageRespDTO;
 import com.tomgrx.shortlink.core.service.RecycleBinService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static com.tomgrx.shortlink.constant.RedisKeyConstant.NULL_GOTO_KEY_PREFIX;
 import static com.tomgrx.shortlink.constant.RedisKeyConstant.GOTO_KEY_PREFIX;
@@ -47,9 +50,12 @@ public class RecycleBinServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlin
      * 分页查询回收站中的短链接
      */
     @Override
-    public IPage<ShortlinkPageRespDTO> pageQuery(RecycleBinPageQueryReqDTO requestParam) {
-        IPage<ShortlinkDO> resultPage = baseMapper.pageRecycleBinLink(requestParam);
-        return resultPage.convert(each -> BeanUtil.toBean(each, ShortlinkPageRespDTO.class));
+    public IPage<ShortlinkPageRespDTO> pageQuery(List<String> gidList, Integer current, Integer size) {
+        RecycleBinPageQueryReqDTO requestParam = new RecycleBinPageQueryReqDTO(gidList);
+        requestParam.setCurrent(current);
+        requestParam.setSize(size);
+
+        return baseMapper.pageRecycleBinLink(requestParam);
     }
 
     /**

@@ -63,5 +63,5 @@ public interface UserService extends IService<UserDO> {
     /**
      * 用户退出登录
      */
-    void logout(String userName, String token);
+    void logout();
 }

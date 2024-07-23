@@ -13,7 +13,7 @@ public class GroupUpdateReqDTO {
     private String gid;
 
     /**
-     * 分组名
+     * 分组新名称
      */
     private String name;
 }

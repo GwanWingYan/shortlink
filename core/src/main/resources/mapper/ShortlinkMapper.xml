@@ -31,7 +31,7 @@
 
     <!-- 分页查询短链接 -->
     <select id="pageLink" parameterType="com.tomgrx.shortlink.core.dto.req.ShortlinkPageReqDTO"
-            resultType="com.tomgrx.shortlink.core.dao.entity.ShortlinkDO">
+            resultType="com.tomgrx.shortlink.core.dto.resp.ShortlinkPageRespDTO">
         SELECT t.*,
         COALESCE(s.today_pv, 0) AS todayPv,
         COALESCE(s.today_uv, 0) AS todayUv,
@@ -70,7 +70,7 @@
     <!-- 分页查询回收站中的短链接 -->
     <select id="pageRecycleBinLink"
             parameterType="com.tomgrx.shortlink.core.dto.req.RecycleBinPageQueryReqDTO"
-            resultType="com.tomgrx.shortlink.core.dao.entity.ShortlinkDO">
+            resultType="com.tomgrx.shortlink.core.dto.resp.ShortlinkPageRespDTO">
         SELECT t.*,
         COALESCE(s.today_pv, 0) AS todayPv,
         COALESCE(s.today_uv, 0) AS todayUv,

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.tomgrx.shortlink.core.dao.entity.ShortlinkDO;
 import com.tomgrx.shortlink.core.dto.req.ShortlinkPageReqDTO;
 import com.tomgrx.shortlink.core.dto.req.RecycleBinPageQueryReqDTO;
+import com.tomgrx.shortlink.core.dto.resp.ShortlinkPageRespDTO;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -24,10 +25,10 @@ public interface ShortlinkMapper extends BaseMapper<ShortlinkDO> {
     /**
      * 分页查询有效短链接
      */
-    IPage<ShortlinkDO> pageLink(ShortlinkPageReqDTO requestParam);
+    IPage<ShortlinkPageRespDTO> pageLink(ShortlinkPageReqDTO requestParam);
 
     /**
      * 分页查询回收站中的短链接
      */
-    IPage<ShortlinkDO> pageRecycleBinLink(RecycleBinPageQueryReqDTO requestParam);
+    IPage<ShortlinkPageRespDTO> pageRecycleBinLink(RecycleBinPageQueryReqDTO requestParam);
 }

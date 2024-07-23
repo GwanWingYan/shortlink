@@ -92,7 +92,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Override
     public void createUser(UserRegisterReqDTO requestParam) {
         // 拒绝重复用户名
-        if (!hasUserName(requestParam.getUserName())) {
+        if (hasUserName(requestParam.getUserName())) {
             throw new ClientException(USER_NAME_EXIST);
         }
         // 加锁避免重复创建同一用户名
@@ -150,7 +150,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
                 .eq(UserDO::getDeleteFlag, 0);
         UserDO userDO = baseMapper.selectOne(queryWrapper);
         if (userDO == null) {
-            throw new ClientException("用户不存在");
+            throw new ClientException("用户不存在或密码错误");
         }
 
         // 如果用户已登录，则刷新用户本次登录的到期时间
@@ -187,7 +187,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
      * 用户退出登录
      */
     @Override
-    public void logout(String userName, String token) {
+    public void logout() {
+        String userName = UserContext.getUserName();
+        String token = UserContext.getToken();
         if (isLogin(userName, token)) {
             stringRedisTemplate.delete(LOGIN_KEY_PREFIX + userName);
             return;

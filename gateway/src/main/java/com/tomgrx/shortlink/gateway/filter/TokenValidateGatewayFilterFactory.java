@@ -26,6 +26,7 @@ import static com.tomgrx.shortlink.constant.RedisKeyConstant.LOGIN_KEY_PREFIX;
 /**
  * 检验用户请求中的 userName 和 token 是否存在且合法
  * 注：在 application.yaml 中， 这个 filter 的名字是 'TokenValidate'，不包含后缀。这是 Spring Cloud Gateway filter 命名规范的一部分。
+ * 注：除了白名单中的 HTTP 请求，其他请求都要经历鉴权，请求需要带上两个 HTTP header（userName 和 token）
  */
 @Component
 public class TokenValidateGatewayFilterFactory extends AbstractGatewayFilterFactory<Config> {

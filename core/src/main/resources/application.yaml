@@ -10,7 +10,7 @@ spring:
   data:
     redis:
       host: "127.0.0.1"
-      port: "6379"
+      port: 6379
       password: "123456"
   mvc:
     view:
@@ -30,7 +30,7 @@ shortlink:
     enable: true
     name: '拿个offer,知乎,掘金,博客园'
     domains:
-      - tomgrx.com
+      - nageoffer.com
       - zhihu.com
       - juejin.cn
       - cnblogs.com

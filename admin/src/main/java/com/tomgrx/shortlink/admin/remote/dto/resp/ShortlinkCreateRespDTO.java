@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 短链接创建响应对象
+ * 短链接创建返回参数
  */
 @Data
 @Builder
@@ -20,12 +20,12 @@ public class ShortlinkCreateRespDTO {
     private String gid;
 
     /**
-     * 原始链接
+     * 原始链接。必须以 http:// 或 https:// 开头。
      */
     private String originUrl;
 
     /**
-     * 短链接
+     * 短链接标识符
      */
-    private String ShortUrl;
+    private String lid;
 }

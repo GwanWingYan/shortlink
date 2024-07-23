@@ -9,6 +9,8 @@ import com.tomgrx.shortlink.core.dto.req.RecycleBinMoveInReqDTO;
 import com.tomgrx.shortlink.core.dto.req.RecycleBinPageQueryReqDTO;
 import com.tomgrx.shortlink.core.dto.resp.ShortlinkPageRespDTO;
 
+import java.util.List;
+
 /**
  * 回收站管理接口层
  */
@@ -22,7 +24,7 @@ public interface RecycleBinService extends IService<ShortlinkDO> {
     /**
      * 分页查询回收站中的短链接
      */
-    IPage<ShortlinkPageRespDTO> pageQuery(RecycleBinPageQueryReqDTO requestParam);
+    IPage<ShortlinkPageRespDTO> pageQuery(List<String> gidList, Integer current, Integer size);
 
     /**
      * 从回收站还原短链接

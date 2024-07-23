@@ -2,7 +2,6 @@ package com.tomgrx.shortlink.admin.controller;
 
 import com.tomgrx.shortlink.admin.common.convention.result.Result;
 import com.tomgrx.shortlink.admin.common.convention.result.Results;
-import com.tomgrx.shortlink.admin.dto.req.GroupSaveReqDTO;
 import com.tomgrx.shortlink.admin.dto.req.GroupSortReqDTO;
 import com.tomgrx.shortlink.admin.dto.req.GroupUpdateReqDTO;
 import com.tomgrx.shortlink.admin.dto.resp.GroupRespDTO;
@@ -22,14 +21,13 @@ public class GroupController {
     private final GroupService groupService;
 
     /**
-     * 创建短链接分组
+     * 创建分组
      */
     @PostMapping("/api/shortlink/admin/v1/group")
-    public Result<Void> save(@RequestBody GroupSaveReqDTO requestParam) {
-        groupService.createGroup(requestParam.getName());
+    public Result<Void> save(@RequestParam String name) {
+        groupService.createGroup(name);
         return Results.success();
     }
-
 
     /**
      * 查询短链接分组集合

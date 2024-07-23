@@ -48,12 +48,12 @@ public interface ShortlinkService extends IService<ShortlinkDO> {
     /**
      * 分页查询短链接
      */
-    IPage<ShortlinkPageRespDTO> pageShortlink(ShortlinkPageReqDTO requestParam);
+    IPage<ShortlinkPageRespDTO> pageShortlink(String gid, String orderTag, Long current, Long size);
 
     /**
      * 查询分组的短链接数量
      */
-    List<GroupCountQueryRespDTO> listGroupShortlinkCount(List<String> requestParam);
+    List<GroupCountQueryRespDTO> listGroupShortlinkCount(List<String> gidList);
 
 
     /**

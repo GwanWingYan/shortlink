@@ -62,7 +62,7 @@ public interface CoreRemoteService {
      * 分页查询短链接
      *
      * @param gid      分组标识
-     * @param orderTag 排序类型
+     * @param orderTag 排序类型。可选值：todayPv，todayUv，todayUip，totalPv，totalUv，totalUip，或不选（默认按 create_time 排序）
      * @param current  页号
      * @param size     页大小
      * @return 查询短链接响应
@@ -80,7 +80,7 @@ public interface CoreRemoteService {
      * @return 查询分组短链接总量响应
      */
     @GetMapping("/api/shortlink/v1/count")
-    Result<List<GroupCountQueryRespDTO>> listGroupShortlinkCount(@RequestParam("requestParam") List<String> requestParam);
+    Result<List<GroupCountQueryRespDTO>> listGroupShortlinkCount(@RequestParam("gidList") List<String> gidList);
 
     /**
      * 根据 URL 获取标题
@@ -109,8 +109,8 @@ public interface CoreRemoteService {
      */
     @GetMapping("/api/shortlink/v1/recycle-bin/page")
     Result<Page<ShortlinkPageRespDTO>> pageRecycleBinShortlink(@RequestParam("gidList") List<String> gidList,
-                                                               @RequestParam("current") Long current,
-                                                               @RequestParam("size") Long size);
+                                                               @RequestParam("current") Integer current,
+                                                               @RequestParam("size") Integer size);
 
     /**
      * 恢复短链接
@@ -139,11 +139,11 @@ public interface CoreRemoteService {
      * @return 短链接监控信息
      */
     @GetMapping("/api/shortlink/v1/stats")
-    Result<ShortlinkStatsRespDTO> oneShortlinkStats(@RequestParam("lid") String lid,
-                                                    @RequestParam("gid") String gid,
-                                                    @RequestParam("enableFlag") Integer enableFlag,
-                                                    @RequestParam("startDate") String startDate,
-                                                    @RequestParam("endDate") String endDate);
+    Result<ShortlinkStatsRespDTO> shortlinkStats(@RequestParam("lid") String lid,
+                                                 @RequestParam("gid") String gid,
+                                                 @RequestParam("enableFlag") Integer enableFlag,
+                                                 @RequestParam("startDate") String startDate,
+                                                 @RequestParam("endDate") String endDate);
 
     /**
      * 访问分组短链接指定时间内监控数据
@@ -154,9 +154,9 @@ public interface CoreRemoteService {
      * @return 分组短链接监控信息
      */
     @GetMapping("/api/shortlink/v1/stats/group")
-    Result<ShortlinkStatsRespDTO> groupShortlinkStats(@RequestParam("gid") String gid,
-                                                      @RequestParam("startDate") String startDate,
-                                                      @RequestParam("endDate") String endDate);
+    Result<ShortlinkStatsRespDTO> groupStats(@RequestParam("gid") String gid,
+                                             @RequestParam("startDate") String startDate,
+                                             @RequestParam("endDate") String endDate);
 
     /**
      * 访问单个短链接指定时间内监控访问记录数据
@@ -189,9 +189,9 @@ public interface CoreRemoteService {
      * @return 分组短链接监控访问记录信息
      */
     @GetMapping("/api/shortlink/v1/stats/access-record/group")
-    Result<Page<ShortlinkStatsAccessRecordRespDTO>> groupShortlinkStatsAccessRecord(@RequestParam("gid") String gid,
-                                                                                    @RequestParam("startDate") String startDate,
-                                                                                    @RequestParam("endDate") String endDate,
-                                                                                    @RequestParam("current") Long current,
-                                                                                    @RequestParam("size") Long size);
+    Result<Page<ShortlinkStatsAccessRecordRespDTO>> groupStatsAccessRecord(@RequestParam("gid") String gid,
+                                                                           @RequestParam("startDate") String startDate,
+                                                                           @RequestParam("endDate") String endDate,
+                                                                           @RequestParam("current") Long current,
+                                                                           @RequestParam("size") Long size);
 }

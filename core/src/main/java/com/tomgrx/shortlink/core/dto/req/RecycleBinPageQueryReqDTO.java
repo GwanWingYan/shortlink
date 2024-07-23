@@ -2,8 +2,10 @@ package com.tomgrx.shortlink.core.dto.req;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tomgrx.shortlink.core.dao.entity.ShortlinkDO;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
@@ -12,7 +14,8 @@ import java.util.List;
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class RecycleBinPageQueryReqDTO extends Page<ShortlinkDO> {
+@AllArgsConstructor
+public class RecycleBinPageQueryReqDTO extends Page<RecycleBinPageQueryReqDTO> {
 
     /**
      * 分组标识

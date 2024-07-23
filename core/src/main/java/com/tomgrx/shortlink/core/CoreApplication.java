@@ -1,17 +1,15 @@
-package com.tomgrx.shortlink.admin;
+package com.tomgrx.shortlink.core;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@EnableFeignClients("com.tomgrx.shortlink.admin.remote")
-@MapperScan("com.tomgrx.shortlink.admin.dao.mapper")
-public class ShortlinkAdminApplication {
+@MapperScan("com.tomgrx.shortlink.core.dao.mapper")
+public class CoreApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ShortlinkAdminApplication.class, args);
+        SpringApplication.run(CoreApplication.class, args);
     }
 }

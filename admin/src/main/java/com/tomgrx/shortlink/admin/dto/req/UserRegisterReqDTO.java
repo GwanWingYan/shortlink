@@ -12,7 +12,6 @@ public class UserRegisterReqDTO {
      */
     private String userName;
 
-
     /**
      * 密码
      */

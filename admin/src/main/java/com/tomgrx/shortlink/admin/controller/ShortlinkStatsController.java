@@ -27,7 +27,7 @@ public class ShortlinkStatsController {
      */
     @GetMapping("/api/shortlink/admin/v1/stats")
     public Result<ShortlinkStatsRespDTO> shortlinkStats(ShortlinkStatsReqDTO requestParam) {
-        return coreRemoteService.oneShortlinkStats(
+        return coreRemoteService.shortlinkStats(
                 requestParam.getLid(),
                 requestParam.getGid(),
                 requestParam.getEnableFlag(),
@@ -41,7 +41,7 @@ public class ShortlinkStatsController {
      */
     @GetMapping("/api/shortlink/admin/v1/stats/group")
     public Result<ShortlinkStatsRespDTO> groupShortlinkStats(GroupStatsReqDTO requestParam) {
-        return coreRemoteService.groupShortlinkStats(
+        return coreRemoteService.groupStats(
                 requestParam.getGid(),
                 requestParam.getStartDate(),
                 requestParam.getEndDate()
@@ -69,7 +69,7 @@ public class ShortlinkStatsController {
      */
     @GetMapping("/api/shortlink/admin/v1/stats/access-record/group")
     public Result<Page<ShortlinkStatsAccessRecordRespDTO>> groupShortlinkStatsAccessRecord(GroupStatsAccessRecordReqDTO requestParam) {
-        return coreRemoteService.groupShortlinkStatsAccessRecord(
+        return coreRemoteService.groupStatsAccessRecord(
                 requestParam.getGid(),
                 requestParam.getStartDate(),
                 requestParam.getEndDate(),

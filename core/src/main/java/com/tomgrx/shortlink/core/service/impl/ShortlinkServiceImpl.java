@@ -270,14 +270,12 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
                     .eq(ShortlinkDO::getEnableFlag, 0)
                     .set(Objects.equals(requestParam.getValidDateType(), ValidDateTypeEnum.PERMANENT.getType()), ShortlinkDO::getValidDate, null);
             ShortlinkDO shortlinkDO = ShortlinkDO.builder()
-                    .lid(hasShortlinkDO.getLid())
                     .favicon(hasShortlinkDO.getFavicon())
                     .createType(hasShortlinkDO.getCreateType())
-                    .gid(requestParam.getGid())
-                    .originUrl(requestParam.getOriginUrl())
-                    .describe(requestParam.getDescribe())
-                    .validDateType(requestParam.getValidDateType())
-                    .validDate(requestParam.getValidDate())
+                    .originUrl(Optional.ofNullable(requestParam.getOriginUrl()).orElse(hasShortlinkDO.getOriginUrl()))
+                    .describe(Optional.ofNullable(requestParam.getDescribe()).orElse(hasShortlinkDO.getDescribe()))
+                    .validDateType(Optional.ofNullable(requestParam.getValidDateType()).orElse(hasShortlinkDO.getValidDateType()))
+                    .validDate(Optional.ofNullable(requestParam.getValidDate()).orElse(hasShortlinkDO.getValidDate()))
                     .build();
             baseMapper.update(shortlinkDO, updateWrapper);
         } else {
@@ -299,21 +297,15 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
                 delShortlinkDO.setDeleteFlag(1);
                 baseMapper.update(delShortlinkDO, linkUpdateWrapper);
 
-                // 删除原有的 t_goto 记录
-                LambdaQueryWrapper<GotoDO> linkGotoQueryWrapper = Wrappers.lambdaQuery(GotoDO.class)
-                        .eq(GotoDO::getLid, requestParam.getLid())
-                        .eq(GotoDO::getGid, hasShortlinkDO.getGid());
-                gotoMapper.delete(linkGotoQueryWrapper);
-
                 // 增加新的 t_link 记录
                 ShortlinkDO shortlinkDO = ShortlinkDO.builder()
-                        .originUrl(requestParam.getOriginUrl())
+                        .originUrl(Optional.ofNullable(requestParam.getOriginUrl()).orElse(hasShortlinkDO.getOriginUrl()))
                         .gid(requestParam.getGid())
                         .lid(hasShortlinkDO.getLid())
                         .createType(hasShortlinkDO.getCreateType())
-                        .validDateType(requestParam.getValidDateType())
-                        .validDate(requestParam.getValidDate())
-                        .describe(requestParam.getDescribe())
+                        .validDateType(Optional.ofNullable(requestParam.getValidDateType()).orElse(hasShortlinkDO.getValidDateType()))
+                        .validDate(Optional.ofNullable(requestParam.getValidDate()).orElse(hasShortlinkDO.getValidDate()))
+                        .describe(Optional.ofNullable(requestParam.getDescribe()).orElse(hasShortlinkDO.getDescribe()))
                         .lid(hasShortlinkDO.getLid())
                         .enableFlag(hasShortlinkDO.getEnableFlag())
                         .totalPv(hasShortlinkDO.getTotalPv())
@@ -324,8 +316,14 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
                         .build();
                 baseMapper.insert(shortlinkDO);
 
-                // 增加新的 t_goto 记录
+                // 删除原有的 t_goto 记录
+                LambdaQueryWrapper<GotoDO> linkGotoQueryWrapper = Wrappers.lambdaQuery(GotoDO.class)
+                        .eq(GotoDO::getLid, requestParam.getLid())
+                        .eq(GotoDO::getGid, hasShortlinkDO.getGid());
                 GotoDO gotoDO = gotoMapper.selectOne(linkGotoQueryWrapper);
+                gotoMapper.delete(linkGotoQueryWrapper);
+
+                // 增加新的 t_goto 记录
                 gotoDO.setGid(requestParam.getGid());
                 gotoMapper.insert(gotoDO);
             } finally {
@@ -354,19 +352,22 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
      * 分页查询短链接
      */
     @Override
-    public IPage<ShortlinkPageRespDTO> pageShortlink(ShortlinkPageReqDTO requestParam) {
-        IPage<ShortlinkDO> resultPage = baseMapper.pageLink(requestParam);
-        return resultPage.convert(each -> BeanUtil.toBean(each, ShortlinkPageRespDTO.class));
+    @Transactional(rollbackFor = Exception.class)
+    public IPage<ShortlinkPageRespDTO> pageShortlink(String gid, String orderTag, Long current, Long size) {
+        ShortlinkPageReqDTO requestParam = new ShortlinkPageReqDTO(gid, orderTag);
+        requestParam.setCurrent(current);
+        requestParam.setSize(size);
+        return baseMapper.pageLink(requestParam);
     }
 
     /**
      * 查询分组的短链接数量
      */
     @Override
-    public List<GroupCountQueryRespDTO> listGroupShortlinkCount(List<String> requestParam) {
+    public List<GroupCountQueryRespDTO> listGroupShortlinkCount(List<String> gidList) {
         QueryWrapper<ShortlinkDO> queryWrapper = Wrappers.query(new ShortlinkDO())
                 .select("gid as gid, count(*) as count")
-                .in("gid", requestParam)
+                .in("gid", gidList)
                 .eq("enable_flag", 0)
                 .eq("delete_flag", 0)
                 .eq("delete_time", 0L)

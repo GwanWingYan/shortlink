@@ -37,9 +37,9 @@ public class ShortlinkPageRespDTO {
     private String gid;
 
     /**
-     * 有效期类型: 0永久有效， 1自定义
+     * 网站标识
      */
-    private Integer validDateType;
+    private String favicon;
 
     /**
      * 启用标识 0：启用 1：未启用
@@ -53,6 +53,11 @@ public class ShortlinkPageRespDTO {
     private Date createTime;
 
     /**
+     * 有效期类型: 0永久有效， 1自定义
+     */
+    private Integer validDateType;
+
+    /**
      * 有效期
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -63,11 +68,6 @@ public class ShortlinkPageRespDTO {
      */
     @TableField("`describe`")
     private String describe;
-
-    /**
-     * 网站标识
-     */
-    private String favicon;
 
     /**
      * 历史 PV

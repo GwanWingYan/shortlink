@@ -54,6 +54,16 @@ public final class UserContext {
     }
 
     /**
+     * 获取上下文中用户登录Token
+     *
+     * @return 用户名称
+     */
+    public static String getToken() {
+        UserInfoDTO userInfoDTO = USER_THREAD_LOCAL.get();
+        return Optional.ofNullable(userInfoDTO).map(UserInfoDTO::getToken).orElse(null);
+    }
+
+    /**
      * 清理用户上下文
      */
     public static void removeUser() {

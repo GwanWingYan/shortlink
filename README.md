@@ -20,13 +20,13 @@ Shortlink 后端技术栈如下：
 * JDK 17
 * Spring Boot 3
 * Spring Cloud Gateway
-* Redis Cluster 缓存集群
-* MySQL 数据库读写分离
-* ShardingSphere
-* Nacos 服务注册发现和分布式配置
-* SkyWalking Tracing 分布式追踪
-* Sentinel 服务熔断和限流
-* XXL-JOB 定时任务
+* Redis
+* Redis Stream 消息队列
+* Redis Cluster 缓存集群（TODO）
+* OpenFeign HTTP 客户端
+* ShardingSphere 数据库分库分表
+* Nacos 服务注册发现
+* Sentinel 服务限流和熔断
 * Docker 容器打包
 * Jenkins CI/CD
 * Docker Compose / K8S 部署
@@ -37,13 +37,17 @@ Shortlink 后端技术栈如下：
 Shortlink 采用微服务架构，分为四大微服务:
 
 * **短链接网关服务 (gateway)**：作为沟通前端控制台和后端（即管理服务和核心服务）的渠道，基于 Spring Cloud Gateway 对前端请求进行分流，并通过 Spring Cloud Loadbalancer 的负载均衡算法转发到相应的管理服务和核心服务实例上。
-* **短链接管理服务 (admin)**：负责对来自网关服务的请求进行身份鉴权与流量控制，并提供用户管理和短链接分组管理功能，具有以下特点：
-  * 使用布隆过滤器查询短链接或短链接分组是否存在，避免直接访问数据库导致的缓存穿透。
+* **短链接管理服务 (admin)**：负责对来自网关服务的请求进行身份鉴权与流量控制，并提供用户管理和短链接分组管理功能，具有以下特点： 
+  * 使用布隆过滤器判断短链接或短链接分组是否存在，避免直接访问数据库导致缓存穿透，远胜于使用分布式锁搭配查询数据库的方案。
   * 使用 ShardingSphere 对数据库进行分表，使数据库支持水平扩展。
-  * 使用 Redis 分布式互斥锁，高效保障创建分组业务的原子性。
   * 借助 Redis Lua 脚本的原子性特点，实现对用户请求的流量控制。
   * 使用 OpenFeign 调用短链接核心服务的 RESTful API。
-* **短链接核心服务 (core)**
+* **短链接核心服务 (core)**：负责执行并监控管理服务的请求，具有以下特点：
+  * 使用 Sentinel 对短链接创建接口访问进行 QPS 限流，以保障短链接系统的稳定运行。当触发限流规则时，系统能够进行降级处理，确保核心功能的可用性。
+  * 封装缓存不存在读取功能，通过双重判定锁优化更新或失效场景下大量查询数据库问题。
+  * 借助 Redis Stream 消息队列的"削峰"特点，实现海量访问短链接场景下的监控信息存储功能，确保系统在高负载情况下仍能正常运行。
+  * 在消息队列消费业务中，使用 Redis 来完成幂等场景的处理，确保消息在一定时间内仅被消费一次，避免重复处理。
+  * 为保障短链接缓存与数据库之间的数据一致性，采用了通过更新数据库删除缓存的策略，保证了两者之间的数据一致性。
 * **短链接前端服务 (console)**
 
 Shortlink 采用 Nacos 作为服务注册和发现中心，各微服务实例在启动时将自身注册到 Nacos 中，并通过 Nacos 获取其他微服务实例列表。
@@ -51,14 +55,5 @@ Shortlink 采用 Nacos 作为服务注册和发现中心，各微服务实例在
 
 ## TODO
 
-* core 重构待办事项：
-  * 重构数据库表 
-    * ~~去除 domain 字段~~
-    * ~~将 domain 作为全局配置项~~
-    * ~~重构 short_uri 为 lid~~
-    * 删除 full_short_url
-    * 重构其他字段名字
-  * 重构 URL
-* 厘清 admin 和 core 的职责
 * 测试网关
 * 在 README 添加运行指南 

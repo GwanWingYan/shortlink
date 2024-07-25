@@ -27,7 +27,7 @@ spring:
                 whiteList:
                   - path: /api/shortlink/admin/v1/user/login/*
                     method: "*"
-                  - path: /api/shortlink/admin/v1/user/has-username/*
+                  - path: /api/shortlink/admin/v1/user/hasUserName/*
                     method: "*"
                   - path: /api/shortlink/admin/v1/user
                     method: "POST"
@@ -37,3 +37,9 @@ spring:
             - Path=/api/shortlink/**
           filters:
             - name: TokenValidate
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins: "*"
+            allowed-methods: "*"
+            allowed-headers: "*"

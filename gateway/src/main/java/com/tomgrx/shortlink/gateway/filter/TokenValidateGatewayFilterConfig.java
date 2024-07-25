@@ -1,4 +1,4 @@
-package com.tomgrx.shortlink.gateway.config;
+package com.tomgrx.shortlink.gateway.filter;
 
 import lombok.Data;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * TokenValidate 过滤器的配置
  */
 @Data
-public class Config {
+public class TokenValidateGatewayFilterConfig {
 
     /**
      * 请求路径与方法白名单

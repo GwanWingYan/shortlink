@@ -26,6 +26,8 @@ import org.redisson.api.RBloomFilter;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -52,6 +54,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     private final RedissonClient redissonClient;
     private final StringRedisTemplate stringRedisTemplate;
     private final GroupService groupService;
+
+    @Value("${shortlink.enable-register}")
+    private Boolean enableRegister = true;
 
     /**
      * 根据用户名查询用户信息
@@ -91,6 +96,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, UserDO> implements 
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void createUser(UserRegisterReqDTO requestParam) {
+        if (!enableRegister) {
+            throw new ServiceException("注册功能暂不开放");
+        }
         // 拒绝重复用户名
         if (hasUserName(requestParam.getUserName())) {
             throw new ClientException(USER_NAME_EXIST);

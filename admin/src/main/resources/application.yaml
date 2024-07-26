@@ -19,6 +19,7 @@ spring:
 
 shortlink:
   max-retry: 5
+  enable-register: false
   group:
     max-num: 20
   flow-limit:

@@ -1,5 +1,54 @@
 services:
+  shortlink-core:
+    container_name: shortlink-core
+    image: shortlink-core
+    restart: always
+    ports:
+      - "8001:8001"
+    volumes:
+      - ./wait-for-it.sh:/app/wait-for-it.sh
+    command: sh -c './wait-for-it.sh nacos:8848 -- ./wait-for-it.sh mysql:3306 -- java -jar shortlink-core.jar --spring.profiles.active=compose'
+    networks:
+      - shortlink-net
+
+  shortlink-admin:
+    container_name: shortlink-admin
+    image: shortlink-admin
+    restart: always
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./wait-for-it.sh:/app/wait-for-it.sh
+    command: sh -c './wait-for-it.sh shortlink-core:8001 -- java -jar shortlink-admin.jar --spring.profiles.active=compose'
+    networks:
+      - shortlink-net
+
+  shortlink-gateway:
+    container_name: shortlink-gateway
+    image: shortlink-gateway
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./wait-for-it.sh:/app/wait-for-it.sh
+    command: sh -c './wait-for-it.sh shortlink-admin:8002 -- java -jar shortlink-gateway.jar --spring.profiles.active=compose'
+    networks:
+      - shortlink-net
+
+  shortlink-console:
+    container_name: shortlink-console
+    image: shortlink-console
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./wait-for-it.sh:/app/wait-for-it.sh
+    command: sh -c "/app/wait-for-it.sh shortlink-gateway:8000 -- nginx -g 'daemon off;'"
+    networks:
+      - shortlink-net
+
   mysql:
+    container_name: mysql
     image: mysql:5.7.36
     restart: always
     environment:
@@ -9,13 +58,21 @@ services:
       - ./database/sql:/opt/sql
     ports:
       - "3306:3306"
+    networks:
+      - shortlink-net
+
   redis:
+    container_name: redis
     image: redis:7.2.4-alpine
     restart: always
     ports:
       - "6379:6379"
     command: redis-server --requirepass 123456
+    networks:
+      - shortlink-net
+
   nacos:
+    container_name: nacos
     image: nacos/nacos-server:v2.1.1
     restart: always
     ports:
@@ -24,3 +81,9 @@ services:
       - "9849:9849"
     environment:
       - MODE=standalone
+    networks:
+      - shortlink-net
+
+networks:
+  shortlink-net:
+    driver: bridge

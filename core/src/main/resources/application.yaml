@@ -4,22 +4,15 @@ server:
 spring:
   application:
     name: shortlink-core
+  profiles:
+    active: dev
   datasource:
     driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
-    url: jdbc:shardingsphere:classpath:shardingsphere-config-${database.env:dev}.yaml
-  data:
-    redis:
-      host: "127.0.0.1"
-      port: 6379
-      password: "123456"
+    url: jdbc:shardingsphere:classpath:shardingsphere-config-compose.yaml
   mvc:
     view:
       prefix: /templates/
       suffix: .html
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
 
 shortlink:
   max-retry: 10
@@ -30,7 +23,7 @@ shortlink:
     enable: false
     name: '拿个offer,知乎,掘金,博客园'
     domains:
-      - nageoffer.com
+      - baidu.com
       - zhihu.com
       - juejin.cn
       - cnblogs.com

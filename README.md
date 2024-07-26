@@ -55,8 +55,6 @@ Shortlink 采用 Nacos 作为服务注册和发现中心，各微服务实例在
 
 ## TODO
 
-* docker 打包
-* docker compose 部署
 * https 支持
 * jenkins CI/CD
 * 部署到公网服务器

@@ -131,7 +131,7 @@
                                 <!-- 当失效后就不能在点击跳转了 -->
                                 <el-link type="primary" :underline="false" target="_blank"
                                     :disabled="scope?.row?.validDateType === 1 && !isExpire(scope?.row?.validDate)"
-                                    :href="'http://localhost:8001/' + scope.row.lid">{{ 'http://localhost:8001/' +
+                                    :href="'http://' + coreUrl + '/' + scope.row.lid">{{ 'http://' + coreUrl + '/' +
                                         scope.row.lid }}</el-link>
                                 <el-tooltip show-after="500" :content="scope.row.originUrl">
                                     <span>{{ scope.row.originUrl }}</span>
@@ -143,11 +143,11 @@
                         <template #default="scope">
                             <div style="display: flex; align-items: center">
                                 <!-- 二维码 -->
-                                <QRCode :url="'http://localhost:8001/' + scope.row.lid"></QRCode>
+                                <QRCode :url="'http://' + coreUrl + '/' + scope.row.lid"></QRCode>
                                 <!-- 表格中的复制链接按钮 -->
                                 <el-tooltip show-after="500" class="box-item" effect="dark" content="复制链接"
                                     placement="bottom-end">
-                                    <el-icon @click="copyUrl('http://localhost:8001/' + scope.row.lid)"
+                                    <el-icon @click="copyUrl('http://' + coreUrl + '/' + scope.row.lid)"
                                         class="table-edit copy-url">
                                         <Share />
                                     </el-icon>
@@ -375,9 +375,8 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted, getCurrentInstance, watch, nextTick } from 'vue'
+import { ref, reactive, onMounted, getCurrentInstance, watch } from 'vue'
 import Sortable from 'sortablejs'
-import { cloneDeep } from 'lodash'
 import ChartsInfo from './components/chartsInfo/ChartsInfo.vue'
 import CreateLink from './components/createLink/CreateLink.vue'
 import CreateLinks from './components/createLink/CreateLinks.vue'
@@ -434,6 +433,7 @@ const visitLink = {
     lid: '',
     gid: ''
 }
+const coreUrl = import.meta.env.VITE_CORE_URL
 // 打开的图表是分组（true为分组）的还是单链的
 const isGroup = ref(false)
 const tablelid = ref()

@@ -39,7 +39,6 @@ const { proxy } = getCurrentInstance()
 const API = proxy.$API
 // 当当前路径和菜单不匹配时，菜单不会被选中
 const router = useRouter()
-const squareUrl = ref('https://cube.elemecdn.com/9/c2/f0ee8a3c7c9638a54940382568c9dpng.png')
 const toMine = () => {
     router.push('/home' + '/account')
 }

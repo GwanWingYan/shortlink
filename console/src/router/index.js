@@ -1,9 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { isNotEmpty } from '@/utils/plugins'
 import { getToken, setToken, setUserName } from '@/core/auth' // 验权
-import user from '@/api/modules/user'
+
 const router = createRouter({
-    history: createWebHistory(import.meta.env.BASE_URL),
+    history: createWebHistory(import.meta.env.VITE_BASE_URL),
     routes: [
         {
             path: '/',

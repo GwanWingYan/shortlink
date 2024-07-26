@@ -4,18 +4,11 @@ server:
 spring:
   application:
     name: shortlink-admin
+  profiles:
+    active: dev
   datasource:
     driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
-    url: jdbc:shardingsphere:classpath:shardingsphere-config-${database.env:dev}.yaml
-  data:
-    redis:
-      host: "127.0.0.1"
-      port: "6379"
-      password: "123456"
-  cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8848
+    url: jdbc:shardingsphere:classpath:shardingsphere-config-compose.yaml
 
 shortlink:
   max-retry: 5

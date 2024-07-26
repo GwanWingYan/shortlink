@@ -2,9 +2,9 @@ import axios from 'axios'
 import { getToken, getUserName } from '@/core/auth.js'
 import { isNotEmpty } from '@/utils/plugins.js'
 import router from "@/router";
-import { ElMessage } from 'element-plus'
 
-const baseURL = 'http://localhost:8000/api/shortlink/admin/v1'
+const gatewayUrl = import.meta.env.VITE_GATEWAY_URL
+const baseURL = 'http://' + gatewayUrl + '/api/shortlink/admin/v1'
 // 创建实例
 const http = axios.create({
     // api 代理为服务器请求地址

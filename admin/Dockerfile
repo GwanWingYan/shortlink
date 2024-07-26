@@ -1,0 +1,10 @@
+FROM openjdk:17-alpine
+
+RUN #sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+RUN apk add --no-cache bash
+
+WORKDIR /app
+
+COPY ./target/shortlink-admin.jar .
+
+CMD sh -c 'java -jar shortlink-admin.jar --spring.profiles.active=${PROFILE:-dev}'

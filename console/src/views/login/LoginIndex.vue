@@ -79,13 +79,13 @@
             <div class="move" ref="moveRef">
                 <span style="font-size: 18px; margin-bottom: 25px; color: rgb(225, 238, 250)">{{
                     !isLogin ? '已有账号？' : '还没有账号？'
-                }}</span>
+                    }}</span>
                 <span style="font-size: 16px; color: rgb(225, 238, 250)">{{
                     !isLogin ? '欢迎登录账号！' : '欢迎注册账号！'
-                }}</span>
+                    }}</span>
                 <el-button style="width: 100px; margin-top: 30px" @click="changeLogin">{{
                     !isLogin ? '去登录' : '去注册'
-                }}</el-button>
+                    }}</el-button>
             </div>
         </div>
         <div ref="vantaRef" class="vanta"></div>
@@ -95,7 +95,7 @@
 
 <script setup>
 import { setToken, setUserName, getUserName } from '@/core/auth.js'
-import { ref, reactive, onMounted, onBeforeUnmount, watch, getCurrentInstance } from 'vue'
+import { ref, reactive, onMounted, onBeforeUnmount, getCurrentInstance } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import * as THREE from 'three'

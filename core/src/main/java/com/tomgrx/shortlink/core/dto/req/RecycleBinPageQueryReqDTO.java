@@ -18,7 +18,7 @@ import java.util.List;
 public class RecycleBinPageQueryReqDTO extends Page<RecycleBinPageQueryReqDTO> {
 
     /**
-     * 分组标识
+     * 用户名称
      */
-    private List<String> gidList;
+    private String userName;
 }

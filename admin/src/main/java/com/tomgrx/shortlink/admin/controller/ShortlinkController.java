@@ -65,7 +65,7 @@ public class ShortlinkController {
      * 分页查询短链接
      */
     @GetMapping("/api/shortlink/admin/v1/page")
-    public Result<Page<ShortlinkPageRespDTO>> pageShortlink(@RequestBody ShortlinkPageReqDTO requestParam) {
+    public Result<Page<ShortlinkPageRespDTO>> pageShortlink(ShortlinkPageReqDTO requestParam) {
         return coreRemoteService.pageShortlink(
                 requestParam.getGid(),
                 requestParam.getOrderTag(),

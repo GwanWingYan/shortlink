@@ -25,24 +25,24 @@ public class UserController {
     /**
      * 根据用户名查询用户信息（手机号已脱敏）
      */
-    @GetMapping("/api/shortlink/admin/v1/user/{user-name}")
-    public Result<UserRespDTO> getUserByUserName(@PathVariable("user-name") String userName) {
+    @GetMapping("/api/shortlink/admin/v1/user/{userName}")
+    public Result<UserRespDTO> getUserByUserName(@PathVariable("userName") String userName) {
         return Results.success(userService.getUserByUserName(userName));
     }
 
     /**
      * 根据用户名查询用户信息（手机号未脱敏）
      */
-    @GetMapping("/api/shortlink/admin/v1/user/actual/{user-name}")
-    public Result<UserActualRespDTO> getActualUserByUserName(@PathVariable("user-name") String userName) {
+    @GetMapping("/api/shortlink/admin/v1/user/actual/{userName}")
+    public Result<UserActualRespDTO> getActualUserByUserName(@PathVariable("userName") String userName) {
         return Results.success(BeanUtil.toBean(userService.getUserByUserName(userName), UserActualRespDTO.class));
     }
 
     /**
      * 查询用户名是否存在
      */
-    @GetMapping("/api/shortlink/admin/v1/user/has-user-name")
-    public Result<Boolean> hasUserName(@RequestParam("user-name") String userName) {
+    @GetMapping("/api/shortlink/admin/v1/user/hasUserName")
+    public Result<Boolean> hasUserName(@RequestParam("userName") String userName) {
         return Results.success(userService.hasUserName(userName));
     }
 
@@ -76,7 +76,7 @@ public class UserController {
      * 检查用户是否登录（即判断token是否有效）
      */
     @GetMapping("/api/shortlink/admin/v1/user/is-login")
-    public Result<Boolean> isLogin(@RequestParam("user-name") String userName, @RequestParam("token") String token) {
+    public Result<Boolean> isLogin(@RequestParam("userName") String userName, @RequestParam("token") String token) {
         return Results.success(userService.isLogin(userName, token));
     }
 

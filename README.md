@@ -55,7 +55,7 @@ Shortlink 采用 Nacos 作为服务注册和发现中心，各微服务实例在
 
 ## TODO
 
-* console
+* 加入注册开放/关闭功能
 * docker 打包
 * docker compose 部署
 * https 支持

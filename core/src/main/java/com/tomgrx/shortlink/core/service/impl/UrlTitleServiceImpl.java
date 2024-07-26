@@ -6,6 +6,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -18,16 +19,12 @@ public class UrlTitleServiceImpl implements UrlTitleService {
     @SneakyThrows
     @Override
     public String getTitleByUrl(String url) {
-        URL targetUrl = new URL(url);
-        HttpURLConnection connection = (HttpURLConnection) targetUrl.openConnection();
-        connection.setRequestMethod("GET");
-        connection.connect();
-
-        int responseCode = connection.getResponseCode();
-        if (responseCode == HttpURLConnection.HTTP_OK) {
-            Document document = Jsoup.connect(url).get();
-            return document.title();
+        try {
+            Document doc = Jsoup.connect(url).get();
+            return doc.title();
+        } catch (IOException e) {
+            System.err.println("Error fetching web page title: " + e.getMessage());
+            return "获取网站标题失败";
         }
-        return "Error while fetching title.";
     }
 }

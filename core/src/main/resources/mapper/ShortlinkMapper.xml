@@ -75,14 +75,10 @@
         COALESCE(s.today_pv, 0) AS todayPv,
         COALESCE(s.today_uv, 0) AS todayUv,
         COALESCE(s.today_uip, 0) AS todayUip
-        FROM t_link t
-        LEFT JOIN t_today_stats s ON t.lid = s.lid
-        AND s.date = CURDATE()
-        WHERE t.gid IN
-        <foreach item='item' index='index' collection='gidList' open='(' separator=',' close=')'>
-            #{item}
-        </foreach>
-        AND t.enable_flag = 1
+        FROM t_group g
+        LEFT JOIN  t_link t ON g.user_name = #{userName} AND g.gid = t.gid
+        LEFT JOIN t_today_stats s ON t.lid = s.lid AND s.date = CURDATE()
+        WHERE t.enable_flag = 1
         AND t.delete_flag = 0
         ORDER by t.update_time
     </select>

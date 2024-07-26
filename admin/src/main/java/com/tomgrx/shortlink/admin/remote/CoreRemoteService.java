@@ -8,6 +8,7 @@ import com.tomgrx.shortlink.admin.remote.dto.req.RecycleBinRemoveReqDTO;
 import com.tomgrx.shortlink.admin.remote.dto.req.RecycleBinSaveReqDTO;
 import com.tomgrx.shortlink.admin.remote.dto.req.ShortlinkBatchCreateReqDTO;
 import com.tomgrx.shortlink.admin.remote.dto.req.ShortlinkCreateReqDTO;
+import com.tomgrx.shortlink.admin.remote.dto.req.ShortlinkPageReqDTO;
 import com.tomgrx.shortlink.admin.remote.dto.req.ShortlinkUpdateReqDTO;
 import com.tomgrx.shortlink.admin.remote.dto.resp.ShortlinkBatchCreateRespDTO;
 import com.tomgrx.shortlink.admin.remote.dto.resp.ShortlinkCreateRespDTO;
@@ -60,12 +61,6 @@ public interface CoreRemoteService {
 
     /**
      * 分页查询短链接
-     *
-     * @param gid      分组标识
-     * @param orderTag 排序类型。可选值：todayPv，todayUv，todayUip，totalPv，totalUv，totalUip，或不选（默认按 create_time 排序）
-     * @param current  页号
-     * @param size     页大小
-     * @return 查询短链接响应
      */
     @GetMapping("/api/shortlink/v1/page")
     Result<Page<ShortlinkPageRespDTO>> pageShortlink(@RequestParam("gid") String gid,
@@ -75,9 +70,6 @@ public interface CoreRemoteService {
 
     /**
      * 查询分组短链接总量
-     *
-     * @param requestParam 分组短链接总量请求参数
-     * @return 查询分组短链接总量响应
      */
     @GetMapping("/api/shortlink/v1/count")
     Result<List<GroupCountQueryRespDTO>> listGroupShortlinkCount(@RequestParam("gidList") List<String> gidList);
@@ -102,15 +94,13 @@ public interface CoreRemoteService {
     /**
      * 分页查询回收站短链接
      *
-     * @param gidList 分组标识集合
      * @param current 当前页
      * @param size    当前数据多少
      * @return 查询短链接响应
      */
     @GetMapping("/api/shortlink/v1/recycle-bin/page")
-    Result<Page<ShortlinkPageRespDTO>> pageRecycleBinShortlink(@RequestParam("gidList") List<String> gidList,
-                                                               @RequestParam("current") Integer current,
-                                                               @RequestParam("size") Integer size);
+    Result<Page<ShortlinkPageRespDTO>> pageRecycleBinShortlink(@RequestParam("current") Long current,
+                                                               @RequestParam("size") Long size);
 
     /**
      * 恢复短链接

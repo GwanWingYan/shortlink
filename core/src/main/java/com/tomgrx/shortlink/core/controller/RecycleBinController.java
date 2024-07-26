@@ -40,11 +40,8 @@ public class RecycleBinController {
      * 分页查询回收站中的短链接
      */
     @GetMapping("/api/shortlink/v1/recycle-bin/page")
-    public Result<IPage<ShortlinkPageRespDTO>> pageQuery(
-            @RequestParam List<String> gidList,
-            @RequestParam Integer current,
-            @RequestParam Integer size) {
-        return Results.success(recycleBinService.pageQuery(gidList, current, size));
+    public Result<IPage<ShortlinkPageRespDTO>> pageQuery(RecycleBinPageQueryReqDTO requestParam) {
+        return Results.success(recycleBinService.pageQuery(requestParam));
     }
 
     /**

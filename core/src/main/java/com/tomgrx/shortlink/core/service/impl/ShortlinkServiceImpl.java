@@ -353,10 +353,7 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public IPage<ShortlinkPageRespDTO> pageShortlink(String gid, String orderTag, Long current, Long size) {
-        ShortlinkPageReqDTO requestParam = new ShortlinkPageReqDTO(gid, orderTag);
-        requestParam.setCurrent(current);
-        requestParam.setSize(size);
+    public IPage<ShortlinkPageRespDTO> pageShortlink(ShortlinkPageReqDTO requestParam) {
         return baseMapper.pageLink(requestParam);
     }
 

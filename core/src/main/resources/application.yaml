@@ -27,7 +27,7 @@ shortlink:
     locale:
       amap-key: 9249893b483cc314e84a09f8bec93f63
   white-list:
-    enable: true
+    enable: false
     name: '拿个offer,知乎,掘金,博客园'
     domains:
       - nageoffer.com

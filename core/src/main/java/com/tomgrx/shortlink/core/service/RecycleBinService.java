@@ -24,7 +24,7 @@ public interface RecycleBinService extends IService<ShortlinkDO> {
     /**
      * 分页查询回收站中的短链接
      */
-    IPage<ShortlinkPageRespDTO> pageQuery(List<String> gidList, Integer current, Integer size);
+    IPage<ShortlinkPageRespDTO> pageQuery(RecycleBinPageQueryReqDTO requestParam);
 
     /**
      * 从回收站还原短链接

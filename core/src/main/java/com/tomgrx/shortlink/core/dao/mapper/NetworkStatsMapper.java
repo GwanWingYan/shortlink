@@ -19,8 +19,8 @@ public interface NetworkStatsMapper extends BaseMapper<NetworkStatsDO> {
      * 创建或更新网络监控数据
      */
     @Insert("INSERT INTO " +
-            "t_network_stats (lid, date, cnt, network, create_time, update_time, delete_flag) " +
-            "VALUES( #{networkStats.lid}, #{networkStats.date}, #{networkStats.cnt}, #{networkStats.network}, NOW(), NOW(), 0) " +
+            "t_network_stats (lid, date, cnt, network, create_time, delete_flag) " +
+            "VALUES( #{networkStats.lid}, #{networkStats.date}, #{networkStats.cnt}, #{networkStats.network}, NOW(), 0) " +
             "ON DUPLICATE KEY UPDATE cnt = cnt +  #{networkStats.cnt};")
     void saveNetworkStats(@Param("networkStats") NetworkStatsDO networkStatsDO);
 

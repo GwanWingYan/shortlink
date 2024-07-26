@@ -3,6 +3,7 @@ package com.tomgrx.shortlink.admin.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tomgrx.shortlink.admin.common.convention.result.Result;
 import com.tomgrx.shortlink.admin.common.convention.result.Results;
+import com.tomgrx.shortlink.admin.dto.req.RecycleBinPageQueryReqDTO;
 import com.tomgrx.shortlink.admin.remote.CoreRemoteService;
 import com.tomgrx.shortlink.admin.remote.dto.req.RecycleBinRecoverReqDTO;
 import com.tomgrx.shortlink.admin.remote.dto.req.RecycleBinRemoveReqDTO;
@@ -39,11 +40,8 @@ public class RecycleBinController {
      * 分页查询回收站短链接
      */
     @GetMapping("/api/shortlink/admin/v1/recycle-bin/page")
-    public Result<Page<ShortlinkPageRespDTO>> pageQuery(
-            @RequestParam List<String> gidList,
-            @RequestParam Integer current,
-            @RequestParam Integer size) {
-        return coreRemoteService.pageRecycleBinShortlink(gidList, current, size);
+    public Result<Page<ShortlinkPageRespDTO>> pageQuery(RecycleBinPageQueryReqDTO requestParam) {
+        return coreRemoteService.pageRecycleBinShortlink(requestParam.getCurrent(), requestParam.getSize());
     }
 
     /**

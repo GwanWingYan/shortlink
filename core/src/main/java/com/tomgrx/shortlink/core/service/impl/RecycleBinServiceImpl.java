@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.tomgrx.shortlink.core.common.biz.user.UserContext;
 import com.tomgrx.shortlink.core.dao.entity.ShortlinkDO;
 import com.tomgrx.shortlink.core.dao.mapper.ShortlinkMapper;
 import com.tomgrx.shortlink.core.dto.req.RecycleBinMoveOutReqDTO;
@@ -50,11 +51,8 @@ public class RecycleBinServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlin
      * 分页查询回收站中的短链接
      */
     @Override
-    public IPage<ShortlinkPageRespDTO> pageQuery(List<String> gidList, Integer current, Integer size) {
-        RecycleBinPageQueryReqDTO requestParam = new RecycleBinPageQueryReqDTO(gidList);
-        requestParam.setCurrent(current);
-        requestParam.setSize(size);
-
+    public IPage<ShortlinkPageRespDTO> pageQuery(RecycleBinPageQueryReqDTO requestParam) {
+        requestParam.setUserName(UserContext.getUserName());
         return baseMapper.pageRecycleBinLink(requestParam);
     }
 

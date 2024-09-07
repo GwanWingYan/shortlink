@@ -94,7 +94,17 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
         checkWhiteList(requestParam.getOriginUrl());
 
         // 创建短链接标识符
-        String lid = createLid(requestParam);
+        String lid = null;
+        for (int retry = 0; retry < maxRetry; retry++) {
+            lid = createLid();
+            if (!lidBloomFilter.contains(lid)) {
+                break;
+            }
+            lid = null;
+        }
+        if (lid == null) {
+            throw new ServiceException("短链接标识符生成过于频繁");
+        }
 
         // 在数据库中创建短链接
         ShortlinkDO shortlinkDO = ShortlinkDO.builder()
@@ -154,56 +164,61 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
         // 如果白名单功能开启，拒绝域名不在白名单的请求
         checkWhiteList(requestParam.getOriginUrl());
 
-        // 创建短链接标识符
-        String lid = createLid(requestParam);
-
-        ShortlinkDO shortlinkDO = ShortlinkDO.builder()
-                .originUrl(requestParam.getOriginUrl())
-                .gid(requestParam.getGid())
-                .createType(requestParam.getCreateType())
-                .validDateType(requestParam.getValidDateType())
-                .validDate(requestParam.getValidDate())
-                .describe(requestParam.getDescribe())
-                .lid(lid)
-                .enableFlag(0)
-                .totalPv(0)
-                .totalUv(0)
-                .totalUip(0)
-                .deleteTime(0L)
-                .favicon(getFavicon(requestParam.getOriginUrl()))
-                .build();
-        GotoDO linkGotoDO = GotoDO.builder()
-                .lid(lid)
-                .gid(requestParam.getGid())
-                .build();
-
         // 使用分布式锁保证创建短链接不会遇到并发冲突
         RLock lock = redissonClient.getLock(LOCK_CREATE_SHORTLINK_KEY);
         lock.lock();
-        try {
-            // 在数据库中创建短链接
-            try {
-                baseMapper.insert(shortlinkDO);
-                gotoMapper.insert(linkGotoDO);
-            } catch (DuplicateKeyException ex) {
-                throw new ServiceException(String.format("短链接：%s 生成重复", lid));
-            }
 
-            // 在缓存中创建短链接
-            stringRedisTemplate.opsForValue().set(
-                    GOTO_KEY_PREFIX + lid,
-                    requestParam.getOriginUrl(),
-                    LinkUtil.getLinkCacheValidTime(requestParam.getValidDate()), TimeUnit.MILLISECONDS
-            );
+        try {
+            for (int retry = 0; retry < maxRetry; retry++) {
+                // 创建短链接标识符
+                String lid = createLid();
+
+                ShortlinkDO shortlinkDO = ShortlinkDO.builder()
+                        .originUrl(requestParam.getOriginUrl())
+                        .gid(requestParam.getGid())
+                        .createType(requestParam.getCreateType())
+                        .validDateType(requestParam.getValidDateType())
+                        .validDate(requestParam.getValidDate())
+                        .describe(requestParam.getDescribe())
+                        .lid(lid)
+                        .enableFlag(0)
+                        .totalPv(0)
+                        .totalUv(0)
+                        .totalUip(0)
+                        .deleteTime(0L)
+                        .favicon(getFavicon(requestParam.getOriginUrl()))
+                        .build();
+                GotoDO linkGotoDO = GotoDO.builder()
+                        .lid(lid)
+                        .gid(requestParam.getGid())
+                        .build();
+
+                // 在数据库中创建短链接
+                try {
+                    baseMapper.insert(shortlinkDO);
+                    gotoMapper.insert(linkGotoDO);
+                } catch (DuplicateKeyException ex) {
+                    continue;
+                }
+
+                // 在缓存中创建短链接
+                stringRedisTemplate.opsForValue().set(
+                        GOTO_KEY_PREFIX + lid,
+                        requestParam.getOriginUrl(),
+                        LinkUtil.getLinkCacheValidTime(requestParam.getValidDate()), TimeUnit.MILLISECONDS
+                );
+
+                return ShortlinkCreateRespDTO.builder()
+                        .lid(lid)
+                        .originUrl(requestParam.getOriginUrl())
+                        .gid(requestParam.getGid())
+                        .build();
+            }
         } finally {
             lock.unlock();
         }
 
-        return ShortlinkCreateRespDTO.builder()
-                .lid(lid)
-                .originUrl(requestParam.getOriginUrl())
-                .gid(requestParam.getGid())
-                .build();
+        throw new ServiceException("短链接标识符生成过于频繁");
     }
 
     /**
@@ -531,21 +546,8 @@ public class ShortlinkServiceImpl extends ServiceImpl<ShortlinkMapper, Shortlink
         redisStreamStatsProducer.send(producerMap);
     }
 
-    /**
-     * 创建短链接标识符（使用布隆过滤器）
-     * 常见问题：
-     * 1. 短链接哈希算法生成冲突问题如何解决？
-     * 2. 判断短链接是否存在为什么不使用Set结构？
-     * 3. 如果布隆过滤器挂了，里边存的数据全丢失了，怎么恢复？
-     */
-    private String createLid(ShortlinkCreateReqDTO requestParam) {
-        for (int retry = 0; retry < maxRetry; retry++) {
-            String lid = HashUtil.hashToBase62(requestParam.getOriginUrl() + UUID.randomUUID());
-            if (!lidBloomFilter.contains(lid)) {
-                return lid;
-            }
-        }
-        throw new ServiceException("短链接标识符生成过于频繁");
+    private String createLid() {
+        return HashUtil.hashToBase62(UUID.randomUUID().toString());
     }
 
     /**

@@ -44,11 +44,11 @@ public class ShortlinkController {
      * 使用 Sentinel 进行流量控制；该 Sentinel 资源名称为 create_shortlink；指定 blockHandler
      */
     @PostMapping("/api/shortlink/v1/create")
-    @SentinelResource(
-            value = "create_shortlink",
-            blockHandler = "createShortlinkBlockHandlerMethod",
-            blockHandlerClass = CustomBlockHandler.class
-    )
+//    @SentinelResource(
+//            value = "create_shortlink",
+//            blockHandler = "createShortlinkBlockHandlerMethod",
+//            blockHandlerClass = CustomBlockHandler.class
+//    )
     public Result<ShortlinkCreateRespDTO> createShortlink(@RequestBody ShortlinkCreateReqDTO requestParam) {
         return Results.success(shortlinkService.createShortlink(requestParam));
     }
